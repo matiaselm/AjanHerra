@@ -26,9 +26,26 @@ public class DemoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_demo, container, false);
-        textView = view.findViewById(R.id.txt_display);
-        textView.setText(getArguments().getString("message"));
-        return view;
+        int fragmentNr = (getArguments().getInt("position"));
+
+        if (fragmentNr == 0){
+            View view = inflater.inflate(R.layout.fragment_demo, container, false);
+            textView = view.findViewById(R.id.txt_display);
+            textView.setText("page 001");
+            return view;
+        }
+        else if (fragmentNr == 1){
+            View view = inflater.inflate(R.layout.fragment_demo, container, false);
+            //textView = view.findViewById(R.id.txt_display);
+            //textView.setText("page 002");
+            return view;
+        }
+        else{
+            View view = inflater.inflate(R.layout.fragment_demo, container, false);
+            textView = view.findViewById(R.id.txt_display);
+            textView.setText("page 003");
+            return view;
+        }
+
     }
 }
