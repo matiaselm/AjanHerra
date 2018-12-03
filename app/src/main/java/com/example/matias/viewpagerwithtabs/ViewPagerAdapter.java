@@ -18,6 +18,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         position = position++;
         Bundle bundle = new Bundle();
         bundle.putString("message", "Fragment: " +position);
+        bundle.putInt("position", position);
         demoFragment.setArguments(bundle);
         return demoFragment;
     }
@@ -32,6 +33,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         position = position++;
 
-        return "Fragment " +position;
+        if (position == 0){return "Etusivu";}
+        else if (position == 1){return "Tietosi";}
+        else {return "Kalenteri";}
+
+
     }
 }
