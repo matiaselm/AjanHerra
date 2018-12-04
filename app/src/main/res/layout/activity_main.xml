@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    tools:layout_editor_absoluteY="25dp">
+    tools:layout_editor_absoluteY="25dp"
+    android:background="@drawable/background">
 
     <Button
         android:id="@+id/newUserButton"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="120dp"
@@ -16,6 +18,7 @@
         android:layout_marginEnd="120dp"
         android:layout_marginRight="120dp"
         android:layout_marginBottom="28dp"
+        android:backgroundTint="@color/colorAccent6"
         android:text="Luo käyttäjä"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,6 +27,7 @@
 
     <Button
         android:id="@+id/loginButton"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="120dp"
@@ -32,6 +36,8 @@
         android:layout_marginEnd="120dp"
         android:layout_marginRight="120dp"
         android:text="Kirjaudu sisään"
+        android:backgroundTint="@color/colorAccent6"
+        android:textColorLink="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,14 +53,18 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:contentDescription="Name"
+        android:textColorHint="@color/colorAccent2"
         android:ems="10"
         android:gravity="left"
         android:hint="Nimi"
         android:inputType="textPersonName"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_user2" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_user2"
+        android:backgroundTint="@color/colorAccent6"
+        />
 
     <Spinner
         android:id="@+id/spinnerUsers"
@@ -68,7 +78,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_user" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_user"
+        android:backgroundTint="@color/colorAccent6"/>
 
     <Spinner
         android:id="@+id/spinnerAge"
@@ -82,7 +93,9 @@
         android:gravity="left|center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etName" />
+        app:layout_constraintTop_toBottomOf="@+id/etName"
+        android:backgroundTint="@color/colorAccent6"
+        />
 
     <Spinner
         android:id="@+id/spinnerSex"
@@ -99,7 +112,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerAge" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerAge"
+        android:backgroundTint="@color/colorAccent6"
+        />
 
     <TextView
         android:id="@+id/tv_user"
@@ -111,6 +126,7 @@
         android:layout_marginEnd="65dp"
         android:layout_marginRight="65dp"
         android:text="Valitse olemassa oleva käyttäjä"
+        android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -124,9 +140,10 @@
         android:layout_marginStart="112dp"
         android:layout_marginLeft="112dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="111dp"
-        android:layout_marginRight="111dp"
+        android:layout_marginEnd="112dp"
+        android:layout_marginRight="112dp"
         android:text="TimeMaster"
+        android:textColor="@android:color/white"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -143,6 +160,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Luo uusi käyttäjä"
+        android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -159,6 +177,7 @@
         android:layout_marginEnd="130dp"
         android:layout_marginRight="130dp"
         android:text="Ole aikasi mestari"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
