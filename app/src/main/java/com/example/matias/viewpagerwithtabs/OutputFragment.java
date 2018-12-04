@@ -35,6 +35,7 @@ public class OutputFragment extends Fragment {
 
     @Override
     public void onResume() {
+        super.onResume();
 
         Log.d("frag", "onResume output");
 
@@ -65,7 +66,7 @@ public class OutputFragment extends Fragment {
         }
 
 
-        super.onResume();
+
     }
 
 }

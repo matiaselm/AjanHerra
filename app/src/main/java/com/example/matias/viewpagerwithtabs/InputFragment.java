@@ -29,6 +29,7 @@ public class InputFragment extends Fragment {
     }
 
     private int selectedAction;
+    private View v;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +37,7 @@ public class InputFragment extends Fragment {
 
         // Inflate the layout for this fragment
         Log.d("frag", "onCreateView");
-        View v = inflater.inflate(R.layout.fragment_input, container, false);
+        v = inflater.inflate(R.layout.fragment_input, container, false);
         Button btnOK = (Button)v.findViewById(R.id.addInput);
 
         v.findViewById(R.id.addInput).setOnClickListener(new View.OnClickListener() {
@@ -96,4 +97,15 @@ public class InputFragment extends Fragment {
 
         return v;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        TextView hello = v.findViewById(R.id.tvHello);
+        hello.setText("Hei " + UserList.getInstance().getCurrentUser().getName() + "!");
+
+    }
 }
+
+
