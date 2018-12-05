@@ -31,7 +31,6 @@ public class Action {
         return time;
     }
 
-
     public void addTime(int lenghtMinutes){
         time = time + lenghtMinutes;
         mins = time % 60;

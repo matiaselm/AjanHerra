@@ -3,6 +3,7 @@ package com.example.matias.viewpagerwithtabs;
 import android.text.format.Time;
 import android.util.Log;
 
+
 public class User {
     private String name;
     private int age;
@@ -12,14 +13,15 @@ public class User {
     public User(String name, int yearOfBirth, String sex) {
         this.name = name;
         this.yearOfBirth = yearOfBirth;
-        this.sex = sex;
+
+        setSex(sex);
     }
 
     public User() {
         this.name = "Name";
         this.age = 0;
         this.yearOfBirth = 0;
-        this.sex = "n";
+        this.sex = "o";
     }
 
     public String getName() {
@@ -34,18 +36,25 @@ public class User {
         Time today = new Time(Time.getCurrentTimezone());
         today.setToNow();
         int currentYear = today.year;
-        this.age = today.year - yearOfBirth;
+        this.age = currentYear - yearOfBirth;
+        Log.d("Sovel", Integer.toString(currentYear) + Integer.toString(yearOfBirth));
 
-        Log.d("Sovellus", Integer.toString(this.age));
         return this.age;
     }
 
     public String getSex() {
-        return sex;
+        return this.sex;
     }
 
     public void setSex(String sex) {
-        this.sex = sex;
+
+        if (sex.equals("f")){
+            this.sex = "Nainen";
+        } else if (sex.equals("m")){
+            this.sex = "Mies";
+        } else {
+            this.sex = "Muu";
+        }
     }
 
     @Override
