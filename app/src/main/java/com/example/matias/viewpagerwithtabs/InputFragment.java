@@ -3,6 +3,8 @@ package com.example.matias.viewpagerwithtabs;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -30,6 +35,16 @@ public class InputFragment extends Fragment {
 
     private int selectedAction;
     private View v;
+    private TextView time;
+    private int hours;
+    private int minutes;
+    private int endMinutes;
+    private Button start;
+    private boolean click;
+    SimpleDateFormat dateFormat;
+    //TimeDifference timeDifference;
+    Date date;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,7 +53,7 @@ public class InputFragment extends Fragment {
         // Inflate the layout for this fragment
         Log.d("frag", "onCreateView");
         v = inflater.inflate(R.layout.fragment_input, container, false);
-        Button btnOK = (Button)v.findViewById(R.id.addInput);
+        Button btnOK = (Button) v.findViewById(R.id.addInput);
 
         v.findViewById(R.id.addInput).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +62,14 @@ public class InputFragment extends Fragment {
 
             }
         });
+
+       // timeDifference = new TimeDifference();
+
+        click = false;
+
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+        time = v.findViewById(R.id.timeView);
 
         ArrayList list = ActionList.getInstance().getActivities();
 
@@ -59,6 +82,39 @@ public class InputFragment extends Fragment {
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
+
+        v.findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(click == false) {
+
+                    date = new Date();
+                    String startTime = dateFormat.format(date);
+                    Log.d("starttime", startTime);
+
+                    time.setText("Aloitusaika: " + startTime);
+
+                    click = true;
+                    Log.d("time","Click = true");
+
+                }else{
+
+                    date = new Date();
+                    String endTime = dateFormat.format(date);
+                    Log.d("endtime", endTime);
+
+                    time.setText("Lopetusaika: " + endTime);
+                    click = false;
+
+                    Log.d("time","Click = false");
+
+                }
+
+
+            }
+        });
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -73,7 +129,7 @@ public class InputFragment extends Fragment {
                 //}
 
                 selectedAction = position;
-                Log.d("Sovellus","Selected " + Integer.toString(selectedAction));
+                Log.d("Sovellus", "Selected " + Integer.toString(selectedAction));
 
             }
 
@@ -82,7 +138,6 @@ public class InputFragment extends Fragment {
                 // TODO Auto-generated method stub
             }
         });
-
 
         v.findViewById(R.id.addInput).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +159,8 @@ public class InputFragment extends Fragment {
 
         TextView hello = v.findViewById(R.id.tvHello);
         hello.setText("Hei " + UserList.getInstance().getCurrentUser().getName() + "!");
+
+        time.setText(hours + ":" + minutes);
 
     }
 }

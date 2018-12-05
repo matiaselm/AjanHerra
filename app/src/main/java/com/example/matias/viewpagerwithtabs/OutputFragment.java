@@ -53,7 +53,7 @@ public class OutputFragment extends Fragment {
 
         }
 
-        TextView textView2 = t.findViewById(R.id.HourList);
+        TextView textView2 = t.findViewById(R.id.hourList);
         textView2.setText("");
         textView2.append(" Ref   |  Avg  |  Res\n");
         textView2.append("\n");
@@ -64,9 +64,5 @@ public class OutputFragment extends Fragment {
             textView2.append("\n");
 
         }
-
-
-
     }
-
 }
