@@ -42,10 +42,7 @@ public class InputFragment extends Fragment {
     private TextView time;
 
     private Button start;
-    private boolean click;
 
-    SimpleDateFormat dateFormatHour;
-    DateTimeFormatter dateTimeFormatter;
     Date date;
 
     private Long startTime;
@@ -56,6 +53,27 @@ public class InputFragment extends Fragment {
 
 
     Time today;
+
+    /*
+    * Käyttäjä kirjautuu sisään 1. kerran: ("isTimer" = false)
+    *       -> napissa lukee "Aloita"
+    *       -> Tekstikentässä ohjeet "Valitse aktiviteetti ja paina aloita"
+    *
+    * Käyttäjä painaa "ALOITA":
+    *       -> ("isTimer" = true)
+    *       -> Napissa lukee "Lopeta"
+    *       -> Tekstikentässä "Aktiviteetti aloitettu "KELLONAIKA"
+    *
+    * Käyttäjä lähtee ruudusta ja tulee takaisin: ("isTimer" == true)
+    *       -> Nappulassa lukee "lopeta"
+    *       -> Tekstikentässä "Aktiviteetti aloitettu "KELLONAIKA"
+    *
+    * Käyttäjä painaa lopeta:
+    *      -> ("isTimer" = false)
+    *       -> Nappulassa lukee "Aloita"
+    *       -> Tekstikentässä "Aktiviteetin kesto: "KESTO", lisää uusi aktiviteetti valitsemalla ja painamalla aloita
+    * */
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,7 +91,6 @@ public class InputFragment extends Fragment {
 
             }
         });
-
 
         pref = this.getActivity().getSharedPreferences("time", Activity.MODE_PRIVATE);
         isTimer = pref.getBoolean("isTimer", false);
@@ -115,13 +132,11 @@ public class InputFragment extends Fragment {
                     prefEditor.putInt("startimeActivity", selectedAction);
 
                     isTimer = true;
+                    start.setText("Lopeta");
                     prefEditor.putBoolean("isTimer", true);
                     prefEditor.apply();
 
-                    start.setText("Lopeta");
-
                 }else if (isTimer == true) {
-
                     Long startTimeMemory = pref.getLong("starttime", 0);
                     int savedActivity = pref.getInt("starttimeActivity", 0);
 
@@ -132,7 +147,6 @@ public class InputFragment extends Fragment {
 
                     isTimer = false;
                     prefEditor.putBoolean("isTimer", false);
-
                     start.setText("Aloita");
 
                     Long dtime = endTime - startTimeMemory;
@@ -143,6 +157,9 @@ public class InputFragment extends Fragment {
                     ActionList.getInstance().addAction(savedActivity, sendTime);
                     Toast.makeText(getContext(), "Aktiviteetti lisätty",
                             Toast.LENGTH_SHORT).show();
+
+                    prefEditor.apply();
+
                 }
             }
         });
