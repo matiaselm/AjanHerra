@@ -54,7 +54,7 @@ public class InputFragment extends Fragment {
 
     Time today;
 
-    /**
+    /*
     * Käyttäjä kirjautuu sisään 1. kerran: ("isTimer" = false)
     *       -> napissa lukee "Aloita"
     *       -> Tekstikentässä ohjeet "Valitse aktiviteetti ja paina aloita"
@@ -125,7 +125,6 @@ public class InputFragment extends Fragment {
                     Log.d("starttime", String.valueOf(startTime));
 
                     time.setText("Aloitusaika: \n" + today.hour + ":" + today.minute);
-                    Log.d("time", "Start boolean " + Boolean.toString(isTimer));
                     prefEditor.putString("startInfo", "Aloitusaika: \n" + today.hour + ":" + today.minute );
 
                     prefEditor.putLong("starttime", startTime);
@@ -145,7 +144,6 @@ public class InputFragment extends Fragment {
                     Log.d("endtime", String.valueOf(endTime));
 
                     time.setText("Lopetusaika: " + Long.toString(endTime));
-                    Log.d("time", "Stop boolean " + Boolean.toString(isTimer));
 
                     isTimer = false;
                     prefEditor.putBoolean("isTimer", false);
@@ -212,7 +210,7 @@ public class InputFragment extends Fragment {
 
         isTimer = pref.getBoolean("isTimer", false);
 
-        Log.d("time", "OnResume boolean " + Boolean.toString(isTimer));
+        Log.d("time", Boolean.toString(isTimer));
 
         if(isTimer==true){
 

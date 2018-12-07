@@ -17,10 +17,13 @@ import java.util.ArrayList;
  */
 public class OutputFragment extends Fragment {
 
-
     public OutputFragment() {
         // Required empty public constructor
     }
+
+    private ArrayList<String> myDataItems = new ArrayList<>();
+    private MyAdapter myAdapter;
+    private static MainActivity thisActivity;
 
     View t;
 

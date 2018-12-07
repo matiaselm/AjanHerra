@@ -2,14 +2,17 @@ package com.example.matias.viewpagerwithtabs;
 
 import android.util.Log;
 
+import java.text.DecimalFormat;
+
 public class Action {
     private String type;
-    private int time;
-    private int mins;
+    private double time;
+    private double mins;
     private double hours;
     private boolean needMoreThan;
     private double refHours;
     private double resultHours;
+    private static DecimalFormat twoDigit = new DecimalFormat("#.##");
 
     public Action(String type, boolean needMoreThan, double refHours) {
         this.type = type;
@@ -19,6 +22,7 @@ public class Action {
         this.needMoreThan = needMoreThan;
         this.refHours = refHours;
         this.resultHours = 0;
+
     }
 
     public void setRefHours(double refHours){this.refHours = refHours; }
@@ -27,7 +31,7 @@ public class Action {
 
     public void setType(String type){this.type = type; }
 
-    public int getTime() {
+    public double getTime() {
         return time;
     }
 
@@ -43,7 +47,7 @@ public class Action {
     }
 
     public String getInfo(){
-        return Double.toString(refHours) + " h | " + Double.toString(hours) + " h | " + Double.toString(resultHours) +" h";
+        return twoDigit.format(refHours) + " h | " + twoDigit.format(hours) + " h | " + twoDigit.format(resultHours) +" h";
     }
 
     public String getType(){
