@@ -51,8 +51,13 @@ public class InputFragment extends Fragment {
     Boolean isTimer;
     SharedPreferences.Editor prefEditor;
 
+    int finalValue;
+    String customTime;
+    EditText cTime;
+    TextView vTime;
 
-    Time today;
+
+            Time today;
 
     /*
     * Käyttäjä kirjautuu sisään 1. kerran: ("isTimer" = false)
@@ -74,23 +79,22 @@ public class InputFragment extends Fragment {
     *       -> Tekstikentässä "Aktiviteetin kesto: "KESTO", lisää uusi aktiviteetti valitsemalla ja painamalla aloita
     * */
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        Log.d("frag", "onCreateView");
+        Log.d("Sovellus", "onCreateView InputFragment");
         v = inflater.inflate(R.layout.fragment_input, container, false);
         Button btnOK = (Button) v.findViewById(R.id.addInput);
 
-        v.findViewById(R.id.addInput).setOnClickListener(new View.OnClickListener() {
+       /* v.findViewById(R.id.addInput).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("frag", "klick");
+                Log.d("time", "klick");
 
             }
-        });
+        });*/
 
         pref = this.getActivity().getSharedPreferences("time", Activity.MODE_PRIVATE);
         isTimer = pref.getBoolean("isTimer", false);
@@ -122,7 +126,7 @@ public class InputFragment extends Fragment {
                 if(isTimer == false) {
 
                     startTime = System.currentTimeMillis()/1000/60;
-                    Log.d("starttime", String.valueOf(startTime));
+                    Log.d("Sovellus", "start time: " + String.valueOf(startTime));
 
                     time.setText("Aloitusaika: \n" + today.hour + ":" + today.minute);
                     prefEditor.putString("startInfo", "Aloitusaika: \n" + today.hour + ":" + today.minute );
@@ -141,7 +145,7 @@ public class InputFragment extends Fragment {
                     int savedActivity = pref.getInt("starttimeActivity", 0);
 
                     endTime = System.currentTimeMillis() / 1000 / 60;
-                    Log.d("endtime", String.valueOf(endTime));
+                    Log.d("Sovellus", "Endtime " + String.valueOf(endTime));
 
                     time.setText("Lopetusaika: " + Long.toString(endTime));
 
@@ -152,10 +156,11 @@ public class InputFragment extends Fragment {
                     Long dtime = endTime - startTimeMemory;
 
                     time.setText("Aktiviteetin kesto: " + Long.toString(dtime) + " min");
-                    int sendTime = Math.toIntExact(dtime) / 1000 / 60;
+                    int sendTime = Math.toIntExact(dtime);
 
                     ActionList.getInstance().addAction(savedActivity, sendTime);
-                    Toast.makeText(getContext(), "Aktiviteetti lisätty",
+
+                    Toast.makeText(getContext(), "Aktiviteettiin lisätty: \n" + sendTime + " minuuttia",
                             Toast.LENGTH_SHORT).show();
 
                     prefEditor.apply();
@@ -189,10 +194,40 @@ public class InputFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                ActionList.getInstance().addAction(selectedAction, 110);
+                cTime = (EditText) v.findViewById(R.id.timeView2);
+                customTime = cTime.getText().toString();
+
+                ActionList.getInstance().addAction(selectedAction, Integer.parseInt(customTime));
+                Log.d("Sovellus", "Aikaa syötetty: " + customTime );
 
                 Toast.makeText(getContext(), "Aktiviteetti lisätty",
                         Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        v.findViewById(R.id.rmInput).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                start.setText("Aloita");
+                time.setText("Valitse uusi aktiviteetti ja aloita se painamalla \"aloita\"");
+
+                vTime = v.findViewById(R.id.timeView2);
+                vTime.setText("");
+
+               /* ActionList.getInstance().addAction(selectedAction, Integer.parseInt(customTime));
+                Log.d("Sovellus", "Input aktiviteetti tyhjennetty");*/
+
+                Toast.makeText(getContext(), "Aktiviteetti tyhjennetty",
+                        Toast.LENGTH_SHORT).show();
+                
+                isTimer = false;
+
+                prefEditor.putBoolean("isTimer", false);
+
+
+                prefEditor.apply();
             }
         });
 
@@ -210,7 +245,7 @@ public class InputFragment extends Fragment {
 
         isTimer = pref.getBoolean("isTimer", false);
 
-        Log.d("time", Boolean.toString(isTimer));
+        Log.d("Sovellus", "isTimer = " + Boolean.toString(isTimer));
 
         if(isTimer==true){
 
