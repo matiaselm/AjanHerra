@@ -51,9 +51,9 @@ public class InputFragment extends Fragment {
     private Long startTime;
     private Long endTime;
     SharedPreferences pref;
-    SharedPreferences visit;
+    Boolean isTimer;
     SharedPreferences.Editor prefEditor;
-    SharedPreferences.Editor visitEditor;
+
 
     Time today;
 
@@ -75,14 +75,9 @@ public class InputFragment extends Fragment {
         });
 
 
-
         pref = this.getActivity().getSharedPreferences("time", Activity.MODE_PRIVATE);
-        visit = this.getActivity().getSharedPreferences("visit", Activity.MODE_PRIVATE);
-
-        visitEditor = visit.edit();
+        isTimer = pref.getBoolean("isTimer", false);
         prefEditor = pref.edit();
-
-        click = false;
         time = v.findViewById(R.id.timeView);
 
         ArrayList list = ActionList.getInstance().getActivities();
@@ -107,45 +102,47 @@ public class InputFragment extends Fragment {
             public void onClick(View v) {
 
 
-                if(click == false) {
+                if(isTimer == false) {
 
                     startTime = System.currentTimeMillis()/1000/60;
                     Log.d("starttime", String.valueOf(startTime));
 
                     time.setText("Aloitusaika: \n" + today.hour + ":" + today.minute);
+                    prefEditor.putString("startInfo", "Aloitusaika: \n" + today.hour + ":" + today.minute );
 
                     prefEditor.putLong("starttime", startTime);
+
                     prefEditor.putInt("startimeActivity", selectedAction);
-                    prefEditor.putBoolean("visit", true);
+
+                    isTimer = true;
+                    prefEditor.putBoolean("isTimer", true);
                     prefEditor.apply();
 
-                    Log.d("time","Click = true");
                     start.setText("Lopeta");
-                    click = true;
 
-                }else{
+                }else if (isTimer == true) {
 
                     Long startTimeMemory = pref.getLong("starttime", 0);
                     int savedActivity = pref.getInt("starttimeActivity", 0);
 
-                    endTime = System.currentTimeMillis()/1000/60;
+                    endTime = System.currentTimeMillis() / 1000 / 60;
                     Log.d("endtime", String.valueOf(endTime));
 
                     time.setText("Lopetusaika: " + Long.toString(endTime));
-                    click = false;
-                    prefEditor.putBoolean("visit", false);
-                    Log.d("time","Click = false");
+
+                    isTimer = false;
+                    prefEditor.putBoolean("isTimer", false);
+
                     start.setText("Aloita");
 
                     Long dtime = endTime - startTimeMemory;
 
-                    time.setText("Aktiviteetin kesto: " + Long.toString(dtime) +" min");
-                    int sendTime =  Math.toIntExact(dtime) / 1000/60;
+                    time.setText("Aktiviteetin kesto: " + Long.toString(dtime) + " min");
+                    int sendTime = Math.toIntExact(dtime) / 1000 / 60;
 
                     ActionList.getInstance().addAction(savedActivity, sendTime);
                     Toast.makeText(getContext(), "Aktiviteetti lisätty",
                             Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
@@ -194,13 +191,23 @@ public class InputFragment extends Fragment {
         hello.setText("Hei " + UserList.getInstance().getCurrentUser().getName() + "!");
         //time.setText(hours + ":" + minutes);
 
-        Boolean isTimer = pref.getBoolean("visit", false);
+        isTimer = pref.getBoolean("isTimer", false);
 
-       /* if(isTimer==true){
-            time.setText("Aloitusaika: \n" + pref.getString("starttime", String.valueOf(0)));
+        Log.d("time", Boolean.toString(isTimer));
+
+        if(isTimer==true){
+
             start.setText("Lopeta");
-        }else{
-            return;
-        }*/
+            time.setText(pref.getString("startInfo", "e"));
+
+        }
+
+        else if(isTimer==false){
+
+            start.setText("Aloita");
+            time.setText("Valitse uusi aktiviteetti ja aloita se painamalla \"aloita\"");
+
+        }
+
     }
 }
