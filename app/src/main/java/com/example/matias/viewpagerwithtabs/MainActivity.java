@@ -2,7 +2,6 @@ package com.example.matias.viewpagerwithtabs;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,11 +15,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean debug;
 
     private int selectedUserInt;
+    private int selectedSexInt;
+    private int selectedYearInt;
 
     private int currentYear;
     private String selectedName;
@@ -35,12 +33,17 @@ public class MainActivity extends AppCompatActivity {
     private String selectedSex;
     SharedPreferences prefUsers;
     SharedPreferences.Editor prefEditor;
+    private  String currentUser;
+    private Spinner spinnerAge;
+    private Spinner spinnerSex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        selectedSexInt = 0;
+        selectedYearInt = 0;
 
         Log.d("Sovellus", "On create");
         this.thisActivity = this;
@@ -51,15 +54,6 @@ public class MainActivity extends AppCompatActivity {
         currentYear = today.year;
 
         loadUsers();
-
-        debug = false;
-
-        if (debug == true) {
-            changeActivity();
-
-        } else {
-            Log.d("Yolo", "Once");
-        }
 
         List<String> ageList = new ArrayList<String>();
         List<String> sexList = new ArrayList<String>();
@@ -76,23 +70,24 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayAdapter<String> dataAdapterSex = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, sexList);
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinnerAge);
-        Spinner spinnerSex = (Spinner) findViewById(R.id.spinnerSex);
+        spinnerAge = (Spinner) findViewById(R.id.spinnerAge);
+        spinnerSex = (Spinner) findViewById(R.id.spinnerSex);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dataAdapterSex.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
+        // attaching data adapter to spinnerAge
+        spinnerAge.setAdapter(dataAdapter);
         spinnerSex.setAdapter(dataAdapterSex);
 
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerAge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,
                                        int position, long id) {
+                selectedYearInt = position;
                 selectedYear = currentYear - position;
                 Log.d("Sovellus", "SelectedYear " + Integer.toString(selectedYear));
             }
@@ -108,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,
                                        int position, long id) {
+
+                selectedSexInt = position;
                 //0=Male 1=Female 2=Other
                 if (position == 0) {
                     selectedSex = "m";
@@ -131,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 if (UserList.getInstance().getUsers().size() == 0) {
                     Toast.makeText(MainActivity.this, "Ei käyttäjiä",
                             Toast.LENGTH_SHORT).show();
+                    selectedUserInt = -1;
                 } else {
                     changeActivity();
                 }
@@ -171,20 +169,29 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         final ArrayList userList = UserList.getInstance().getUsers();
+        Log.d("Sovellus", "onResume");
+
+        spinnerAge.setSelection(selectedYearInt);
+        spinnerSex.setSelection(selectedSexInt);
 
         if (UserList.getInstance().getUsers().size() == 0) {
-            Log.d("App", "No users yet");
+            selectedUserInt = -1;
+            Log.d("Sovellus", "No users yet");
         } else {
             ArrayAdapter<String> dataAdapterUser = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, userList);
             Spinner spinnerUser = (Spinner) findViewById(R.id.spinnerUsers);
+
             dataAdapterUser.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerUser.setAdapter(dataAdapterUser);
+            selectedUserInt = (prefUsers.getInt(currentUser, 0));
+            spinnerUser.setSelection(selectedUserInt);
             spinnerUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view,
                                            int position, long id) {
                     selectedUserInt = position;
+                    Log.d("Sovellus", "Selected user " + selectedUserInt);
                 }
 
                 @Override
@@ -196,14 +203,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Maximum of 100 unique users per device. Break when first empty user*index* appears.
+     * Maximum of 50 unique users per device. Break when first empty user*index* appears.
      */
     public void loadUsers() {
         prefUsers = thisActivity.getSharedPreferences("Users", Activity.MODE_PRIVATE);
 
         boolean listScanned = false;
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             String user = "user" + i;
             String userSex = "user" + i + "Sex";
             String userYear = "user" + i + "Year";
@@ -214,9 +221,10 @@ public class MainActivity extends AppCompatActivity {
                 String userSexMem = prefUsers.getString(userSex, "usersex");
                 int userYearMem = prefUsers.getInt(userYear, 0);
                 UserList.getInstance().addUser(userNameMem, userYearMem, userSexMem);
-            } //else {
-                //listScanned = true;
-            //}
+                Log.d("Sovellus", "Found " + user +" " + userNameMem +" " + userYearMem +" " + userSexMem);
+            } else {
+                listScanned = true;
+            }
         }
     }
 
@@ -229,10 +237,9 @@ public class MainActivity extends AppCompatActivity {
 
         prefEditor = thisActivity.prefUsers.edit();
 
-        String user = "user" + selectedUserInt;
-        String userName = "user" + UserList.getInstance().getUsers().size();
-        String userYear = "user" + UserList.getInstance().getUsers().size() + "Year";
-        String userSex = "user" + UserList.getInstance().getUsers().size() + "Sex";
+        String userName = "user" + selectedUserInt;
+        String userYear = "user" + selectedUserInt + "Year";
+        String userSex = "user" + selectedUserInt + "Sex";
 
         prefEditor.putString(userName, selectedName);
         prefEditor.putInt(userYear, selectedYear);
@@ -248,6 +255,11 @@ public class MainActivity extends AppCompatActivity {
     private void changeActivity() {
         Toast.makeText(MainActivity.this, "Tervetuloa " + UserList.getInstance().getCurrentUser().getName(),
                 Toast.LENGTH_SHORT).show();
+        currentUser = "currentUser";
+
+        prefEditor = thisActivity.prefUsers.edit();
+        prefEditor.putInt(currentUser, selectedUserInt);
+        prefEditor.commit();
         UserList.getInstance().setCurrentUser(selectedUserInt);
         Log.d("Sovellus", "Logged in as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex());
 
