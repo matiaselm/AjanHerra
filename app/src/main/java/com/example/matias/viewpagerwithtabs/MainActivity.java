@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
         loadUsers();
 
-
-
         List<String> ageList = new ArrayList<String>();
         List<String> sexList = new ArrayList<String>();
 
@@ -231,7 +229,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
         selectedUserInt = (prefUsers.getInt(currentUser, -1));
 
         /**
@@ -281,4 +278,6 @@ public class MainActivity extends AppCompatActivity {
         //Intent nextActivity = new Intent(thisActivity, Test.class);
         startActivity(nextActivity);
     }
+
+
 }

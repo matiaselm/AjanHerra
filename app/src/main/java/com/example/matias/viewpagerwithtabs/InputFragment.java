@@ -89,15 +89,6 @@ public class InputFragment extends Fragment {
         // Inflate the layout for this fragment
         Log.d("Sovellus", "onCreateView InputFragment");
         v = inflater.inflate(R.layout.fragment_input, container, false);
-        Button btnOK = (Button) v.findViewById(R.id.addInput);
-
-       /* v.findViewById(R.id.addInput).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("time", "klick");
-
-            }
-        });*/
 
         pref = this.getActivity().getSharedPreferences("time", Activity.MODE_PRIVATE);
         isTimer = pref.getBoolean("isTimer", false);

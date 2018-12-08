@@ -11,6 +11,7 @@ public class UserList {
     private ArrayList<User> users;
     private User currentUser;
     private int intCurrentUser;
+    private int userListNumber;
 
     private static final UserList ourInstance = new UserList();
 
