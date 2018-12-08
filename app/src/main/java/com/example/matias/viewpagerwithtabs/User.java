@@ -24,6 +24,10 @@ public class User {
         this.sex = "o";
     }
 
+    public void setYearOfBirth(int yearOfBirth) {
+        this.yearOfBirth = yearOfBirth;
+    }
+
     public String getName() {
         return name;
     }
@@ -40,6 +44,10 @@ public class User {
         Log.d("Sovel", Integer.toString(currentYear) + Integer.toString(yearOfBirth));
 
         return this.age;
+    }
+
+    public int getYearOfBirth() {
+        return yearOfBirth;
     }
 
     public String getSex() {
