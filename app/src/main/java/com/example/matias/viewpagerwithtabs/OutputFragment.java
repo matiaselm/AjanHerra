@@ -1,15 +1,21 @@
 package com.example.matias.viewpagerwithtabs;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -17,12 +23,14 @@ import java.util.ArrayList;
  */
 public class OutputFragment extends Fragment {
 
+    private CustomAdapter customAdapter;
+
     public OutputFragment() {
         // Required empty public constructor
     }
 
     private ArrayList<String> myDataItems = new ArrayList<>();
-    private MyAdapter myAdapter;
+
     private static MainActivity thisActivity;
 
     View t;
@@ -33,6 +41,16 @@ public class OutputFragment extends Fragment {
         // Inflate the layout for this fragment
         t = inflater.inflate(R.layout.fragment_output, container, false);
 
+        ArrayList list = ActionList.getInstance().getActivities();
+
+
+        ListView yourListView = (ListView) t.findViewById(R.id.ActivityList);
+
+        // get data from the table by the ListAdapter
+        customAdapter = new CustomAdapter(getActivity(), R.layout.list_items, list);
+
+        yourListView .setAdapter(customAdapter);
+
         return t;
     }
 
@@ -42,7 +60,10 @@ public class OutputFragment extends Fragment {
 
         Log.d("frag", "onResume output");
 
-        ArrayList list = ActionList.getInstance().getActivities();
+        customAdapter.notifyDataSetChanged();
+
+
+        /*
 
         TextView textView = t.findViewById(R.id.ActivityList);
         textView.setText("");
@@ -66,6 +87,10 @@ public class OutputFragment extends Fragment {
             textView2.append(ActionList.getInstance().getActivities().get(i).getInfo());
             textView2.append("\n");
 
-        }
+        }*/
+    }
+
+    public void refreshAdapter() {
+       customAdapter.notifyDataSetChanged();
     }
 }

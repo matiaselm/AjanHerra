@@ -10,7 +10,7 @@ public class Action {
     private double mins;
     private double hours;
     private boolean needMoreThan;
-    private double refHours;
+    private double referenceHours;
     private double resultHours;
     private static DecimalFormat twoDigit = new DecimalFormat("#.##");
 
@@ -20,37 +20,81 @@ public class Action {
         this.mins = 0;
         this.hours = 0;
         this.needMoreThan = needMoreThan;
-        this.refHours = refHours;
+        this.referenceHours = refHours;
         this.resultHours = 0;
 
     }
 
-    public void setRefHours(double refHours){this.refHours = refHours; }
+    public void setRefHours(double refHours) {
+        this.referenceHours = refHours;
+    }
 
-    public void setNeedMoreThan(boolean needMoreThan){this.needMoreThan = needMoreThan; }
+    public void setNeedMoreThan(boolean needMoreThan) {
+        this.needMoreThan = needMoreThan;
+    }
 
-    public void setType(String type){this.type = type; }
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public double getTime() {
         return time;
     }
 
-    public void addTime(int lenghtMinutes){
+
+    public void addTime(int lenghtMinutes) {
         time = time + lenghtMinutes;
         mins = time % 60;
         hours = time / 60;
-        resultHours = refHours - hours;
-        if(refHours == 0){
+        resultHours = referenceHours - hours;
+        if (referenceHours == 0) {
             resultHours = 0;
         }
         Log.d("Sovellus", this + " incremented " + lenghtMinutes + " minutes");
     }
 
-    public String getInfo(){
-        return twoDigit.format(refHours) + " h | " + twoDigit.format(hours) + " h | " + twoDigit.format(resultHours) +" h";
+    public String getInfo() {
+        return twoDigit.format(referenceHours) + " h | " + twoDigit.format(hours) + " h | " + twoDigit.format(resultHours) + " h";
     }
 
-    public String getType(){
+    public String getTimeReference() {
+        if (referenceHours == -1) {
+            return "Ei suositusta";
+        } else {
+            if (needMoreThan == true) {
+                return "Suositus yli " + twoDigit.format(referenceHours) + "h";
+            } else {
+                return "Suositus alle " + twoDigit.format(referenceHours) + "h";
+            }
+        }
+    }
+
+    public String getTimeAverage() {
+        return "Keskiarvosi" + twoDigit.format(hours) + "h";
+    }
+
+    public String getTimeResult() {
+        if (referenceHours == -1) {
+            return "Sopiva";
+        } else {
+            if (needMoreThan == true) {
+
+                if (referenceHours > resultHours) {
+                    return "Alle suosituksen";
+                } else {
+                    return "Sopiva";
+                }
+            } else {
+                if (referenceHours < resultHours) {
+                    return "Yli suosituksen";
+                } else {
+                    return "Sopiva";
+                }
+            }
+        }
+    }
+
+    public String getType() {
         return type;
     }
 

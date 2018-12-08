@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private  String currentUser;
     private Spinner spinnerAge;
     private Spinner spinnerSex;
+    private boolean isAutomaticLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         selectedSexInt = 0;
         selectedYearInt = 0;
+        isAutomaticLogin = true;
 
         Log.d("Sovellus", "On create");
         this.thisActivity = this;
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         currentYear = today.year;
 
         loadUsers();
+
+
 
         List<String> ageList = new ArrayList<String>();
         List<String> sexList = new ArrayList<String>();
@@ -183,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
             dataAdapterUser.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerUser.setAdapter(dataAdapterUser);
-            selectedUserInt = (prefUsers.getInt(currentUser, 0));
+            selectedUserInt = (prefUsers.getInt(currentUser, -1));
             spinnerUser.setSelection(selectedUserInt);
             spinnerUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -226,6 +230,11 @@ public class MainActivity extends AppCompatActivity {
                 listScanned = true;
             }
         }
+
+        selectedUserInt = (prefUsers.getInt(currentUser, -1));
+        if (isAutomaticLogin == true) {// && selectedUserInt >= 0 {
+            //changeactivity();
+        }
     }
 
     private void newUser() {
@@ -264,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Sovellus", "Logged in as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex());
 
         Intent nextActivity = new Intent(thisActivity, MainActivityTabs.class);
+        //Intent nextActivity = new Intent(thisActivity, Test.class);
         startActivity(nextActivity);
     }
 }

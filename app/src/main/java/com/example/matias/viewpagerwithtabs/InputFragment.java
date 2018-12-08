@@ -52,32 +52,32 @@ public class InputFragment extends Fragment {
     SharedPreferences.Editor prefEditor;
 
     int finalValue;
-    String customTime;
+    int customTime;
     EditText cTime;
     TextView vTime;
 
 
-            Time today;
+    Time today;
 
-    /*
-    * Käyttäjä kirjautuu sisään 1. kerran: ("isTimer" = false)
-    *       -> napissa lukee "Aloita"
-    *       -> Tekstikentässä ohjeet "Valitse aktiviteetti ja paina aloita"
-    *
-    * Käyttäjä painaa "ALOITA":
-    *       -> ("isTimer" = true)
-    *       -> Napissa lukee "Lopeta"
-    *       -> Tekstikentässä "Aktiviteetti aloitettu "KELLONAIKA"
-    *
-    * Käyttäjä lähtee ruudusta ja tulee takaisin: ("isTimer" == true)
-    *       -> Nappulassa lukee "lopeta"
-    *       -> Tekstikentässä "Aktiviteetti aloitettu "KELLONAIKA"
-    *
-    * Käyttäjä painaa lopeta:
-    *      -> ("isTimer" = false)
-    *       -> Nappulassa lukee "Aloita"
-    *       -> Tekstikentässä "Aktiviteetin kesto: "KESTO", lisää uusi aktiviteetti valitsemalla ja painamalla aloita
-    * */
+    /**
+     * Käyttäjä kirjautuu sisään 1. kerran: ("isTimer" = false)
+     * -> napissa lukee "Aloita"
+     * -> Tekstikentässä ohjeet "Valitse aktiviteetti ja paina aloita"
+     * <p>
+     * Käyttäjä painaa "ALOITA":
+     * -> ("isTimer" = true)
+     * -> Napissa lukee "Lopeta"
+     * -> Tekstikentässä "Aktiviteetti aloitettu "KELLONAIKA"
+     * <p>
+     * Käyttäjä lähtee ruudusta ja tulee takaisin: ("isTimer" == true)
+     * -> Nappulassa lukee "lopeta"
+     * -> Tekstikentässä "Aktiviteetti aloitettu "KELLONAIKA"
+     * <p>
+     * Käyttäjä painaa lopeta:
+     * -> ("isTimer" = false)
+     * -> Nappulassa lukee "Aloita"
+     * -> Tekstikentässä "Aktiviteetin kesto: "KESTO", lisää uusi aktiviteetti valitsemalla ja painamalla aloita
+     */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,13 +123,13 @@ public class InputFragment extends Fragment {
             public void onClick(View v) {
 
 
-                if(isTimer == false) {
+                if (isTimer == false) {
 
-                    startTime = System.currentTimeMillis()/1000/60;
+                    startTime = System.currentTimeMillis() / 1000 / 60;
                     Log.d("Sovellus", "start time: " + String.valueOf(startTime));
 
                     time.setText("Aloitusaika: \n" + today.hour + ":" + today.minute);
-                    prefEditor.putString("startInfo", "Aloitusaika: \n" + today.hour + ":" + today.minute );
+                    prefEditor.putString("startInfo", "Aloitusaika: \n" + today.hour + ":" + today.minute);
 
                     prefEditor.putLong("starttime", startTime);
 
@@ -140,7 +140,7 @@ public class InputFragment extends Fragment {
                     prefEditor.putBoolean("isTimer", true);
                     prefEditor.apply();
 
-                }else if (isTimer == true) {
+                } else if (isTimer == true) {
                     Long startTimeMemory = pref.getLong("starttime", 0);
                     int savedActivity = pref.getInt("starttimeActivity", 0);
 
@@ -195,14 +195,14 @@ public class InputFragment extends Fragment {
             public void onClick(View view) {
 
                 cTime = (EditText) v.findViewById(R.id.timeView2);
-                customTime = cTime.getText().toString();
+                customTime = Integer.parseInt(cTime.getText().toString());
+                if (customTime > 0) {
+                    ActionList.getInstance().addAction(selectedAction, customTime);
+                    Log.d("Sovellus", "Aikaa syötetty: " + customTime);
 
-                ActionList.getInstance().addAction(selectedAction, Integer.parseInt(customTime));
-                Log.d("Sovellus", "Aikaa syötetty: " + customTime );
-
-                Toast.makeText(getContext(), "Aktiviteetti lisätty",
-                        Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(getContext(), "Aktiviteetti lisätty",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -221,7 +221,7 @@ public class InputFragment extends Fragment {
 
                 Toast.makeText(getContext(), "Aktiviteetti tyhjennetty",
                         Toast.LENGTH_SHORT).show();
-                
+
                 isTimer = false;
 
                 prefEditor.putBoolean("isTimer", false);
@@ -247,14 +247,12 @@ public class InputFragment extends Fragment {
 
         Log.d("Sovellus", "isTimer = " + Boolean.toString(isTimer));
 
-        if(isTimer==true){
+        if (isTimer == true) {
 
             start.setText("Lopeta");
             time.setText(pref.getString("startInfo", "e"));
 
-        }
-
-        else if(isTimer==false){
+        } else if (isTimer == false) {
 
             start.setText("Aloita");
             time.setText("Valitse uusi aktiviteetti ja aloita se painamalla \"aloita\"");
