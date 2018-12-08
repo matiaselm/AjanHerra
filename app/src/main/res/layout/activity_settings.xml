@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity"
     android:background="@drawable/background">
+    <include
+        layout = "@layout/toolbar_info_return"
+        android:id = "@+id/returnBar"></include>
 
     <EditText
         android:id="@+id/etNameSettings"
@@ -66,7 +69,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="80dp"
         android:text="Muuta asetuksiasi"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
