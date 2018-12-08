@@ -56,6 +56,7 @@ public class InputFragment extends Fragment {
     EditText cTime;
     TextView vTime;
 
+    String activityName;
 
     Time today;
 
@@ -105,6 +106,8 @@ public class InputFragment extends Fragment {
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, list);
 
+        activityName = ActionList.getInstance().getActivities().get(selectedAction).getType();
+
         Spinner spinner = (Spinner) v.findViewById(R.id.spinnerActions);
 
         // Drop down layout style - list view with radio button
@@ -128,7 +131,7 @@ public class InputFragment extends Fragment {
                     startTime = System.currentTimeMillis() / 1000 / 60;
                     Log.d("Sovellus", "start time: " + String.valueOf(startTime));
 
-                    time.setText("Aloitusaika: \n" + today.hour + ":" + today.minute);
+                    time.setText(activityName + " aloitettu  \n" + today.hour + ":" + today.minute);
                     prefEditor.putString("startInfo", "Aloitusaika: \n" + today.hour + ":" + today.minute);
 
                     prefEditor.putLong("starttime", startTime);
