@@ -1,4 +1,4 @@
-package com.example.matias.viewpagerwithtabs;
+package com.example.matias.viewpagerwithtabs.fragments;
 
 
 import android.content.Context;
@@ -13,6 +13,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.matias.viewpagerwithtabs.R;
+import com.example.matias.viewpagerwithtabs.activities.InfoActivity;
+import com.example.matias.viewpagerwithtabs.classes.Action;
+import com.example.matias.viewpagerwithtabs.classes.CustomAdapter;
+import com.example.matias.viewpagerwithtabs.singletons.ActionList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

@@ -1,8 +1,6 @@
-package com.example.matias.viewpagerwithtabs;
+package com.example.matias.viewpagerwithtabs.singletons;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
+import com.example.matias.viewpagerwithtabs.classes.User;
 
 import java.util.ArrayList;
 

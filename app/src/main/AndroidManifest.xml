@@ -9,24 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivityTabs" />
+        <activity android:name=".activities.MainActivityTabs" />
         <activity
-            android:name=".InfoActivity"
-            android:parentActivityName=".MainActivityTabs">
+            android:name=".activities.InfoActivity"
+            android:parentActivityName=".activities.MainActivityTabs">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivityTabs" />
+                android:value=".activities.MainActivityTabs" />
         </activity>
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".activities.SettingsActivity"></activity>
     </application>
 
 </manifest>

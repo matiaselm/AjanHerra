@@ -1,4 +1,4 @@
-package com.example.matias.viewpagerwithtabs;
+package com.example.matias.viewpagerwithtabs.classes;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 import android.view.View;
+
+import com.example.matias.viewpagerwithtabs.fragments.FrontFragment;
+import com.example.matias.viewpagerwithtabs.fragments.InputFragment;
+import com.example.matias.viewpagerwithtabs.fragments.OutputFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 

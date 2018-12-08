@@ -1,4 +1,4 @@
-package com.example.matias.viewpagerwithtabs;
+package com.example.matias.viewpagerwithtabs.classes;
 
 import android.text.format.Time;
 import android.util.Log;

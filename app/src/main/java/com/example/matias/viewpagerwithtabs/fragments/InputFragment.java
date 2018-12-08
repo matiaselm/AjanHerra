@@ -1,4 +1,4 @@
-package com.example.matias.viewpagerwithtabs;
+package com.example.matias.viewpagerwithtabs.fragments;
 
 
 import android.app.Activity;
@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,10 +19,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
+import com.example.matias.viewpagerwithtabs.R;
+import com.example.matias.viewpagerwithtabs.singletons.ActionList;
+import com.example.matias.viewpagerwithtabs.singletons.UserList;
+
 import java.util.ArrayList;
 import java.util.Date;
 

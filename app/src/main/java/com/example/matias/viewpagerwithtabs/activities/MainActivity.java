@@ -1,4 +1,4 @@
-package com.example.matias.viewpagerwithtabs;
+package com.example.matias.viewpagerwithtabs.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,22 +17,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.text.format.Time;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.matias.viewpagerwithtabs.R;
+import com.example.matias.viewpagerwithtabs.singletons.UserList;
 
 public class MainActivity extends AppCompatActivity {
 
