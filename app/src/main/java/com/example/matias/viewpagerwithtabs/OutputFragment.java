@@ -46,6 +46,7 @@ public class OutputFragment extends Fragment {
         // Inflate the layout for this fragment
         t = inflater.inflate(R.layout.fragment_output, container, false);
 
+        
         actionList = ActionList.getInstance().getActivities();
 
         pref = t.getContext().getSharedPreferences("list", Context.MODE_PRIVATE);
@@ -70,7 +71,6 @@ public class OutputFragment extends Fragment {
                 startActivity(nextActivity);
             }
         });
-
         return t;
     }
 
@@ -109,6 +109,7 @@ public class OutputFragment extends Fragment {
         Log.d("Sovellus", "actionList loaded");
 
         if(actionList == null){
+            Log.d("Sovellus", "actionList null");
             actionList = new ArrayList<>();
         }
     }
