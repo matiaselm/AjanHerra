@@ -1,11 +1,9 @@
-package com.example.ajanherra.activities;
+package com.example.matias.viewpagerwithtabs;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.matias.viewpagerwithtabs.R;
-
-public class SettingsActivity extends AppCompatActivity {
+public class Settings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

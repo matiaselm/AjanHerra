@@ -1,6 +1,8 @@
-package com.example.ajanherra.singletons;
+package com.example.matias.viewpagerwithtabs;
 
-import com.example.ajanherra.classes.User;
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 
