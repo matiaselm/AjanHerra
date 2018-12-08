@@ -13,9 +13,8 @@ public class Action {
     private double referenceHours;
     private double resultHours;
     private static DecimalFormat twoDigit = new DecimalFormat("#.##");
-    private String description;
 
-    public Action(String type, boolean needMoreThan, double refHours, String description) {
+    public Action(String type, boolean needMoreThan, double refHours) {
         this.type = type;
         this.time = 0;
         this.mins = 0;
@@ -23,7 +22,6 @@ public class Action {
         this.needMoreThan = needMoreThan;
         this.referenceHours = refHours;
         this.resultHours = 0;
-        this.description = description;
 
     }
 
@@ -94,10 +92,6 @@ public class Action {
                 }
             }
         }
-    }
-
-    public String getDescription(){
-        return description;
     }
 
     public String getType() {

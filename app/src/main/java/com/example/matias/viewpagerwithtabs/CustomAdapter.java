@@ -48,7 +48,7 @@ public class CustomAdapter extends ArrayAdapter<Action> {
             }
 
             if (tt3 != null) {
-                tt3.setText("    " + p.getTimeAverage());
+                tt3.setText(p.getTimeAverage());
             }
 
             if (tt4 != null) {
