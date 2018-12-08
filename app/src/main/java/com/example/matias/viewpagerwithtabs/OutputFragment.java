@@ -31,7 +31,6 @@ public class OutputFragment extends Fragment {
 
     private ArrayList<String> myDataItems = new ArrayList<>();
 
-    private static MainActivity thisActivity;
 
     View t;
 
@@ -44,12 +43,24 @@ public class OutputFragment extends Fragment {
         ArrayList list = ActionList.getInstance().getActivities();
 
 
-        ListView yourListView = (ListView) t.findViewById(R.id.ActivityList);
+        ListView lv = (ListView) t.findViewById(R.id.ActivityList);
 
         // get data from the table by the ListAdapter
         customAdapter = new CustomAdapter(getActivity(), R.layout.list_items, list);
 
-        yourListView .setAdapter(customAdapter);
+        lv.setAdapter(customAdapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
+
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("Sovellus", i + " painettu");
+                Intent nextActivity = new Intent(getActivity(), InfoActivity.class);
+                nextActivity.putExtra("itempos", i);
+                startActivity(nextActivity);
+            }
+        });
 
         return t;
     }
@@ -61,33 +72,6 @@ public class OutputFragment extends Fragment {
         Log.d("frag", "onResume output");
 
         customAdapter.notifyDataSetChanged();
-
-
-        /*
-
-        TextView textView = t.findViewById(R.id.ActivityList);
-        textView.setText("");
-        textView.append("Aktiviteetti\n");
-        textView.append("\n");
-
-        for (int i = 0; i < list.size(); i++) {
-
-            textView.append(ActionList.getInstance().getActivities().get(i).getType());
-            textView.append("\n");
-
-        }
-
-        TextView textView2 = t.findViewById(R.id.hourList);
-        textView2.setText("");
-        textView2.append(" Ref   |  Avg  |  Res\n");
-        textView2.append("\n");
-
-        for (int i = 0; i < list.size(); i++) {
-
-            textView2.append(ActionList.getInstance().getActivities().get(i).getInfo());
-            textView2.append("\n");
-
-        }*/
     }
 
     public void refreshAdapter() {
