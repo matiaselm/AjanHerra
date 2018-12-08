@@ -8,8 +8,10 @@
     tools:context=".MainActivityTabs"
     android:orientation="vertical"
     >
+
     <include
-        layout="@layout/toolbar_layout"/>
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar_layout" />
 
 <android.support.design.widget.TabLayout
     android:layout_height="wrap_content"

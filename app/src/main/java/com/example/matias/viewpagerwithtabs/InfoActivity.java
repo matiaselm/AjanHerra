@@ -1,6 +1,7 @@
 package com.example.matias.viewpagerwithtabs;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -73,12 +74,12 @@ public class InfoActivity extends AppCompatActivity {
             case R.id.action_logout:
                 Toast.makeText(this, "Kirjauduit ulos",
                         Toast.LENGTH_SHORT).show();
-              /*  SharedPreferences.Editor prefEditor;
-                prefEditor = MainActivity.prefUsers.edit();
-                prefEditor.putInt("currentUser", -1);
-                prefEditor.commit();
+               // SharedPreferences.Editor prefEditor;
+               // prefEditor = MainActivity.prefUsers.edit();
+               // prefEditor.putInt("currentUser", -1);
+               // prefEditor.commit();
                 Intent logoutActivity = new Intent(this, MainActivity.class);
-                startActivity(logoutActivity);*/
+                startActivity(logoutActivity);
                 break;
 
             default:
