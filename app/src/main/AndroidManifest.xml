@@ -17,13 +17,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivityTabs" />
-        <activity android:name=".InfoActivity"
+        <activity
+            android:name=".InfoActivity"
             android:parentActivityName=".MainActivityTabs">
+
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivityTabs" />
         </activity>
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>
