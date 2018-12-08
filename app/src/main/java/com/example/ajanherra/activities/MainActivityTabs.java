@@ -1,11 +1,13 @@
-package com.example.matias.viewpagerwithtabs;
+package com.example.ajanherra.activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
+
+import com.example.ajanherra.classes.ViewPagerAdapter;
+import com.example.matias.viewpagerwithtabs.R;
 
 public class MainActivityTabs extends AppCompatActivity {
 

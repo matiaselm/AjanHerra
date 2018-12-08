@@ -1,4 +1,6 @@
-package com.example.matias.viewpagerwithtabs;
+package com.example.ajanherra.singletons;
+
+import com.example.ajanherra.classes.Action;
 
 import java.util.ArrayList;
 

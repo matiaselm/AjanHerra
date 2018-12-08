@@ -1,4 +1,4 @@
-package com.example.matias.viewpagerwithtabs;
+package com.example.ajanherra.fragments;
 
 
 import android.content.Intent;
@@ -9,13 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.example.ajanherra.activities.InfoActivity;
+import com.example.ajanherra.classes.CustomAdapter;
+import com.example.ajanherra.singletons.ActionList;
+import com.example.matias.viewpagerwithtabs.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**

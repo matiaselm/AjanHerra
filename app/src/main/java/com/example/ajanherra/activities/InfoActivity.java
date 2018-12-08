@@ -1,7 +1,6 @@
-package com.example.matias.viewpagerwithtabs;
+package com.example.ajanherra.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,8 +10,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ajanherra.singletons.ActionList;
+import com.example.matias.viewpagerwithtabs.R;
+
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class InfoActivity extends AppCompatActivity {
 
@@ -63,7 +64,7 @@ public class InfoActivity extends AppCompatActivity {
                 Toast.makeText(this, "Asetukset",
                         Toast.LENGTH_SHORT).show();
 
-                Intent settingsActivity = new Intent(this, Settings.class);
+                Intent settingsActivity = new Intent(this, SettingsActivity.class);
                 startActivity(settingsActivity);
                 break;
 

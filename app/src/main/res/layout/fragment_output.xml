@@ -5,7 +5,7 @@
     android:id="@+id/output"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OutputFragment">
+    tools:context="com.example.ajanherra.fragments.OutputFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
