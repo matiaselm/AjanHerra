@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Maximum of 50 unique users per device. Break when first empty user*index* appears. Load users from SharedPreferences and feed them to the UserList singleton.
+     * Maximum of 50 unique users per device. Break when first empty user*index* appears.
      */
     public void loadUsers() {
         prefUsers = thisActivity.getSharedPreferences("Users", Activity.MODE_PRIVATE);
@@ -231,15 +231,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
         selectedUserInt = (prefUsers.getInt(currentUser, -1));
-
-        /**
-         * Login automatically if we have a current user set >=0 in SharedPreferences and automatic login is enabled.
-         */
-        //if (isAutomaticLogin == true && selectedUserInt >= 0) {
-        //    changeActivity();
-        //}
+        if (isAutomaticLogin == true) {// && selectedUserInt >= 0 {
+            //changeactivity();
+        }
     }
 
     private void newUser() {

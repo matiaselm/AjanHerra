@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -56,6 +57,8 @@ public class InputFragment extends Fragment {
     EditText cTime;
     TextView vTime;
 
+    String activityName;
+    String runningActivity;
 
     Time today;
 
@@ -116,38 +119,47 @@ public class InputFragment extends Fragment {
         start = v.findViewById(R.id.startButton);
 
         today = new Time(Time.getCurrentTimezone());
-        today.setToNow();
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 if (isTimer == false) {
 
                     startTime = System.currentTimeMillis() / 1000 / 60;
                     Log.d("Sovellus", "start time: " + String.valueOf(startTime));
 
-                    time.setText("Aloitusaika: \n" + today.hour + ":" + today.minute);
-                    prefEditor.putString("startInfo", "Aloitusaika: \n" + today.hour + ":" + today.minute);
+                    today.setToNow();
+                    runningActivity = activityName;
+                    prefEditor.putString("runningActivity", runningActivity);
+
+                    if(today.minute<10){
+                        time.setText(activityName + " aloitettu  \n" + today.hour + ":0" + today.minute);
+                        prefEditor.putString("startInfo", activityName + " aloitettu  \n" + today.hour + ":0" + today.minute);
+                    }else{
+                        time.setText(activityName + " aloitettu  \n" + today.hour + ":" + today.minute);
+                        prefEditor.putString("startInfo", activityName + " aloitettu  \n" + today.hour + ":" + today.minute);
+                    }
 
                     prefEditor.putLong("starttime", startTime);
-
-                    prefEditor.putInt("startimeActivity", selectedAction);
+                    prefEditor.putInt("startTimeActivity", selectedAction);
 
                     isTimer = true;
                     start.setText("Lopeta");
                     prefEditor.putBoolean("isTimer", true);
                     prefEditor.apply();
 
+                    Log.d("Sovellus", "Aloitettu aktiviteetti: " + Integer.toString(selectedAction));
+
                 } else if (isTimer == true) {
+                    Log.d("Sovellus", "else if");
+
                     Long startTimeMemory = pref.getLong("starttime", 0);
-                    int savedActivity = pref.getInt("starttimeActivity", 0);
+                    int savedActivity = pref.getInt("startTimeActivity", 0);
+                    runningActivity = pref.getString("runningActivity", "");
 
                     endTime = System.currentTimeMillis() / 1000 / 60;
                     Log.d("Sovellus", "Endtime " + String.valueOf(endTime));
-
-                    time.setText("Lopetusaika: " + Long.toString(endTime));
 
                     isTimer = false;
                     prefEditor.putBoolean("isTimer", false);
@@ -155,9 +167,10 @@ public class InputFragment extends Fragment {
 
                     Long dtime = endTime - startTimeMemory;
 
-                    time.setText("Aktiviteetin kesto: " + Long.toString(dtime) + " min");
+                    time.setText(runningActivity + " aktiviteettiin lisätty:\n" + Long.toString(dtime) + " min");
                     int sendTime = Math.toIntExact(dtime);
 
+                    Log.d("Sovellus", "Current savedActivity: " + Integer.toString(savedActivity));
                     ActionList.getInstance().addAction(savedActivity, sendTime);
 
                     Toast.makeText(getContext(), "Aktiviteettiin lisätty: \n" + sendTime + " minuuttia",
@@ -182,6 +195,9 @@ public class InputFragment extends Fragment {
                 //            Toast.LENGTH_SHORT).show();
                 //}
                 selectedAction = position;
+                Log.d("Sovellus", "Valittu aktiviteetti: " + Integer.toString(selectedAction));
+                activityName = ActionList.getInstance().getActivities().get(selectedAction).getType();
+                Log.d("Sovellus", activityName);
             }
 
             @Override
