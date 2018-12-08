@@ -25,8 +25,8 @@
 
         <TextView
             android:id="@+id/reference"
-            android:layout_width="5dp"
-            android:layout_height="wrap_content"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:height="20sp"
             android:text="categoryId"
@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/average"
-            android:layout_width="fill_parent"
+            android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:height="20sp"
@@ -43,8 +43,8 @@
 
         <TextView
             android:id="@+id/result"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:height="20sp"
             android:gravity="right"

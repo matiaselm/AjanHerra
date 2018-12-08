@@ -70,7 +70,7 @@ public class Action {
     }
 
     public String getTimeAverage() {
-        return "Keskiarvosi" + twoDigit.format(hours) + "h";
+        return "Keskiarvosi " + twoDigit.format(hours) + "h";
     }
 
     public String getTimeResult() {

@@ -195,13 +195,22 @@ public class InputFragment extends Fragment {
             public void onClick(View view) {
 
                 cTime = (EditText) v.findViewById(R.id.timeView2);
-                customTime = Integer.parseInt(cTime.getText().toString());
-                if (customTime > 0) {
-                    ActionList.getInstance().addAction(selectedAction, customTime);
-                    Log.d("Sovellus", "Aikaa syötetty: " + customTime);
-
-                    Toast.makeText(getContext(), "Aktiviteetti lisätty",
+                String timeInput = cTime.getText().toString();
+                if (timeInput.isEmpty()) {
+                    Toast.makeText(getContext(), "Syötä aika",
                             Toast.LENGTH_SHORT).show();
+                } else {
+                    customTime = Integer.parseInt(timeInput);
+                    if (customTime > 0 ) {
+                        ActionList.getInstance().addAction(selectedAction, customTime);
+                        Log.d("Sovellus", "Aikaa syötetty: " + customTime);
+
+                        Toast.makeText(getContext(), "Aktiviteetti lisätty",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Virheellinen aika",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
