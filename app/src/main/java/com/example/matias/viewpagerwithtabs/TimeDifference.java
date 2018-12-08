@@ -1,4 +1,4 @@
-package com.example.ajanherra.classes;
+package com.example.matias.viewpagerwithtabs;
 
 import android.util.Log;
 

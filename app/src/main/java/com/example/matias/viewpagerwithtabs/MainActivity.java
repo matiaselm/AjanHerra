@@ -1,4 +1,4 @@
-package com.example.ajanherra.activities;
+package com.example.matias.viewpagerwithtabs;
 
 
 import android.app.Activity;
@@ -14,9 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.example.ajanherra.singletons.UserList;
-import com.example.matias.viewpagerwithtabs.R;
 
 import java.util.ArrayList;
 import java.util.List;

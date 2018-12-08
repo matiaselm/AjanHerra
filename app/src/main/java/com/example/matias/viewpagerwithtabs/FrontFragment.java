@@ -1,4 +1,4 @@
-package com.example.ajanherra.fragments;
+package com.example.matias.viewpagerwithtabs;
 
 
 import android.os.Bundle;
@@ -6,8 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.matias.viewpagerwithtabs.R;
 
 
 /**
