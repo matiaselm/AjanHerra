@@ -109,20 +109,7 @@ public class InputFragment extends Fragment {
         Log.d("Sovellus", "onCreateView InputFragment");
         v = inflater.inflate(R.layout.fragment_input, container, false);
 
-        pref = this.getActivity().getSharedPreferences("time", Activity.MODE_PRIVATE);
-        prefEditor = pref.edit();
-        userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "isTimer";
-        isTimer = pref.getBoolean(userIsTimer, false);
-
         time = v.findViewById(R.id.timeView);
-
-        //actionList = ActionList.getInstance().getActivities();
-
-
-        //Ei voi kutsia actionList ennenkuin se on luotu/määritelty!!
-        //Tähän joku tapa määritellä actionList siten että se ei ole sama joka kerta
-
-        loadData();
 
         start = v.findViewById(R.id.startButton);
         today = new Time(Time.getCurrentTimezone());
@@ -133,22 +120,20 @@ public class InputFragment extends Fragment {
 
                 if (isTimer == false) {
 
+                    //Update the Strings used for Timer related Save strings
+                    updateUserSaveKeys();
+
                     startTime = System.currentTimeMillis() / 1000 / 60;
                     Log.d("Sovellus", "start time: " + String.valueOf(startTime));
 
                     today.setToNow();
                     runningActivity = activityName;
 
-                    userRunningActivity = "user" + UserList.getInstance().getCurrentUser() + "RunningActivity";
-                    userStartTime = "user" + UserList.getInstance().getCurrentUser() + "startTime";
-                    userRunningActivityInt = "user" + UserList.getInstance().getCurrentUser() + "runningActivityInt";
-
                     prefEditor.putString(userRunningActivity, runningActivity);
-                    userStartInfo = "user" + UserList.getInstance().getCurrentUser() + "startInfo";
 
                     if (today.minute < 10) {
                         String addTimeText = runningActivity + " aloitettu  \n" + today.hour + ":0" + today.minute;
-                        time.setText (addTimeText);
+                        time.setText(addTimeText);
                         prefEditor.putString(userStartInfo, addTimeText);
                     } else {
                         String addTimeText2 = runningActivity + " aloitettu  \n" + today.hour + ":" + today.minute;
@@ -161,18 +146,18 @@ public class InputFragment extends Fragment {
 
                     isTimer = true;
                     start.setText("Lopeta");
-                    userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "isTimer";
+
                     prefEditor.putBoolean(userIsTimer, true);
                     prefEditor.apply();
 
                     Log.d("Sovellus", "Aloitettu aktiviteetti: " + Integer.toString(selectedAction));
 
                 } else if (isTimer == true) {
+
+                    //Update the Strings used for Timer related Save strings
+                    updateUserSaveKeys();
+
                     Log.d("Sovellus", "else if");
-
-                    userRunningActivity = "user" + UserList.getInstance().getCurrentUser() + "RunningActivity";
-
-                    userStartTime = "user" + UserList.getInstance().getCurrentUser() + "startTime";
 
                     Long startTimeMemory = pref.getLong(userStartTime, 0);
                     int savedActivity = pref.getInt(userRunningActivityInt, 0);
@@ -182,7 +167,7 @@ public class InputFragment extends Fragment {
                     Log.d("Sovellus", "Endtime " + String.valueOf(endTime));
 
                     isTimer = false;
-                    userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "isTimer";
+
                     prefEditor.putBoolean(userIsTimer, false);
                     start.setText("Aloita");
 
@@ -240,14 +225,13 @@ public class InputFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                updateUserSaveKeys();
+
                 start.setText("Aloita");
                 time.setText("Valitse uusi aktiviteetti ja aloita se painamalla \"aloita\"");
 
                 vTime = v.findViewById(R.id.timeView2);
                 vTime.setText("");
-
-               /* ActionList.getInstance().addAction(selectedAction, Integer.parseInt(customTime));
-                Log.d("Sovellus", "Input aktiviteetti tyhjennetty");*/
 
                 Toast.makeText(getContext(), "Aktiviteetti tyhjennetty",
                         Toast.LENGTH_SHORT).show();
@@ -255,7 +239,7 @@ public class InputFragment extends Fragment {
                 closeKeyboard();
 
                 isTimer = false;
-                userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "isTimer";
+
                 prefEditor.putBoolean(userIsTimer, false);
                 prefEditor.apply();
             }
@@ -270,18 +254,15 @@ public class InputFragment extends Fragment {
         super.onResume();
 
         Log.d("Sovellus", "Input onResume");
-
         Log.d("Sovellus", "Current user: " + UserList.getInstance().getCurrentUser());
 
         //Update user's actionList array
         loadData();
 
-
         TextView hello = v.findViewById(R.id.tvHello);
         hello.setText("Hei " + UserList.getInstance().getCurrentUser().getName() + "!");
         //time.setText(hours + ":" + minutes);
-
-        userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "isTimer";
+        
         isTimer = pref.getBoolean(userIsTimer, false);
 
         Log.d("Sovellus", "isTimer = " + Boolean.toString(isTimer));
@@ -289,8 +270,7 @@ public class InputFragment extends Fragment {
         if (isTimer == true) {
 
             start.setText("Lopeta");
-
-            userStartInfo = "user" + UserList.getInstance().getCurrentUser() + "startInfo";
+            
             time.setText(pref.getString(userStartInfo, "e"));
 
         } else if (isTimer == false) {
@@ -301,15 +281,11 @@ public class InputFragment extends Fragment {
         }
 
         dataAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, actionList);
-
         Spinner spinner = (Spinner) v.findViewById(R.id.spinnerActions);
-
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -333,8 +309,17 @@ public class InputFragment extends Fragment {
         });
     }
 
+    private void updateUserSaveKeys() {
+        userRunningActivity = "user" + UserList.getInstance().getCurrentUser() + "RunningActivity";
+        userStartTime = "user" + UserList.getInstance().getCurrentUser() + "StartTime";
+        userRunningActivityInt = "user" + UserList.getInstance().getCurrentUser() + "RunningActivityInt";
+        userStartInfo = "user" + UserList.getInstance().getCurrentUser() + "StartInfo";
+        userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "IsTimer";
+        UsersActionList = "user" + UserList.getInstance().getCurrentUser() + "ActionList";
+    }
+
     private void saveData() {
-        UsersActionList = "user" + UserList.getInstance().getCurrentUser() + "actionList";
+        updateUserSaveKeys();
         actionList = ActionList.getInstance().getActivities();
         listGson = new Gson();
         String json = listGson.toJson(actionList);
@@ -344,7 +329,10 @@ public class InputFragment extends Fragment {
     }
 
     private void loadData() {
-        UsersActionList = "user" + UserList.getInstance().getCurrentUser() + "actionList";
+        pref = this.getActivity().getSharedPreferences("time", Activity.MODE_PRIVATE);
+        prefEditor = pref.edit();
+
+        updateUserSaveKeys();
         listGson = new Gson();
         json = pref.getString(UsersActionList, null);
         Type type = new TypeToken<ArrayList<Action>>() {
@@ -366,12 +354,6 @@ public class InputFragment extends Fragment {
             ActionList.getInstance().setActivities(actionList);
             Log.d("Sovellus", "Data loaded: " + json);
         }
-        /*if(actionList == null){
-            Log.d("Sovellus", "actionList null");
-            //Use default list
-            actionList = ActionList.getInstance().getActivities();
-
-        }*/
     }
 
     public void closeKeyboard() {
