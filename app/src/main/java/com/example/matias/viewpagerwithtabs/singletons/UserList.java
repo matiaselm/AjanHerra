@@ -21,12 +21,16 @@ public class UserList {
         users = new ArrayList<>();
     }
 
-    public void addUser(String name, int yearOfBirth, String sex) {
+    public void addUser(String name, int yearOfBirth, int sex) {
         users.add(new User(name, yearOfBirth, sex));
     }
 
     public ArrayList<User> getUsers() {
         return users;
+    }
+
+    public void setUsers(ArrayList userList) {
+        this.users = userList;
     }
 
     public User getUser(int index) {

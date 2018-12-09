@@ -9,19 +9,23 @@ public class User {
     private int age;
     private int yearOfBirth;
     private String sex;
+    private int sexInt;
 
-    public User(String name, int yearOfBirth, String sex) {
+    /**
+     *
+     * @param name
+     * @param yearOfBirth
+     * @param sexInt 0=mies, 1=nainen, 2=muu
+     */
+    public User(String name, int yearOfBirth, int sexInt) {
         this.name = name;
         this.yearOfBirth = yearOfBirth;
 
-        setSex(sex);
+        setSex(sexInt);
     }
 
     public User() {
-        this.name = "Name";
-        this.age = 0;
-        this.yearOfBirth = 0;
-        this.sex = "o";
+        this( "Name", 0, 2);
     }
 
     public void setYearOfBirth(int yearOfBirth) {
@@ -54,12 +58,16 @@ public class User {
         return this.sex;
     }
 
-    public void setSex(String sex) {
+    public int getSexInt() {
+        return sexInt;
+    }
 
-        if (sex.equals("f")){
-            this.sex = "Nainen";
-        } else if (sex.equals("m")){
+    public void setSex(int sexInt) {
+
+        if (sexInt == 0){
             this.sex = "Mies";
+        } else if (sexInt == 1){
+            this.sex = "Nainen";
         } else {
             this.sex = "Muu";
         }

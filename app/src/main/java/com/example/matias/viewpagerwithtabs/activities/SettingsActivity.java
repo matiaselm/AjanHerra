@@ -32,8 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Spinner spinnerSex;
     private String selectedName;
     private int selectedYear;
-    private String selectedSex;
-    private int selectedSexInt;
+    private int selectedSex;
     private int selectedYearInt;
     EditText editName;
 
@@ -106,16 +105,9 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,
                                        int position, long id) {
-
-                selectedSexInt = position;
                 //0=Male 1=Female 2=Other
-                if (position == 0) {
-                    selectedSex = "m";
-                } else if (position == 1) {
-                    selectedSex = "f";
-                } else {
-                    selectedSex = "o";
-                }
+                selectedSex = position;
+
                 Log.d("Sovellus", "Selected " + selectedSex);
             }
 
@@ -148,21 +140,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void getUser() {
         int putAge = UserList.getInstance().getCurrentUser().getYearOfBirth() - currentYear;
-        int putSex;
-        selectedSex = UserList.getInstance().getCurrentUser().getSex();
+
+        selectedSex = UserList.getInstance().getCurrentUser().getSexInt();
         selectedName = UserList.getInstance().getCurrentUser().getName();
         selectedYear = UserList.getInstance().getCurrentUser().getYearOfBirth();
 
-        if (selectedSex == "m") {
-            putSex = 0;
-        } else if (selectedSex == "w") {
-            putSex = 1;
-        } else {
-            putSex = 2;
-        }
 
         spinnerAge.setSelection(putAge);
-        spinnerSex.setSelection(putSex);
+        spinnerSex.setSelection(selectedSex);
         editName.setText(selectedName, TextView.BufferType.EDITABLE);
     }
 

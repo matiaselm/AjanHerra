@@ -14,38 +14,47 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.matias.viewpagerwithtabs.R;
+import com.example.matias.viewpagerwithtabs.classes.User;
 import com.example.matias.viewpagerwithtabs.singletons.UserList;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class MainActivity extends AppCompatActivity {
 
     private MainActivity thisActivity;
     private int selectedUserInt;
-    private int selectedSexInt;
+    private int selectedSex;
     private int selectedYearInt;
 
     private int currentYear;
     private String selectedName;
     private int selectedYear;
-    private String selectedSex;
     SharedPreferences prefUsers;
     SharedPreferences.Editor prefEditor;
-    private  String currentUser;
+    private String currentUser;
     private Spinner spinnerAge;
     private Spinner spinnerSex;
     private boolean isAutomaticLogin;
+    private ArrayList userList;
+
+    Gson listGson;
+    String json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        selectedSexInt = 0;
+        selectedSex = 0;
         selectedYearInt = 0;
         isAutomaticLogin = true;
+
+
 
         Log.d("Sovellus", "On create");
         this.thisActivity = this;
@@ -55,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
         currentYear = today.year;
 
-        loadUsers();
-
         List<String> ageList = new ArrayList<String>();
         List<String> sexList = new ArrayList<String>();
 
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             ageList.add("Syntymävuosi: " + i);
         }
 
+        //Do not change order!
         sexList.add("Sukupuoli: Mies");
         sexList.add("Sukupuoli: Nainen");
         sexList.add("Sukupuoli: Muu");
@@ -104,17 +112,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,
-                                       int position, long id) {
 
-                selectedSexInt = position;
+                                       int position, long id) {
                 //0=Male 1=Female 2=Other
-                if (position == 0) {
-                    selectedSex = "m";
-                } else if (position == 1) {
-                    selectedSex = "f";
-                } else {
-                    selectedSex = "o";
-                }
+                selectedSex = position;
+
+
                 Log.d("Sovellus", "Selected " + selectedSex);
             }
 
@@ -170,11 +173,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        final ArrayList userList = UserList.getInstance().getUsers();
+        loadUsers();
+
+        //userList = UserList.getInstance().getUsers();
         Log.d("Sovellus", "onResume");
 
         spinnerAge.setSelection(selectedYearInt);
-        spinnerSex.setSelection(selectedSexInt);
+        spinnerSex.setSelection(selectedSex);
 
         if (UserList.getInstance().getUsers().size() == 0) {
             selectedUserInt = -1;
@@ -204,36 +209,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Maximum of 50 unique users per device. Break when first empty user*index* appears. Load users from SharedPreferences and feed them to the UserList singleton.
-     */
+    private void saveUsers() {
+        userList = UserList.getInstance().getUsers();
+        listGson = new Gson();
+        json = listGson.toJson(userList);
+        Log.d("Sovellus", "Users saved: " + json);
+        prefEditor.putString("userList", json);
+        prefEditor.commit();
+
+    }
+
     public void loadUsers() {
         prefUsers = thisActivity.getSharedPreferences("Users", Activity.MODE_PRIVATE);
+        prefEditor = prefUsers.edit();
 
-        boolean listScanned = false;
+        listGson = new Gson();
+        json = prefUsers.getString("userList", null);
+        Type type = new TypeToken<ArrayList<User>>() {}.getType();
+        userList = listGson.fromJson(json, type);
 
-        for (int i = 0; i < 50; i++) {
-            String user = "user" + i;
-            String userSex = "user" + i + "Sex";
-            String userYear = "user" + i + "Year";
+        if (userList == null) {
+            Log.d("Sovellus", "userList null");
+            //Use default list
+            userList = UserList.getInstance().getUsers();
 
-
-            if (prefUsers.contains(user) && listScanned == false) {
-                String userNameMem = prefUsers.getString(user, "username");
-                String userSexMem = prefUsers.getString(userSex, "usersex");
-                int userYearMem = prefUsers.getInt(userYear, 0);
-                UserList.getInstance().addUser(userNameMem, userYearMem, userSexMem);
-                Log.d("Sovellus", "Found " + user +" " + userNameMem +" " + userYearMem +" " + userSexMem);
-            } else {
-                listScanned = true;
-            }
+        } else {
+            UserList.getInstance().setUsers(userList);
+            Log.d("Sovellus", "Users loaded: " + json);
         }
 
         selectedUserInt = (prefUsers.getInt(currentUser, -1));
 
-        /**
-         * Login automatically if we have a current user set >=0 in SharedPreferences and automatic login is enabled.
-         */
+        tryAutomaticLogin();
+    }
+
+    /**
+     * Login automatically if we have a current user set >=0 in SharedPreferences and automatic login is enabled.
+     */
+    private void tryAutomaticLogin() {
         //if (isAutomaticLogin == true && selectedUserInt >= 0) {
         //    changeActivity();
         //}
@@ -246,26 +259,17 @@ public class MainActivity extends AppCompatActivity {
 
         UserList.getInstance().setCurrentUser(selectedUserInt);
 
-        prefEditor = thisActivity.prefUsers.edit();
-
-        String userName = "user" + selectedUserInt;
-        String userYear = "user" + selectedUserInt + "Year";
-        String userSex = "user" + selectedUserInt + "Sex";
-
-        prefEditor.putString(userName, selectedName);
-        prefEditor.putInt(userYear, selectedYear);
-        prefEditor.putString(userSex, selectedSex);
-
-        prefEditor.commit();
-
         Log.d("Sovellus", "Added user as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex());
 
         changeActivity();
     }
 
     private void changeActivity() {
-        Toast.makeText(MainActivity.this, "Tervetuloa " + UserList.getInstance().getCurrentUser().getName(),
-                Toast.LENGTH_SHORT).show();
+
+        saveUsers();
+
+        //Toast.makeText(MainActivity.this, "Tervetuloa " + UserList.getInstance().getCurrentUser().getName(),
+        //        Toast.LENGTH_SHORT).show();
         currentUser = "currentUser";
 
         prefEditor = thisActivity.prefUsers.edit();
