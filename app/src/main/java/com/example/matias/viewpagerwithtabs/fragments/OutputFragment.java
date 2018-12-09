@@ -34,8 +34,6 @@ public class OutputFragment extends Fragment {
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
     ArrayList actionList;
-    Gson listGson;
-    String json;
 
     public OutputFragment() {
         // Required empty public constructor
@@ -51,11 +49,7 @@ public class OutputFragment extends Fragment {
         // Inflate the layout for this fragment
         t = inflater.inflate(R.layout.fragment_output, container, false);
 
-        
         actionList = ActionList.getInstance().getActivities();
-
-        pref = t.getContext().getSharedPreferences("list", Context.MODE_PRIVATE);
-        prefEditor = pref.edit();
 
         ListView lv = (ListView) t.findViewById(R.id.ActivityList);
 
@@ -70,7 +64,6 @@ public class OutputFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("Sovellus", i + " painettu");
-                saveData();
                 Intent nextActivity = new Intent(getActivity(), InfoActivity.class);
                 nextActivity.putExtra("itempos", i);
                 startActivity(nextActivity);
@@ -86,37 +79,12 @@ public class OutputFragment extends Fragment {
         Log.d("Sovellus", "onResume output");
 
         customAdapter.notifyDataSetChanged();
-        loadData();
     }
 
 
    public void onPause(){
         super.onPause();
-        Log.d("Sovellus", "OutputFragment onResume");
-        saveData();
-    }
-
-    private void saveData(){
-        pref = t.getContext().getSharedPreferences("shared preferences", Context.MODE_PRIVATE);
-        listGson = new Gson();
-        String json = listGson.toJson(actionList);
-        prefEditor.putString("actionList", json);
-        prefEditor.apply();
-        Log.d("Sovellus", "actionList saved");
-    }
-
-    public void loadData(){
-        pref = t.getContext().getSharedPreferences("shared preferences", Context.MODE_PRIVATE);
-        listGson = new Gson();
-        json = pref.getString("actionList", null);
-        Type type = new TypeToken<ArrayList<Action>>(){}.getType();
-        actionList = listGson.fromJson(json, type);
-        Log.d("Sovellus", "actionList loaded");
-
-        if(actionList == null){
-            Log.d("Sovellus", "actionList null");
-            actionList = new ArrayList<>();
-        }
+        Log.d("Sovellus", "OutputFragment onPause");
     }
 
     public void refreshAdapter() {

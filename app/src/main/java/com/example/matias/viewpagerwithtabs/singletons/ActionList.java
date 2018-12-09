@@ -35,6 +35,10 @@ public class ActionList {
         return activities;
     }
 
+    public void setActivities (ArrayList activityList){
+        activities = activityList;
+    }
+
     @Override
     public String toString() {
         return "Moiiii";

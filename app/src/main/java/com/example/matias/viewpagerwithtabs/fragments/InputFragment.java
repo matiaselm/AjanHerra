@@ -2,6 +2,7 @@ package com.example.matias.viewpagerwithtabs.fragments;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,9 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.matias.viewpagerwithtabs.R;
+import com.example.matias.viewpagerwithtabs.classes.Action;
 import com.example.matias.viewpagerwithtabs.singletons.ActionList;
 import com.example.matias.viewpagerwithtabs.singletons.UserList;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -58,6 +63,10 @@ public class InputFragment extends Fragment {
 
     String activityName;
     String runningActivity;
+    ArrayList actionList;
+
+    Gson listGson;
+    String json;
 
     Time today;
 
@@ -94,9 +103,10 @@ public class InputFragment extends Fragment {
         prefEditor = pref.edit();
         time = v.findViewById(R.id.timeView);
 
-        ArrayList list = ActionList.getInstance().getActivities();
+        //actionList = ActionList.getInstance().getActivities();
+        loadData();
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, actionList);
 
         Spinner spinner = (Spinner) v.findViewById(R.id.spinnerActions);
 
@@ -107,7 +117,6 @@ public class InputFragment extends Fragment {
         spinner.setAdapter(dataAdapter);
 
         start = v.findViewById(R.id.startButton);
-
         today = new Time(Time.getCurrentTimezone());
 
         start.setOnClickListener(new View.OnClickListener() {
@@ -166,8 +175,8 @@ public class InputFragment extends Fragment {
                     Toast.makeText(getContext(), "Aktiviteettiin lisätty: \n" + sendTime + " minuuttia",
                             Toast.LENGTH_SHORT).show();
 
+                    saveData();
                     prefEditor.apply();
-
                 }
             }
         });
@@ -213,6 +222,7 @@ public class InputFragment extends Fragment {
 
                         Toast.makeText(getContext(), "Aktiviteetti lisätty",
                                 Toast.LENGTH_SHORT).show();
+                                saveData();
                     } else {
                         Toast.makeText(getContext(), "Virheellinen aika",
                                 Toast.LENGTH_SHORT).show();
@@ -240,8 +250,6 @@ public class InputFragment extends Fragment {
                 isTimer = false;
 
                 prefEditor.putBoolean("isTimer", false);
-
-
                 prefEditor.apply();
             }
         });
@@ -254,6 +262,7 @@ public class InputFragment extends Fragment {
 
         super.onResume();
 
+        loadData();
         TextView hello = v.findViewById(R.id.tvHello);
         hello.setText("Hei " + UserList.getInstance().getCurrentUser().getName() + "!");
         //time.setText(hours + ":" + minutes);
@@ -273,6 +282,29 @@ public class InputFragment extends Fragment {
             time.setText("Valitse uusi aktiviteetti ja aloita se painamalla \"aloita\"");
 
         }
+    }
 
+    private void saveData(){
+        actionList = ActionList.getInstance().getActivities();
+        listGson = new Gson();
+        String json = listGson.toJson(actionList);
+        prefEditor.putString("actionList", json);
+        prefEditor.apply();
+        Log.d("Sovellus", "Data saved: " + json);
+    }
+
+    private void loadData(){
+        listGson = new Gson();
+        json = pref.getString("actionList", null);
+        Type type = new TypeToken<ArrayList<Action>>(){}.getType();
+        actionList = listGson.fromJson(json, type);
+        ActionList.getInstance().setActivities(actionList);
+        Log.d("Sovellus", "Data loaded: " + json);
+
+        if(actionList == null){
+            Log.d("Sovellus", "actionList null");
+            actionList = new ArrayList<>();
+
+        }
     }
 }
