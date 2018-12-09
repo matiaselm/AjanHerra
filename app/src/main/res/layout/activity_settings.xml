@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.SettingsActivity"
-    android:background="@drawable/background">
+    android:background="@color/colorAccent3">
     <include
         layout = "@layout/toolbar_info_return"
         android:id = "@+id/returnBar"></include>
