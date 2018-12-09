@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
         prefEditor.putInt(currentUser, selectedUserInt);
         prefEditor.commit();
         UserList.getInstance().setCurrentUser(selectedUserInt);
-        Log.d("Sovellus", "Logged in as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex());
+        Log.d("Sovellus", "Logged in as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex()+ UserList.getInstance().getCurrentUser().getSexInt());
 
         Intent nextActivity = new Intent(thisActivity, MainActivityTabs.class);
         //Intent nextActivity = new Intent(thisActivity, Test.class);

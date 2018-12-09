@@ -33,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
     private String selectedName;
     private int selectedYear;
     private int selectedSex;
-    private int selectedYearInt;
+
     EditText editName;
 
     @Override
@@ -88,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,
                                        int position, long id) {
-                selectedYearInt = position;
+
                 selectedYear = currentYear - position;
                 Log.d("Sovellus", "SelectedYear " + Integer.toString(selectedYear));
             }
@@ -127,7 +127,7 @@ public class SettingsActivity extends AppCompatActivity {
                     Toast.makeText(thisActivity, "Käyttäjänimi puuttuu",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    if (UserList.getInstance().testNewUserName(selectedName) || selectedName == UserList.getInstance().getCurrentUser().getName()) {
+                    if (UserList.getInstance().testSettingsUserName(selectedName)) {
                         changeSettings();
                     } else {
                         Toast.makeText(thisActivity, "Käyttäjänimi varattu",
@@ -138,8 +138,15 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getUser();
+    }
+
     public void getUser() {
-        int putAge = UserList.getInstance().getCurrentUser().getYearOfBirth() - currentYear;
+        int putAge = currentYear - UserList.getInstance().getCurrentUser().getYearOfBirth();
 
         selectedSex = UserList.getInstance().getCurrentUser().getSexInt();
         selectedName = UserList.getInstance().getCurrentUser().getName();
@@ -149,16 +156,22 @@ public class SettingsActivity extends AppCompatActivity {
         spinnerAge.setSelection(putAge);
         spinnerSex.setSelection(selectedSex);
         editName.setText(selectedName, TextView.BufferType.EDITABLE);
+
+        Toast.makeText(thisActivity, "Loaded user settings " + UserList.getInstance().getCurrentUser().getName() + " Name " + selectedName + " Year of birth " + selectedYear + " Gender " + selectedSex + UserList.getInstance().getCurrentUser().getSex() + UserList.getInstance().getCurrentUser().getSexInt(),
+                Toast.LENGTH_LONG).show();
     }
 
     public void changeSettings() {
-        Log.d("Sovellus", "Changed user settings " + UserList.getInstance().getCurrentUser().getName() + " Name " + selectedName + " Age " + selectedYear + " Gender " + selectedSex);
+        Log.d("Sovellus", "Changed user settings " + UserList.getInstance().getCurrentUser().getName() + " Name " + selectedName + " Year of birth " + selectedYear + " Gender " + selectedSex);
         UserList.getInstance().getCurrentUser().setSex(selectedSex);
         UserList.getInstance().getCurrentUser().setName(selectedName);
         UserList.getInstance().getCurrentUser().setYearOfBirth(selectedYear);
 
-        Toast.makeText(thisActivity, "Tallennus onnistui!",
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(thisActivity, "Saved user settings " + UserList.getInstance().getCurrentUser().getName() + " Name " + selectedName + " Year of birth " + selectedYear + " Gender " + selectedSex,
+                Toast.LENGTH_LONG).show();
+
+        //    Toast.makeText(thisActivity, "Tallennus onnistui!",
+        //            Toast.LENGTH_SHORT).show();
     }
 
     //********************TOOLBAR STUFF ONLY***********************//
@@ -177,8 +190,8 @@ public class SettingsActivity extends AppCompatActivity {
                 Toast.makeText(this, "Asetukset on ladattu",
                         Toast.LENGTH_SHORT).show();
 
-               // Intent settingsActivity = new Intent(this, SettingsActivity.class);
-               // startActivity(settingsActivity);
+                // Intent settingsActivity = new Intent(this, SettingsActivity.class);
+                // startActivity(settingsActivity);
                 break;
 
             case R.id.action_info:

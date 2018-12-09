@@ -12,7 +12,7 @@ public class User {
     private int sexInt;
 
     /**
-     *
+     *New user is created
      * @param name
      * @param yearOfBirth
      * @param sexInt 0=mies, 1=nainen, 2=muu
@@ -20,8 +20,9 @@ public class User {
     public User(String name, int yearOfBirth, int sexInt) {
         this.name = name;
         this.yearOfBirth = yearOfBirth;
+        this.sexInt = sexInt;
 
-        setSex(sexInt);
+        setSex(this.sexInt);
     }
 
     public User() {
@@ -51,7 +52,7 @@ public class User {
     }
 
     public int getYearOfBirth() {
-        return yearOfBirth;
+        return this.yearOfBirth;
     }
 
     public String getSex() {
@@ -59,11 +60,11 @@ public class User {
     }
 
     public int getSexInt() {
-        return sexInt;
+        return this.sexInt;
     }
 
     public void setSex(int sexInt) {
-
+        this.sexInt = sexInt;
         if (sexInt == 0){
             this.sex = "Mies";
         } else if (sexInt == 1){
