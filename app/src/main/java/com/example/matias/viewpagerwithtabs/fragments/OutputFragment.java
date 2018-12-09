@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -77,7 +78,7 @@ public class OutputFragment extends Fragment {
         super.onResume();
 
         Log.d("Sovellus", "onResume output");
-
+        closeKeyboard();
         customAdapter.notifyDataSetChanged();
     }
 
@@ -85,6 +86,11 @@ public class OutputFragment extends Fragment {
    public void onPause(){
         super.onPause();
         Log.d("Sovellus", "OutputFragment onPause");
+    }
+
+    public void closeKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     public void refreshAdapter() {

@@ -11,7 +11,6 @@ public class Action {
     private double hours;
     private boolean needMoreThan;
     private double referenceHours;
-    private double resultHours;
     private static DecimalFormat twoDigit = new DecimalFormat("#.##");
     private String description;
 
@@ -22,7 +21,6 @@ public class Action {
         this.hours = 0;
         this.needMoreThan = needMoreThan;
         this.referenceHours = refHours;
-        this.resultHours = 0;
         this.description = description;
 
     }
@@ -48,22 +46,23 @@ public class Action {
         time = time + lenghtMinutes;
         mins = time % 60;
         hours = time / 60;
-        resultHours = referenceHours - hours;
-        if (referenceHours == 0) {
-            resultHours = 0;
+        if (hours > 24) {
+            hours = 24;
         }
         Log.d("Sovellus", this + " incremented " + lenghtMinutes + " minutes");
     }
 
     public String getInfo() {
-        return twoDigit.format(referenceHours) + " h | " + twoDigit.format(hours) + " h | " + twoDigit.format(resultHours) + " h";
+        String outRefHours = twoDigit.format(referenceHours);
+        String outHours = twoDigit.format(hours);
+        return outRefHours + " h | " + outHours + " h";
     }
 
     public String getTimeReference() {
         if (referenceHours == -1) {
             return "Ei suositusta";
         } else {
-            if (needMoreThan == true) {
+            if (needMoreThan) {
                 return "Suositus yli " + twoDigit.format(referenceHours) + "h";
             } else {
                 return "Suositus alle " + twoDigit.format(referenceHours) + "h";
@@ -75,19 +74,27 @@ public class Action {
         return "Keskiarvosi " + twoDigit.format(hours) + "h";
     }
 
+    public String getTimeAverageLv() {
+        return "  Keskiarvosi " + twoDigit.format(hours) + "h";
+    }
+
     public String getTimeResult() {
         if (referenceHours == -1) {
             return "Sopiva";
         } else {
             if (needMoreThan == true) {
 
-                if (referenceHours > hours) {
+                if (hours > 20) {
+                    return "Vääristynyt";
+                } else if (referenceHours > hours) {
                     return "Alle suosituksen";
                 } else {
                     return "Sopiva";
                 }
             } else {
-                if (referenceHours < hours) {
+                if (hours > 20) {
+                    return "Vääristynyt";
+                } else if (referenceHours < hours) {
                     return "Yli suosituksen";
                 } else {
                     return "Sopiva";
@@ -96,7 +103,7 @@ public class Action {
         }
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 

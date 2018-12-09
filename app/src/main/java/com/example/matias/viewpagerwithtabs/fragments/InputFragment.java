@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -131,10 +132,10 @@ public class InputFragment extends Fragment {
                     runningActivity = activityName;
                     prefEditor.putString("runningActivity", runningActivity);
 
-                    if(today.minute<10){
+                    if (today.minute < 10) {
                         time.setText(activityName + " aloitettu  \n" + today.hour + ":0" + today.minute);
                         prefEditor.putString("startInfo", activityName + " aloitettu  \n" + today.hour + ":0" + today.minute);
-                    }else{
+                    } else {
                         time.setText(activityName + " aloitettu  \n" + today.hour + ":" + today.minute);
                         prefEditor.putString("startInfo", activityName + " aloitettu  \n" + today.hour + ":" + today.minute);
                     }
@@ -193,13 +194,15 @@ public class InputFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     customTime = Integer.parseInt(timeInput);
-                    if (customTime > 0 ) {
+                    if (customTime > 0) {
                         ActionList.getInstance().addAction(selectedAction, customTime);
+                        String actvityAdded = "Aktiviteetti\n" + ActionList.getInstance().getActivities().get(selectedAction).getType() + "\n" + customTime + "min lisätty";
                         Log.d("Sovellus", "Aikaa syötetty: " + customTime);
 
-                        Toast.makeText(getContext(), "Aktiviteetti lisätty",
+                        Toast.makeText(getContext(), actvityAdded,
                                 Toast.LENGTH_SHORT).show();
-                                saveData();
+                        closeKeyboard();
+                        saveData();
                     } else {
                         Toast.makeText(getContext(), "Virheellinen aika",
                                 Toast.LENGTH_SHORT).show();
@@ -224,6 +227,8 @@ public class InputFragment extends Fragment {
                 Toast.makeText(getContext(), "Aktiviteetti tyhjennetty",
                         Toast.LENGTH_SHORT).show();
 
+                closeKeyboard();
+
                 isTimer = false;
 
                 prefEditor.putBoolean("isTimer", false);
@@ -246,8 +251,8 @@ public class InputFragment extends Fragment {
 
         //Update user's actionList array
         loadData();
-        
-        
+
+
         TextView hello = v.findViewById(R.id.tvHello);
         hello.setText("Hei " + UserList.getInstance().getCurrentUser().getName() + "!");
         //time.setText(hours + ":" + minutes);
@@ -269,7 +274,7 @@ public class InputFragment extends Fragment {
         }
 
         dataAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, actionList);
-        
+
         Spinner spinner = (Spinner) v.findViewById(R.id.spinnerActions);
 
         // Drop down layout style - list view with radio button
@@ -301,7 +306,7 @@ public class InputFragment extends Fragment {
         });
     }
 
-    private void saveData(){
+    private void saveData() {
         UsersActionList = "user " + UserList.getInstance().getCurrentUser() + " actionList";
         actionList = ActionList.getInstance().getActivities();
         listGson = new Gson();
@@ -311,17 +316,18 @@ public class InputFragment extends Fragment {
         Log.d("Sovellus", "Data saved: " + json);
     }
 
-    private void loadData(){
+    private void loadData() {
         UsersActionList = "user " + UserList.getInstance().getCurrentUser() + " actionList";
         listGson = new Gson();
         json = pref.getString(UsersActionList, null);
-        Type type = new TypeToken<ArrayList<Action>>(){}.getType();
+        Type type = new TypeToken<ArrayList<Action>>() {
+        }.getType();
         actionList = listGson.fromJson(json, type);
 
         /**
          * If we cannot find any arraylist, use the default list. Else use the list found from memory.
          */
-        if(actionList == null) {
+        if (actionList == null) {
             Log.d("Sovellus", "actionList null");
 
             //Change ActionList array into defaultList
@@ -339,5 +345,10 @@ public class InputFragment extends Fragment {
             actionList = ActionList.getInstance().getActivities();
 
         }*/
+    }
+
+    public void closeKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }
