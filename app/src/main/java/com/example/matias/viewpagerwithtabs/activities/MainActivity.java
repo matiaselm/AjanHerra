@@ -36,14 +36,15 @@ public class MainActivity extends AppCompatActivity {
     private int currentYear;
     private String selectedName;
     private int selectedYear;
-    SharedPreferences prefUsers;
-    SharedPreferences.Editor prefEditor;
+
     private String currentUser;
     private Spinner spinnerAge;
     private Spinner spinnerSex;
     private boolean isAutomaticLogin;
     private ArrayList userList;
 
+    SharedPreferences prefUsers;
+    SharedPreferences.Editor prefEditor;
     Gson listGson;
     String json;
 

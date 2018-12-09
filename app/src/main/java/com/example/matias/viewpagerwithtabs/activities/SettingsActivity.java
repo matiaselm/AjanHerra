@@ -1,6 +1,8 @@
 package com.example.matias.viewpagerwithtabs.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,8 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.matias.viewpagerwithtabs.R;
+import com.example.matias.viewpagerwithtabs.classes.User;
 import com.example.matias.viewpagerwithtabs.singletons.UserList;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +41,11 @@ public class SettingsActivity extends AppCompatActivity {
     private int selectedSex;
 
     EditText editName;
+    private ArrayList userList;
+    SharedPreferences prefUsers;
+    SharedPreferences.Editor prefEditor;
+    Gson listGson;
+    String json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +154,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onResume();
 
         getUser();
+        loadPreferences();
     }
 
     public void getUser() {
@@ -161,6 +173,20 @@ public class SettingsActivity extends AppCompatActivity {
                 Toast.LENGTH_LONG).show();
     }
 
+    public void savePreferences(){
+        userList = UserList.getInstance().getUsers();
+        listGson = new Gson();
+        json = listGson.toJson(userList);
+        Log.d("Sovellus", "Users saved: " + json);
+        prefEditor.putString("userList", json);
+        prefEditor.commit();
+    }
+
+    public void loadPreferences(){
+        prefUsers = getSharedPreferences("Users", Activity.MODE_PRIVATE);
+        prefEditor = prefUsers.edit();
+    }
+
     public void changeSettings() {
         Log.d("Sovellus", "Changed user settings " + UserList.getInstance().getCurrentUser().getName() + " Name " + selectedName + " Year of birth " + selectedYear + " Gender " + selectedSex);
         UserList.getInstance().getCurrentUser().setSex(selectedSex);
@@ -169,6 +195,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         Toast.makeText(thisActivity, "Saved user settings " + UserList.getInstance().getCurrentUser().getName() + " Name " + selectedName + " Year of birth " + selectedYear + " Gender " + selectedSex,
                 Toast.LENGTH_LONG).show();
+
+        savePreferences();
 
         //    Toast.makeText(thisActivity, "Tallennus onnistui!",
         //            Toast.LENGTH_SHORT).show();
