@@ -64,7 +64,7 @@ public class InputFragment extends Fragment {
     String activityName;
     String runningActivity;
     ArrayList actionList;
-    String feedActionList;
+    String UsersActionList;
     String cUser;
 
     ArrayAdapter<String> dataAdapter;
@@ -114,14 +114,6 @@ public class InputFragment extends Fragment {
         //Tähän joku tapa määritellä actionList siten että se ei ole sama joka kerta
 
         loadData();
-
-        Spinner spinner = (Spinner) v.findViewById(R.id.spinnerActions);
-
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
 
         start = v.findViewById(R.id.startButton);
         today = new Time(Time.getCurrentTimezone());
@@ -190,28 +182,6 @@ public class InputFragment extends Fragment {
 
         //GetCurrentTimeInMillis;
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view,
-                                       int position, long id) {
-                // Object item = adapterView.getItemAtPosition(position);
-                // if (item != null) {
-                //    Toast.makeText(InputActivity.this, item.toString(),
-                //            Toast.LENGTH_SHORT).show();
-                //}
-                selectedAction = position;
-                Log.d("Sovellus", "Valittu aktiviteetti: " + Integer.toString(selectedAction));
-                activityName = ActionList.getInstance().getActivities().get(selectedAction).getType();
-                Log.d("Sovellus", activityName);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                // TODO Auto-generated method stub
-            }
-        });
-
         v.findViewById(R.id.addInput).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -273,9 +243,11 @@ public class InputFragment extends Fragment {
         //cUser = String.valueOf(UserList.getInstance().getCurrentUser());
 
         Log.d("Sovellus", "Current user: " + cUser);
-        //feedActionList = "user " + cUser + " actionList";
 
+        //Update user's actionList array
         loadData();
+        
+        
         TextView hello = v.findViewById(R.id.tvHello);
         hello.setText("Hei " + UserList.getInstance().getCurrentUser().getName() + "!");
         //time.setText(hours + ":" + minutes);
@@ -295,36 +267,71 @@ public class InputFragment extends Fragment {
             time.setText("Valitse uusi aktiviteetti ja aloita se painamalla \"aloita\"");
 
         }
+
+        dataAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, actionList);
+        
+        Spinner spinner = (Spinner) v.findViewById(R.id.spinnerActions);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view,
+                                       int position, long id) {
+                // Object item = adapterView.getItemAtPosition(position);
+                // if (item != null) {
+                //    Toast.makeText(InputActivity.this, item.toString(),
+                //            Toast.LENGTH_SHORT).show();
+                //}
+                selectedAction = position;
+                Log.d("Sovellus", "Valittu aktiviteetti: " + Integer.toString(selectedAction));
+                activityName = ActionList.getInstance().getActivities().get(selectedAction).getType();
+                Log.d("Sovellus", activityName);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     private void saveData(){
+        UsersActionList = "user " + UserList.getInstance().getCurrentUser() + " actionList";
         actionList = ActionList.getInstance().getActivities();
         listGson = new Gson();
         String json = listGson.toJson(actionList);
-        prefEditor.putString(feedActionList, json);
+        prefEditor.putString(UsersActionList, json);
         prefEditor.apply();
         Log.d("Sovellus", "Data saved: " + json);
     }
 
     private void loadData(){
-        cUser = String.valueOf(UserList.getInstance().getCurrentUser());
-        feedActionList = "user " + cUser + " actionList";
+        UsersActionList = "user " + UserList.getInstance().getCurrentUser() + " actionList";
         listGson = new Gson();
-        json = pref.getString(feedActionList, null);
+        json = pref.getString(UsersActionList, null);
         Type type = new TypeToken<ArrayList<Action>>(){}.getType();
         actionList = listGson.fromJson(json, type);
 
+        /**
+         * If we cannot find any arraylist, use the default list. Else use the list found from memory.
+         */
         if(actionList == null) {
             Log.d("Sovellus", "actionList null");
-            //Use default list
-            actionList = ActionList.getInstance().getActivities();
-            dataAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, actionList);
-        } else {
 
+            //Change ActionList array into defaultList
+            ActionList.getInstance().setDefaultList();
+            actionList = ActionList.getInstance().getActivities();
+            Log.d("Sovellus", "Data loaded: " + json);
+            saveData();
+        } else {
             ActionList.getInstance().setActivities(actionList);
             Log.d("Sovellus", "Data loaded: " + json);
-            dataAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, actionList);
-
         }
         /*if(actionList == null){
             Log.d("Sovellus", "actionList null");
