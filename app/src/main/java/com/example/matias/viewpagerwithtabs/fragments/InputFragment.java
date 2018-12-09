@@ -64,6 +64,8 @@ public class InputFragment extends Fragment {
     String activityName;
     String runningActivity;
     ArrayList actionList;
+    String feedActionList;
+    String cUser;
 
     Gson listGson;
     String json;
@@ -103,7 +105,15 @@ public class InputFragment extends Fragment {
         prefEditor = pref.edit();
         time = v.findViewById(R.id.timeView);
 
+        cUser = String.valueOf(UserList.getInstance().getCurrentUser());
+        feedActionList = "user " + cUser + " actionList";
+
         //actionList = ActionList.getInstance().getActivities();
+
+
+        //Ei voi kutsia actionList ennenkuin se on luotu/määritelty!!
+        //Tähän joku tapa määritellä actionList siten että se ei ole sama joka kerta
+
         loadData();
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, actionList);
@@ -118,6 +128,7 @@ public class InputFragment extends Fragment {
 
         start = v.findViewById(R.id.startButton);
         today = new Time(Time.getCurrentTimezone());
+
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -288,25 +299,36 @@ public class InputFragment extends Fragment {
         actionList = ActionList.getInstance().getActivities();
         listGson = new Gson();
         String json = listGson.toJson(actionList);
-        prefEditor.putString("actionList", json);
+        prefEditor.putString(feedActionList, json);
         prefEditor.apply();
         Log.d("Sovellus", "Data saved: " + json);
     }
 
     private void loadData(){
         listGson = new Gson();
-        json = pref.getString("actionList", null);
+        json = pref.getString(feedActionList, null);
         Type type = new TypeToken<ArrayList<Action>>(){}.getType();
         actionList = listGson.fromJson(json, type);
 
-        if(actionList == null){
+        if(actionList == null) {
+            Log.d("Sovellus", "actionList null");
+            //Use default list
+            actionList = ActionList.getInstance().getActivities();
+        } else {
+
+            ActionList.getInstance().setActivities(actionList);
+            Log.d("Sovellus", "Data loaded: " + json);
+
+        }
+        
+        ActionList.getInstance().setActivities(actionList);
+        Log.d("Sovellus", "Data loaded: " + json);
+
+        /*if(actionList == null){
             Log.d("Sovellus", "actionList null");
             //Use default list
             actionList = ActionList.getInstance().getActivities();
 
-        } else {
-            ActionList.getInstance().setActivities(actionList);
-            Log.d("Sovellus", "Data loaded: " + json);
-        }
+        }*/
     }
 }
