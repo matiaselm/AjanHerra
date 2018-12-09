@@ -298,13 +298,15 @@ public class InputFragment extends Fragment {
         json = pref.getString("actionList", null);
         Type type = new TypeToken<ArrayList<Action>>(){}.getType();
         actionList = listGson.fromJson(json, type);
-        ActionList.getInstance().setActivities(actionList);
-        Log.d("Sovellus", "Data loaded: " + json);
 
         if(actionList == null){
             Log.d("Sovellus", "actionList null");
-            actionList = new ArrayList<>();
+            //Use default list
+            actionList = ActionList.getInstance().getActivities();
 
+        } else {
+            ActionList.getInstance().setActivities(actionList);
+            Log.d("Sovellus", "Data loaded: " + json);
         }
     }
 }

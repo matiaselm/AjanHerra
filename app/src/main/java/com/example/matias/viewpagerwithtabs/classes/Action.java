@@ -81,13 +81,13 @@ public class Action {
         } else {
             if (needMoreThan == true) {
 
-                if (referenceHours > resultHours) {
+                if (referenceHours > hours) {
                     return "Alle suosituksen";
                 } else {
                     return "Sopiva";
                 }
             } else {
-                if (referenceHours < resultHours) {
+                if (referenceHours < hours) {
                     return "Yli suosituksen";
                 } else {
                     return "Sopiva";
