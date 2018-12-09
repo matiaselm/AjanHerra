@@ -187,8 +187,8 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
 
             case R.id.action_logout:
-                Toast.makeText(this, "Kirjauduit ulos",
-                        Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Kirjauduit ulos",
+                //        Toast.LENGTH_SHORT).show();
                 // SharedPreferences.Editor prefEditor;
                 // prefEditor = MainActivity.prefUsers.edit();
                 // prefEditor.putInt("currentUser", -1);

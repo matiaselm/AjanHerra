@@ -58,8 +58,8 @@ public class MainActivityTabs extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Toast.makeText(this, "Asetukset",
-                        Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Asetukset",
+                //        Toast.LENGTH_SHORT).show();
 
                 Intent settingsActivity = new Intent(this, SettingsActivity.class);
                 startActivity(settingsActivity);
@@ -71,8 +71,8 @@ public class MainActivityTabs extends AppCompatActivity {
                 break;
 
             case R.id.action_logout:
-                Toast.makeText(this, "Kirjauduit ulos",
-                        Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Kirjauduit ulos",
+                //        Toast.LENGTH_SHORT).show();
                 // SharedPreferences.Editor prefEditor;
                 // prefEditor = MainActivity.prefUsers.edit();
                 // prefEditor.putInt("currentUser", -1);
