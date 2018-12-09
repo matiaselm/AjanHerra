@@ -65,8 +65,14 @@ public class InputFragment extends Fragment {
     String activityName;
     String runningActivity;
     ArrayList actionList;
+
     String UsersActionList;
-    String cUser;
+
+    String userIsTimer;
+    String userStartInfo;
+    String userRunningActivity;
+    String userStartTime;
+    String userRunningActivityInt;
 
     ArrayAdapter<String> dataAdapter;
 
@@ -104,8 +110,10 @@ public class InputFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_input, container, false);
 
         pref = this.getActivity().getSharedPreferences("time", Activity.MODE_PRIVATE);
-        isTimer = pref.getBoolean("isTimer", false);
         prefEditor = pref.edit();
+        userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "isTimer";
+        isTimer = pref.getBoolean(userIsTimer, false);
+
         time = v.findViewById(R.id.timeView);
 
         //actionList = ActionList.getInstance().getActivities();
@@ -130,22 +138,31 @@ public class InputFragment extends Fragment {
 
                     today.setToNow();
                     runningActivity = activityName;
-                    prefEditor.putString("runningActivity", runningActivity);
+
+                    userRunningActivity = "user" + UserList.getInstance().getCurrentUser() + "RunningActivity";
+                    userStartTime = "user" + UserList.getInstance().getCurrentUser() + "startTime";
+                    userRunningActivityInt = "user" + UserList.getInstance().getCurrentUser() + "runningActivityInt";
+
+                    prefEditor.putString(userRunningActivity, runningActivity);
+                    userStartInfo = "user" + UserList.getInstance().getCurrentUser() + "startInfo";
 
                     if (today.minute < 10) {
-                        time.setText(activityName + " aloitettu  \n" + today.hour + ":0" + today.minute);
-                        prefEditor.putString("startInfo", activityName + " aloitettu  \n" + today.hour + ":0" + today.minute);
+                        String addTimeText = runningActivity + " aloitettu  \n" + today.hour + ":0" + today.minute;
+                        time.setText (addTimeText);
+                        prefEditor.putString(userStartInfo, addTimeText);
                     } else {
-                        time.setText(activityName + " aloitettu  \n" + today.hour + ":" + today.minute);
-                        prefEditor.putString("startInfo", activityName + " aloitettu  \n" + today.hour + ":" + today.minute);
+                        String addTimeText2 = runningActivity + " aloitettu  \n" + today.hour + ":" + today.minute;
+                        time.setText(addTimeText2);
+                        prefEditor.putString(userStartInfo, addTimeText2);
                     }
 
-                    prefEditor.putLong("starttime", startTime);
-                    prefEditor.putInt("startTimeActivity", selectedAction);
+                    prefEditor.putLong(userStartTime, startTime);
+                    prefEditor.putInt(userRunningActivityInt, selectedAction);
 
                     isTimer = true;
                     start.setText("Lopeta");
-                    prefEditor.putBoolean("isTimer", true);
+                    userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "isTimer";
+                    prefEditor.putBoolean(userIsTimer, true);
                     prefEditor.apply();
 
                     Log.d("Sovellus", "Aloitettu aktiviteetti: " + Integer.toString(selectedAction));
@@ -153,15 +170,20 @@ public class InputFragment extends Fragment {
                 } else if (isTimer == true) {
                     Log.d("Sovellus", "else if");
 
-                    Long startTimeMemory = pref.getLong("starttime", 0);
-                    int savedActivity = pref.getInt("startTimeActivity", 0);
-                    runningActivity = pref.getString("runningActivity", "");
+                    userRunningActivity = "user" + UserList.getInstance().getCurrentUser() + "RunningActivity";
+
+                    userStartTime = "user" + UserList.getInstance().getCurrentUser() + "startTime";
+
+                    Long startTimeMemory = pref.getLong(userStartTime, 0);
+                    int savedActivity = pref.getInt(userRunningActivityInt, 0);
+                    runningActivity = pref.getString(userRunningActivity, "");
 
                     endTime = System.currentTimeMillis() / 1000 / 60;
                     Log.d("Sovellus", "Endtime " + String.valueOf(endTime));
 
                     isTimer = false;
-                    prefEditor.putBoolean("isTimer", false);
+                    userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "isTimer";
+                    prefEditor.putBoolean(userIsTimer, false);
                     start.setText("Aloita");
 
                     Long dtime = endTime - startTimeMemory;
@@ -172,8 +194,11 @@ public class InputFragment extends Fragment {
                     Log.d("Sovellus", "Current savedActivity: " + Integer.toString(savedActivity));
                     ActionList.getInstance().addAction(savedActivity, sendTime);
 
-                    Toast.makeText(getContext(), "Aktiviteettiin lisätty: \n" + sendTime + " minuuttia",
+                    String activityAdded = "Lisätty\n" + sendTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(savedActivity).getType();
+                    Toast.makeText(getContext(), activityAdded,
                             Toast.LENGTH_SHORT).show();
+
+                    Log.d("Sovellus", activityAdded);
 
                     saveData();
                     prefEditor.apply();
@@ -196,10 +221,10 @@ public class InputFragment extends Fragment {
                     customTime = Integer.parseInt(timeInput);
                     if (customTime > 0) {
                         ActionList.getInstance().addAction(selectedAction, customTime);
-                        String actvityAdded = "Aktiviteetti\n" + ActionList.getInstance().getActivities().get(selectedAction).getType() + "\n" + customTime + "min lisätty";
-                        Log.d("Sovellus", "Aikaa syötetty: " + customTime);
+                        String activityAdded = "Lisätty\n" + customTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(selectedAction).getType();
+                        Log.d("Sovellus", activityAdded);
 
-                        Toast.makeText(getContext(), actvityAdded,
+                        Toast.makeText(getContext(), activityAdded,
                                 Toast.LENGTH_SHORT).show();
                         closeKeyboard();
                         saveData();
@@ -230,8 +255,8 @@ public class InputFragment extends Fragment {
                 closeKeyboard();
 
                 isTimer = false;
-
-                prefEditor.putBoolean("isTimer", false);
+                userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "isTimer";
+                prefEditor.putBoolean(userIsTimer, false);
                 prefEditor.apply();
             }
         });
@@ -245,9 +270,8 @@ public class InputFragment extends Fragment {
         super.onResume();
 
         Log.d("Sovellus", "Input onResume");
-        //cUser = String.valueOf(UserList.getInstance().getCurrentUser());
 
-        Log.d("Sovellus", "Current user: " + cUser);
+        Log.d("Sovellus", "Current user: " + UserList.getInstance().getCurrentUser());
 
         //Update user's actionList array
         loadData();
@@ -257,14 +281,17 @@ public class InputFragment extends Fragment {
         hello.setText("Hei " + UserList.getInstance().getCurrentUser().getName() + "!");
         //time.setText(hours + ":" + minutes);
 
-        isTimer = pref.getBoolean("isTimer", false);
+        userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "isTimer";
+        isTimer = pref.getBoolean(userIsTimer, false);
 
         Log.d("Sovellus", "isTimer = " + Boolean.toString(isTimer));
 
         if (isTimer == true) {
 
             start.setText("Lopeta");
-            time.setText(pref.getString("startInfo", "e"));
+
+            userStartInfo = "user" + UserList.getInstance().getCurrentUser() + "startInfo";
+            time.setText(pref.getString(userStartInfo, "e"));
 
         } else if (isTimer == false) {
 
@@ -307,7 +334,7 @@ public class InputFragment extends Fragment {
     }
 
     private void saveData() {
-        UsersActionList = "user " + UserList.getInstance().getCurrentUser() + " actionList";
+        UsersActionList = "user" + UserList.getInstance().getCurrentUser() + "actionList";
         actionList = ActionList.getInstance().getActivities();
         listGson = new Gson();
         String json = listGson.toJson(actionList);
@@ -317,7 +344,7 @@ public class InputFragment extends Fragment {
     }
 
     private void loadData() {
-        UsersActionList = "user " + UserList.getInstance().getCurrentUser() + " actionList";
+        UsersActionList = "user" + UserList.getInstance().getCurrentUser() + "actionList";
         listGson = new Gson();
         json = pref.getString(UsersActionList, null);
         Type type = new TypeToken<ArrayList<Action>>() {
@@ -348,7 +375,12 @@ public class InputFragment extends Fragment {
     }
 
     public void closeKeyboard() {
-        InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+        try {
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        } catch (Exception e) {
+        }
+
     }
 }
