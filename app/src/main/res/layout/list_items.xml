@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content" android:orientation="vertical"
+    android:layout_height="55dp" android:orientation="vertical"
     android:layout_width="fill_parent">
 
     <TableRow android:layout_width="fill_parent"
@@ -12,7 +12,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:height="30sp"
+            android:height="30dp"
             android:gravity="left"
             android:text="id"
             android:textColor="@color/colorAccent3"
@@ -29,7 +29,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:height="20sp"
+            android:height="25dp"
             android:text="categoryId"
             android:textColor="@color/colorAccent3"
             android:textSize="16sp" />
@@ -39,8 +39,9 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:height="20sp"
+            android:height="25dp"
             android:text="categoryId"
+            android:textAlignment="center"
             android:textColor="@color/colorAccent3"
             android:textSize="16sp" />
 
@@ -49,7 +50,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:height="20sp"
+            android:height="25dp"
             android:gravity="right"
             android:text="description"
             android:textColor="@color/colorAccent3"
