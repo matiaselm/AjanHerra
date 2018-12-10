@@ -10,6 +10,7 @@ public class User {
     private int yearOfBirth;
     private String sex;
     private int sexInt;
+    private long FirstLoginTime;
 
     /**
      *New user is created
@@ -49,6 +50,14 @@ public class User {
         Log.d("Sovel", Integer.toString(currentYear) + Integer.toString(yearOfBirth));
 
         return this.age;
+    }
+
+    public long getFirstLoginTime() {
+        return FirstLoginTime;
+    }
+
+    public void setFirstLoginTime(long firstLoginTime) {
+        FirstLoginTime = firstLoginTime;
     }
 
     public int getYearOfBirth() {

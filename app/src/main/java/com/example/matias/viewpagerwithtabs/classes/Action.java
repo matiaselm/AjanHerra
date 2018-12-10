@@ -2,6 +2,8 @@ package com.example.matias.viewpagerwithtabs.classes;
 
 import android.util.Log;
 
+import com.example.matias.viewpagerwithtabs.singletons.UserList;
+
 import java.text.DecimalFormat;
 
 public class Action {
@@ -68,39 +70,38 @@ public class Action {
         }
     }
 
-    public String getTimeAverage() {
-        this.currentTime = System.currentTimeMillis();
-        long days = (currentTime - firstTime) / (1000 * 60 * 60 * 24);
+    /**
+     * Calculates and returns average hours ->
+     * total time divided by rounded down days(1,99 = 1)
+     * @return Average hours
+     */
+    public double calculateAverageTime(){
+        firstTime = UserList.getInstance().getCurrentUser().getFirstLoginTime();
+        currentTime = System.currentTimeMillis();
+        double totalTime = (currentTime  - firstTime) / 1000.0 / 60.0 / 60.0 / 24.0;
+        //It's been a ...
+        long days = (long)totalTime;
+
 
         if(days < 1){ days = 1; }
-        
-        averageHours = totalTimeMinutes / 60 / days;
+
+        averageHours = totalTimeMinutes / 60.0 / days;
         if (averageHours > 24) {
             averageHours = 24;
         }
 
-        return "Keskiarvosi " + twoDigit.format(averageHours) + "h";
+        Log.d("Sovellus", "Day calculator = (" + currentTime + "-" + firstTime + ") / 1000 / 60 / 60 / 24 ="+ totalTime + "="+ days+ "days");
+        Log.d("Sovellus", "Average hours = " + totalTimeMinutes + "min / 60 / " + days +  "days =" + averageHours);
+
+        return averageHours;
+    }
+
+    public String getTimeAverage() {
+        return "Keskiarvosi " + twoDigit.format(calculateAverageTime()) + "h";
     }
 
     public String getTimeAverageLv() {
-        this.currentTime = System.currentTimeMillis();
-        long days = (currentTime - firstTime) / 1000 / 60 / 60 / 24;
-
-        Log.d("Sovellus", "Current time: " + String.valueOf(currentTime));
-        Log.d("Sovellus", "First time: " + String.valueOf(firstTime));
-
-        Log.d("Sovellus", "getTimeAverage 1st " + days);
-
-        if(days < 1){ days = 1; }
-
-        averageHours = totalTimeMinutes / 60 / days;
-        if (averageHours > 24) {
-            averageHours = 24;
-
-        }
-
-        Log.d("Sovellus", "getTimeAverage 2nd " + days);
-        return twoDigit.format(averageHours) + "h";
+        return twoDigit.format(calculateAverageTime()) + "h";
     }
 
     public String getTimeResult() {

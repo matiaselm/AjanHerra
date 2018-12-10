@@ -270,6 +270,8 @@ public class MainActivity extends AppCompatActivity {
 
         UserList.getInstance().setCurrentUser(selectedUserInt);
 
+        UserList.getInstance().getCurrentUser().setFirstLoginTime(System.currentTimeMillis());
+
         Log.d("Sovellus", "Added user as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex());
 
         changeActivityPrep();
