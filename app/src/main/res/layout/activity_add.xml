@@ -4,6 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AddActivity">
+    tools:context=".activities.AddActivity"
+    android:background="@drawable/background">
+
+    <include
+        layout = "@layout/toolbar_info_return"
+        android:id = "@+id/returnBar"></include>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="82dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/colorAccent"
+        android:textSize="46sp"
+        android:typeface="serif"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="aktiviteetti" />
+
+    <TextView
+        android:id="@+id/reference3"
+        android:layout_width="135dp"
+        android:layout_height="38dp"
+        android:text="Päivittäin:"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/average"
+        tools:layout_editor_absoluteX="45dp" />
+
+    <TextView
+        android:id="@+id/average"
+        android:layout_width="170dp"
+        android:layout_height="38dp"
+        android:text="TextView"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="205dp"
+        tools:layout_editor_absoluteY="218dp" />
+
+    <TextView
+        android:id="@+id/additional"
+        android:layout_width="294dp"
+        android:layout_height="211dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="52dp"
+        android:gravity="center_horizontal"
+        android:paddingTop="20dp"
+        android:text="TextView"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Tähän tulee sitten tekstiä jonkin verran, kuten lisätietoja tämänhetkisestä aktiviteetista" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="195dp" />
 
 </android.support.constraint.ConstraintLayout>

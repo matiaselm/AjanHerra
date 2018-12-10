@@ -8,6 +8,12 @@
 
     </item>
     <item
+        android:id="@+id/action_add_action"
+        android:title="@string/add_action"
+        app:showAsAction="never">
+
+    </item>
+    <item
         android:id="@+id/action_info"
         android:title="@string/info"
         app:showAsAction="never">
