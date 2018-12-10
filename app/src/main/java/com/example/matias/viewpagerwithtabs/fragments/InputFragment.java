@@ -209,55 +209,17 @@ public class InputFragment extends Fragment {
                 if (hourInput.isEmpty() && minuteInput.isEmpty()) {
                     Toast.makeText(getContext(), "Syötä aika",
                             Toast.LENGTH_SHORT).show();
-                } else if(hourInput.isEmpty()) {
+                } else if (hourInput.isEmpty()) {
                     customTime = Integer.parseInt(minuteInput);
-                    if (customTime > 0) {
-                        ActionList.getInstance().addAction(selectedAction, customTime);
-                        String activityAdded = "Lisätty\n" + customTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(selectedAction).getType();
-                        Log.d("Sovellus", activityAdded);
-
-                        Toast.makeText(getContext(), activityAdded,
-                                Toast.LENGTH_SHORT).show();
-                        closeKeyboard();
-                        saveData();
-                    } else {
-                        Toast.makeText(getContext(), "Virheellinen aika",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                } else if(minuteInput.isEmpty()) {
+                    addTime(customTime);
+                } else if (minuteInput.isEmpty()) {
                     int hourInputMin = Integer.parseInt(hourInput) * 60;
-
                     customTime = hourInputMin;
-                    if (customTime > 0) {
-                        ActionList.getInstance().addAction(selectedAction, customTime);
-                        String activityAdded = "Lisätty\n" + customTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(selectedAction).getType();
-                        Log.d("Sovellus", activityAdded);
-
-                        Toast.makeText(getContext(), activityAdded,
-                                Toast.LENGTH_SHORT).show();
-                        closeKeyboard();
-                        saveData();
-                    } else {
-                        Toast.makeText(getContext(), "Virheellinen aika",
-                                Toast.LENGTH_SHORT).show();
-                    }
+                    addTime(customTime);
                 } else {
                     int hourInputMin = Integer.parseInt(hourInput) * 60;
                     customTime = hourInputMin + Integer.parseInt(minuteInput);
-
-                    if (customTime > 0) {
-                        ActionList.getInstance().addAction(selectedAction, customTime);
-                        String activityAdded = "Lisätty\n" + customTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(selectedAction).getType();
-                        Log.d("Sovellus", activityAdded);
-
-                        Toast.makeText(getContext(), activityAdded,
-                                Toast.LENGTH_SHORT).show();
-                        closeKeyboard();
-                        saveData();
-                    } else {
-                        Toast.makeText(getContext(), "Virheellinen aika",
-                                Toast.LENGTH_SHORT).show();
-                    }
+                    addTime(customTime);
                 }
             }
         });
@@ -303,7 +265,7 @@ public class InputFragment extends Fragment {
         TextView hello = v.findViewById(R.id.tvHello);
         hello.setText("Hei " + UserList.getInstance().getCurrentUser().getName() + "!");
         //time.setText(hours + ":" + minutes);
-        
+
         isTimer = prefActions.getBoolean(userIsTimer, false);
 
         Log.d("Sovellus", "isTimer = " + Boolean.toString(isTimer));
@@ -311,7 +273,7 @@ public class InputFragment extends Fragment {
         if (isTimer == true) {
 
             start.setText("Lopeta");
-            
+
             time.setText(prefActions.getString(userStartInfo, "e"));
 
         } else if (isTimer == false) {
@@ -371,6 +333,23 @@ public class InputFragment extends Fragment {
         usersLastActionSelection = "user" + getCurrentUserInt + "ActionListSelection";
     }
 
+    private void addTime(int customTime) {
+        if (customTime > 0 && customTime <= 1440) {
+            ActionList.getInstance().addAction(selectedAction, customTime);
+            String activityAdded = "Lisätty\n" + customTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(selectedAction).getType();
+            Log.d("Sovellus", activityAdded);
+
+            Toast.makeText(getContext(), activityAdded,
+                    Toast.LENGTH_SHORT).show();
+            closeKeyboard();
+            saveData();
+        } else {
+            Toast.makeText(getContext(), "Virheellinen aika",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     private void saveData() {
         updateUserSaveKeys();
         actionList = ActionList.getInstance().getActivities();
@@ -414,6 +393,6 @@ public class InputFragment extends Fragment {
             inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         } catch (Exception e) {
         }
-
     }
+
 }
