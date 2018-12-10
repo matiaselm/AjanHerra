@@ -8,19 +8,35 @@
     android:background="@drawable/background">
 
     <EditText
-        android:id="@+id/editText2"
-        android:layout_width="154dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:id="@+id/editText3"
+        android:layout_width="77dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="20dp"
+        android:backgroundTint="@color/colorAccent5"
         android:ems="10"
-        android:hint="Tavoiteaika"
+        android:gravity="center"
+        android:hint="H"
         android:inputType="textPersonName"
         android:textColorHint="@color/colorAccent"
-        android:backgroundTint="@color/colorAccent5"
+        app:layout_constraintBottom_toBottomOf="@+id/radioGroup2"
+        app:layout_constraintEnd_toEndOf="@+id/radioGroup2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/radioGroup2"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="153dp"
+        android:layout_height="36dp"
+        android:gravity="left|fill_vertical"
+        android:text="Tavoiteaika"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/editText3"
         app:layout_constraintEnd_toEndOf="@+id/editText"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintStart_toStartOf="@+id/editText" />
 
     <include
         layout = "@layout/toolbar_info_return"
@@ -52,17 +68,19 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="154dp"
+        android:layout_width="157dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="128dp"
         android:layout_marginEnd="200dp"
+        android:backgroundTint="@color/colorAccent5"
         android:ems="10"
+        android:gravity="left"
         android:hint="Aktiviteetin nimi"
         android:inputType="textPersonName"
         android:textColorHint="@color/colorAccent"
-        android:backgroundTint="@color/colorAccent5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextView" />
 
@@ -81,17 +99,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/editText"
         app:layout_constraintTop_toBottomOf="@+id/TextView"
-        app:layout_constraintVertical_bias="0.766" />
+        app:layout_constraintVertical_bias="0.586" />
 
     <RadioGroup
         android:id="@+id/radioGroup2"
         android:layout_width="136dp"
         android:layout_height="60dp"
         android:layout_marginStart="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText2"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/editText2"
-        app:layout_constraintVertical_bias="0.785">
+        tools:layout_editor_absoluteY="280dp">
         android:backgroundTint="@color/colorAccent5"
 
         <RadioButton
@@ -99,8 +115,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/colorAccent"
             android:backgroundTint="@color/colorAccent5"
+            android:textColor="@color/colorAccent"
             tools:text="Yli" />
 
         <RadioButton
@@ -108,43 +124,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/colorAccent"
             android:backgroundTint="@color/colorAccent5"
+            android:textColor="@color/colorAccent"
 
             tools:text="Alle" />
 
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="54dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textColor="@color/colorAccent"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="@+id/radioGroup2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.638"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/radioGroup2"
-        app:layout_constraintVertical_bias="0.727"
-        tools:text="H" />
-
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout"
-        android:layout_width="320dp"
+        android:layout_width="335dp"
         android:layout_height="100dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/radioGroup2"
-        app:layout_constraintStart_toStartOf="@+id/editText2"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/textView7">
 
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
