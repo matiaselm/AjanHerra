@@ -7,64 +7,41 @@
     tools:context=".activities.AddActivity"
     android:background="@drawable/background">
 
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="154dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Tavoiteaika"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/colorAccent"
+        android:backgroundTint="@color/colorAccent5"
+        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
     <include
         layout = "@layout/toolbar_info_return"
         android:id = "@+id/returnBar"></include>
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="82dp"
         android:layout_marginEnd="8dp"
-        android:text="TextView"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/colorAccent"
-        android:textSize="46sp"
+        android:textSize="30sp"
         android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="aktiviteetti" />
-
-    <TextView
-        android:id="@+id/reference3"
-        android:layout_width="135dp"
-        android:layout_height="38dp"
-        android:text="Päivittäin:"
-        android:textColor="@color/colorAccent"
-        android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/average"
-        tools:layout_editor_absoluteX="45dp" />
-
-    <TextView
-        android:id="@+id/average"
-        android:layout_width="170dp"
-        android:layout_height="38dp"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        android:textSize="24sp"
-        tools:layout_editor_absoluteX="205dp"
-        tools:layout_editor_absoluteY="218dp" />
-
-    <TextView
-        android:id="@+id/additional"
-        android:layout_width="294dp"
-        android:layout_height="211dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="52dp"
-        android:gravity="center_horizontal"
-        android:paddingTop="20dp"
-        android:text="TextView"
-        android:textColor="@color/colorAccent"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Tähän tulee sitten tekstiä jonkin verran, kuten lisätietoja tämänhetkisestä aktiviteetista" />
+        tools:text="Lisää oma aktiviteetti" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
@@ -72,5 +49,128 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="195dp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="154dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="200dp"
+        android:ems="10"
+        android:hint="Aktiviteetin nimi"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/colorAccent"
+        android:backgroundTint="@color/colorAccent5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextView" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="135dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Syötä aktiviteetin nimi sekä tavoiteaika"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/TextView"
+        app:layout_constraintVertical_bias="0.766" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="136dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText2"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/editText2"
+        app:layout_constraintVertical_bias="0.785">
+        android:backgroundTint="@color/colorAccent5"
+
+        <RadioButton
+            android:id="@+id/rdButtonYli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"
+            android:backgroundTint="@color/colorAccent5"
+            tools:text="Yli" />
+
+        <RadioButton
+            android:id="@+id/rdButtonAlle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"
+            android:backgroundTint="@color/colorAccent5"
+
+            tools:text="Alle" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="54dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="@+id/radioGroup2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.638"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/radioGroup2"
+        app:layout_constraintVertical_bias="0.727"
+        tools:text="H" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="335dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/radioGroup2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/editText2"
+        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintVertical_bias="0.0">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Lyhyt kuvaus lisättävästä aktiviteetista"
+            android:backgroundTint="@color/colorAccent5"
+            android:singleLine="false"
+            android:textColorHint="@color/colorAccent" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="120dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="save"
+        android:textColor="@color/colorAccent3"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="lisää" />
 
 </android.support.constraint.ConstraintLayout>
