@@ -1,7 +1,6 @@
 package com.example.matias.viewpagerwithtabs.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList userList;
 
     SharedPreferences prefUsers;
-    SharedPreferences.Editor prefEditor;
+    SharedPreferences.Editor prefUsersEditor;
     Gson listGson;
     String json;
 
@@ -56,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         selectedSex = 0;
         selectedYearInt = 0;
         isAutomaticLogin = true;
-
+        currentUser = "currentUser";
 
 
         Log.d("Sovellus", "On create");
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     selectedUserInt = -1;
                 } else {
-                    changeActivity();
+                    changeActivityPrep();
                 }
 
             }
@@ -179,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         loadUsers();
 
         //userList = UserList.getInstance().getUsers();
-        Log.d("Sovellus", "onResume");
+        Log.d("Sovellus", "MainActivity onResume");
 
         spinnerAge.setSelection(selectedYearInt);
         spinnerSex.setSelection(selectedSex);
@@ -193,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
             dataAdapterUser.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinnerUser.setAdapter(dataAdapterUser);
-            selectedUserInt = (prefUsers.getInt(currentUser, -1));
+
             spinnerUser.setSelection(selectedUserInt);
             spinnerUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -210,6 +208,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+        if (isAutomaticLogin){
+            tryAutomaticLogin();
+        }
     }
 
     private void saveUsers() {
@@ -217,14 +219,15 @@ public class MainActivity extends AppCompatActivity {
         listGson = new Gson();
         json = listGson.toJson(userList);
         Log.d("Sovellus", "Users saved: " + json);
-        prefEditor.putString("userList", json);
-        prefEditor.commit();
+        prefUsersEditor.putString("userList", json);
+
+        prefUsersEditor.commit();
 
     }
 
     public void loadUsers() {
         prefUsers = thisActivity.getSharedPreferences("Users", Activity.MODE_PRIVATE);
-        prefEditor = prefUsers.edit();
+        prefUsersEditor = prefUsers.edit();
 
         listGson = new Gson();
         json = prefUsers.getString("userList", null);
@@ -242,17 +245,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         selectedUserInt = (prefUsers.getInt(currentUser, -1));
-
-        tryAutomaticLogin();
     }
 
     /**
      * Login automatically if we have a current user set >=0 in SharedPreferences and automatic login is enabled.
      */
     private void tryAutomaticLogin() {
-        //if (isAutomaticLogin == true && selectedUserInt >= 0) {
-        //    changeActivity();
-        //}
+        int lastSelectedUserInt = (prefUsers.getInt(currentUser, -1));
+        Log.d("Sovellus", "Last Current user tested: " + lastSelectedUserInt);
+        if (lastSelectedUserInt >= 0) {
+            Log.d("Sovellus", "Testing automatic login Succeed");
+            selectedUserInt = lastSelectedUserInt;
+            UserList.getInstance().setCurrentUser(lastSelectedUserInt);
+            changeActivity();
+        } else {
+            Log.d("Sovellus", "Testing automatic login failed");
+        }
     }
 
     private void newUser() {
@@ -264,25 +272,23 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("Sovellus", "Added user as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex());
 
+        changeActivityPrep();
+    }
+
+    private void changeActivityPrep() {
+        saveUsers();
+
+        prefUsersEditor.putInt(currentUser, selectedUserInt);
+        prefUsersEditor.commit();
+        UserList.getInstance().setCurrentUser(selectedUserInt);
         changeActivity();
     }
 
-    private void changeActivity() {
-
-        saveUsers();
-
-        //Toast.makeText(MainActivity.this, "Tervetuloa " + UserList.getInstance().getCurrentUser().getName(),
-        //        Toast.LENGTH_SHORT).show();
-        currentUser = "currentUser";
-
-        prefEditor = thisActivity.prefUsers.edit();
-        prefEditor.putInt(currentUser, selectedUserInt);
-        prefEditor.commit();
-        UserList.getInstance().setCurrentUser(selectedUserInt);
+    private void changeActivity(){
         Log.d("Sovellus", "Logged in as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex()+ UserList.getInstance().getCurrentUser().getSexInt());
-
+        int newSelectedUserInt = (prefUsers.getInt(currentUser, -1));
+        Log.d("Sovellus", "New Current user: " + newSelectedUserInt);
         Intent nextActivity = new Intent(thisActivity, MainActivityTabs.class);
-        //Intent nextActivity = new Intent(thisActivity, Test.class);
         startActivity(nextActivity);
     }
 

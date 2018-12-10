@@ -1,5 +1,6 @@
 package com.example.matias.viewpagerwithtabs.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
@@ -7,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.matias.viewpagerwithtabs.R;
 import com.example.matias.viewpagerwithtabs.classes.ViewPagerAdapter;
+import com.example.matias.viewpagerwithtabs.singletons.UserList;
 
 public class MainActivityTabs extends AppCompatActivity {
 
@@ -71,12 +74,14 @@ public class MainActivityTabs extends AppCompatActivity {
                 break;
 
             case R.id.action_logout:
-                //Toast.makeText(this, "Kirjauduit ulos",
-                //        Toast.LENGTH_SHORT).show();
-                // SharedPreferences.Editor prefEditor;
-                // prefEditor = MainActivity.prefUsers.edit();
-                // prefEditor.putInt("currentUser", -1);
-                // prefEditor.commit();
+
+                SharedPreferences prefUsers = getSharedPreferences("Users", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor prefUsersEditor = prefUsers.edit();
+                prefUsersEditor.putInt("currentUser", -1);
+                prefUsersEditor.commit();
+
+                Log.d("Sovellus", "Logged out user" + UserList.getInstance().getCurrentUserInt());
+
                 Intent logoutActivity = new Intent(this, MainActivity.class);
                 startActivity(logoutActivity);
                 break;

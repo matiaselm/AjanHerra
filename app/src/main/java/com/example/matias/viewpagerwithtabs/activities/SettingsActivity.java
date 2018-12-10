@@ -59,6 +59,9 @@ public class SettingsActivity extends AppCompatActivity {
         //********************TOOLBAR STUFF ONLY***********************//
         Toolbar toolbar = findViewById(R.id.returnBar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         //********************TOOLBAR STUFF ONLY***********************//
 
         empty = null;
@@ -246,7 +249,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         prefUsersEditor.putInt("currentUser", -1);
         prefUsersEditor.commit();
-        saveUsers();
 
         Intent nextActivity = new Intent(thisActivity, MainActivity.class);
         startActivity(nextActivity);
@@ -295,6 +297,13 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     //********************TOOLBAR STUFF ONLY***********************//
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -320,12 +329,12 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
 
             case R.id.action_logout:
-                //Toast.makeText(this, "Kirjauduit ulos",
-                //        Toast.LENGTH_SHORT).show();
-                // SharedPreferences.Editor prefEditor;
-                // prefEditor = MainActivity.prefUsers.edit();
-                // prefEditor.putInt("currentUser", -1);
-                // prefEditor.commit();
+
+                prefUsersEditor.putInt("currentUser", -1);
+                prefUsersEditor.commit();
+
+                Log.d("Sovellus", "Logged out user" + UserList.getInstance().getCurrentUserInt());
+
                 Intent logoutActivity = new Intent(this, MainActivity.class);
                 startActivity(logoutActivity);
                 break;
