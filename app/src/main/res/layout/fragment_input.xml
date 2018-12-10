@@ -31,7 +31,7 @@
         android:id="@+id/addInput"
         android:layout_width="163dp"
         android:layout_height="93dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
@@ -41,8 +41,7 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/timeView2"
+        app:layout_constraintStart_toEndOf="@+id/timeView3"
         app:layout_constraintTop_toBottomOf="@+id/timeView"
         app:layout_constraintVertical_bias="0.493" />
 
@@ -77,39 +76,56 @@
 
     <EditText
         android:id="@+id/timeView2"
-        android:layout_width="163dp"
-        android:layout_height="93dp"
+        android:layout_width="76dp"
+        android:layout_height="92dp"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
-        android:hint="MIN"
+        android:hint="HH"
         android:inputType="number"
         android:textColor="@color/colorAccent3"
         android:textColorHint="@color/colorAccent"
         android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="@+id/addInput"
-        app:layout_constraintEnd_toEndOf="@+id/addActivity"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/addActivity"
-        app:layout_constraintTop_toTopOf="@+id/addInput"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
+        app:layout_constraintEnd_toStartOf="@+id/textView4"
+        app:layout_constraintStart_toStartOf="@+id/addActivity" />
 
+
+    <EditText
+        android:id="@+id/timeView3"
+        android:layout_width="85dp"
+        android:layout_height="92dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:gravity="center_vertical|center_horizontal"
+        android:hint="mm"
+        android:inputType="number"
+        android:textColor="@color/colorAccent3"
+        android:textColorHint="@color/colorAccent"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/rmInput"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/addActivity"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/rmInput"
         android:layout_width="163dp"
         android:layout_height="93dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/colorAccent4"
         android:text="Nollaa"
         android:textColor="@color/colorAccent"
         android:textSize="30sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/timeView2"
+        app:layout_constraintEnd_toEndOf="@+id/timeView3"
+        app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="@+id/timeView2"
         app:layout_constraintTop_toBottomOf="@+id/timeView2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.489" />
 
     <Button
         android:id="@+id/startButton"
@@ -132,6 +148,7 @@
         android:id="@+id/addActivity"
         android:layout_width="162dp"
         android:layout_height="81dp"
+        android:layout_marginTop="79dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="Lisää aktiviteetin kesto manuaalisesti minuuteina:"
@@ -140,7 +157,8 @@
         app:layout_constraintBottom_toTopOf="@+id/timeView2"
         app:layout_constraintEnd_toEndOf="@+id/startButton"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/startButton" />
+        app:layout_constraintStart_toStartOf="@+id/startButton"
+        app:layout_constraintTop_toBottomOf="@+id/startButton" />
 
     <TextView
         android:id="@+id/addActivity2"
@@ -152,10 +170,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/rmInput"
         app:layout_constraintEnd_toEndOf="@+id/addInput"
-        app:layout_constraintHorizontal_bias="0.692"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/addInput"
         app:layout_constraintTop_toTopOf="@+id/rmInput"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/timeView"
@@ -188,5 +206,18 @@
         app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toEndOf="@+id/spinnerActions"
         app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="12dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text=":"
+        android:textSize="50sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/timeView3"
+        app:layout_constraintEnd_toStartOf="@+id/timeView3"
+        app:layout_constraintStart_toEndOf="@+id/timeView2" />
 
 </android.support.constraint.ConstraintLayout>

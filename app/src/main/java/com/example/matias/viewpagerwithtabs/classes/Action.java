@@ -6,23 +6,23 @@ import java.text.DecimalFormat;
 
 public class Action {
     private String type;
-    private double time;
-    private double mins;
-    private double hours;
+    private double totalTimeMinutes;
+    private double averageHours;
     private boolean needMoreThan;
     private double referenceHours;
     private static DecimalFormat twoDigit = new DecimalFormat("#.##");
     private String description;
+    private long currentTime;
+    private long firstTime;
 
     public Action(String type, boolean needMoreThan, double refHours, String description) {
         this.type = type;
-        this.time = 0;
-        this.mins = 0;
-        this.hours = 0;
+        this.totalTimeMinutes = 0;
+        this.averageHours = 0;
         this.needMoreThan = needMoreThan;
         this.referenceHours = refHours;
         this.description = description;
-
+        this.currentTime = 0;
     }
 
     public void setRefHours(double refHours) {
@@ -37,29 +37,25 @@ public class Action {
         this.type = type;
     }
 
-    public double getTime() {
-        return time;
+    public double getTotalTimeMinutes() {
+        return totalTimeMinutes;
     }
 
-
     public void addTime(int lenghtMinutes) {
+        totalTimeMinutes = totalTimeMinutes + lenghtMinutes;
 
-
-        time = time + lenghtMinutes;
-        mins = time % 60;
-        hours = time / 60;
-        if (hours > 24) {
-            hours = 24;
+        if (firstTime == 0){
+            this.firstTime = System.currentTimeMillis();
         }
         Log.d("Sovellus", this + " incremented " + lenghtMinutes + " minutes");
     }
-
+/*
     public String getInfo() {
         String outRefHours = twoDigit.format(referenceHours);
-        String outHours = twoDigit.format(hours);
+        String outHours = twoDigit.format(averageHours);
         return outRefHours + " h | " + outHours + " h";
     }
-
+*/
     public String getTimeReference() {
         if (referenceHours == -1) {
             return "Ei tavoitetta";
@@ -73,11 +69,38 @@ public class Action {
     }
 
     public String getTimeAverage() {
-        return "Keskiarvosi " + twoDigit.format(hours) + "h";
+        this.currentTime = System.currentTimeMillis();
+        long days = (currentTime - firstTime) / (1000 * 60 * 60 * 24);
+
+        if(days < 1){ days = 1; }
+        
+        averageHours = totalTimeMinutes / 60 / days;
+        if (averageHours > 24) {
+            averageHours = 24;
+        }
+
+        return "Keskiarvosi " + twoDigit.format(averageHours) + "h";
     }
 
     public String getTimeAverageLv() {
-        return twoDigit.format(hours) + "h";
+        this.currentTime = System.currentTimeMillis();
+        long days = (currentTime - firstTime) / 1000 / 60 / 60 / 24;
+
+        Log.d("Sovellus", "Current time: " + String.valueOf(currentTime));
+        Log.d("Sovellus", "First time: " + String.valueOf(firstTime));
+
+        Log.d("Sovellus", "getTimeAverage 1st " + days);
+
+        if(days < 1){ days = 1; }
+
+        averageHours = totalTimeMinutes / 60 / days;
+        if (averageHours > 24) {
+            averageHours = 24;
+
+        }
+
+        Log.d("Sovellus", "getTimeAverage 2nd " + days);
+        return twoDigit.format(averageHours) + "h";
     }
 
     public String getTimeResult() {
@@ -86,17 +109,17 @@ public class Action {
         } else {
             if (needMoreThan == true) {
 
-                if (hours > 20) {
+                if (averageHours > 20) {
                     return "Vääristynyt";
-                } else if (referenceHours > hours) {
+                } else if (referenceHours > averageHours) {
                     return "Alle tavoitteen";
                 } else {
                     return "Sopiva";
                 }
             } else {
-                if (hours > 20) {
+                if (averageHours > 20) {
                     return "Vääristynyt";
-                } else if (referenceHours < hours) {
+                } else if (referenceHours < averageHours) {
                     return "Yli tavoitteen";
                 } else {
                     return "Sopiva";

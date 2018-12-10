@@ -9,7 +9,7 @@
 
         <TextView
             android:id="@+id/type"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:height="30dp"
@@ -42,7 +42,6 @@
             android:height="25dp"
             android:gravity="top|center_horizontal"
             android:text="categoryId"
-            android:textAlignment="center"
             android:textColor="@color/colorAccent3"
             android:textSize="20sp"
             android:textStyle="bold" />

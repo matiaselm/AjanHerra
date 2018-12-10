@@ -60,7 +60,8 @@ public class InputFragment extends Fragment {
 
     int finalValue;
     int customTime;
-    EditText cTime;
+    EditText timeHours;
+    EditText timeMinutes;
     TextView vTime;
 
     String activityName;
@@ -199,13 +200,51 @@ public class InputFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                cTime = (EditText) v.findViewById(R.id.timeView2);
-                String timeInput = cTime.getText().toString();
-                if (timeInput.isEmpty()) {
+                timeHours = (EditText) v.findViewById(R.id.timeView2);
+                timeMinutes = (EditText) v.findViewById(R.id.timeView3);
+
+                String hourInput = timeHours.getText().toString();
+                String minuteInput = timeMinutes.getText().toString();
+
+                if (hourInput.isEmpty() && minuteInput.isEmpty()) {
                     Toast.makeText(getContext(), "Syötä aika",
                             Toast.LENGTH_SHORT).show();
+                } else if(hourInput.isEmpty()) {
+                    customTime = Integer.parseInt(minuteInput);
+                    if (customTime > 0) {
+                        ActionList.getInstance().addAction(selectedAction, customTime);
+                        String activityAdded = "Lisätty\n" + customTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(selectedAction).getType();
+                        Log.d("Sovellus", activityAdded);
+
+                        Toast.makeText(getContext(), activityAdded,
+                                Toast.LENGTH_SHORT).show();
+                        closeKeyboard();
+                        saveData();
+                    } else {
+                        Toast.makeText(getContext(), "Virheellinen aika",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else if(minuteInput.isEmpty()) {
+                    int hourInputMin = Integer.parseInt(hourInput) * 60;
+
+                    customTime = hourInputMin;
+                    if (customTime > 0) {
+                        ActionList.getInstance().addAction(selectedAction, customTime);
+                        String activityAdded = "Lisätty\n" + customTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(selectedAction).getType();
+                        Log.d("Sovellus", activityAdded);
+
+                        Toast.makeText(getContext(), activityAdded,
+                                Toast.LENGTH_SHORT).show();
+                        closeKeyboard();
+                        saveData();
+                    } else {
+                        Toast.makeText(getContext(), "Virheellinen aika",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    customTime = Integer.parseInt(timeInput);
+                    int hourInputMin = Integer.parseInt(hourInput) * 60;
+                    customTime = hourInputMin + Integer.parseInt(minuteInput);
+
                     if (customTime > 0) {
                         ActionList.getInstance().addAction(selectedAction, customTime);
                         String activityAdded = "Lisätty\n" + customTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(selectedAction).getType();
