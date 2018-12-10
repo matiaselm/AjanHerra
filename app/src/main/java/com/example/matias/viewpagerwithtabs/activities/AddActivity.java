@@ -10,16 +10,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.matias.viewpagerwithtabs.R;
-import com.example.matias.viewpagerwithtabs.classes.Action;
 import com.example.matias.viewpagerwithtabs.singletons.ActionList;
 import com.example.matias.viewpagerwithtabs.singletons.UserList;
 import com.google.gson.Gson;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class AddActivity extends AppCompatActivity {
@@ -29,13 +28,17 @@ public class AddActivity extends AppCompatActivity {
     ArrayList actionList;
     Gson listGson;
     String json;
-
+    private AddActivity thisActivity;
     String usersActionList;
 
     private String type;
     private boolean needMoreThan;
     private double referenceHours;
     private String description;
+    private String selectedType;
+    private double selectedTime;
+    private String selectedDescription;
+    private boolean selectedNeedMoreThan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +52,30 @@ public class AddActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //********************TOOLBAR STUFF ONLY***********************//
-
-        type = "s";
-        needMoreThan = true;
-        referenceHours = 3;
-        description = "";
-
+        this.thisActivity = this;
         loadPref();
-        inputAddButtonPressed();
+
+        findViewById(R.id.addActionButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText editType = (EditText) findViewById(R.id.etActionType);
+                selectedType = editType.getText().toString();
+
+                EditText editTime = (EditText) findViewById(R.id.etActionTime);
+                String timeInput = editTime.getText().toString();
+
+                EditText editDescription = (EditText) findViewById(R.id.etActionType);
+                selectedDescription = editDescription.getText().toString();
+
+                if (timeInput.isEmpty()) {
+               //     Toast.makeText( this.thisActivity, "Aktiviteetin nimi käytössä",
+              //              Toast.LENGTH_SHORT).show();
+                } else {
+                    selectedTime = Integer.parseInt(timeInput);
+                    inputAddButtonPressed();
+                }
+            }
+        });
 
     }
 
@@ -71,7 +90,9 @@ public class AddActivity extends AppCompatActivity {
         String json = listGson.toJson(actionList);
         prefActionsEditor.putString(usersActionList, json);
         prefActionsEditor.apply();
-        Log.d("Sovellus", "Added new Activity. Data saved: " + usersActionList + " : " + json);
+        Log.d("Sovellus", "Added new Activity." + usersActionList + selectedType + selectedNeedMoreThan + selectedTime + selectedDescription );
+
+        Log.d("Sovellus", "Added Activity, Data saved: " + " : " + json);
 
     }
 

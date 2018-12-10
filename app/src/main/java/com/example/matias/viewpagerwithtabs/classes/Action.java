@@ -43,6 +43,8 @@ public class Action {
 
 
     public void addTime(int lenghtMinutes) {
+
+
         time = time + lenghtMinutes;
         mins = time % 60;
         hours = time / 60;
@@ -60,12 +62,12 @@ public class Action {
 
     public String getTimeReference() {
         if (referenceHours == -1) {
-            return "Ei suositusta";
+            return "Ei tavoitetta";
         } else {
             if (needMoreThan) {
-                return "Suositus yli " + twoDigit.format(referenceHours) + "h";
+                return "Tavoite yli " + twoDigit.format(referenceHours) + "h";
             } else {
-                return "Suositus alle " + twoDigit.format(referenceHours) + "h";
+                return "Tavoite alle " + twoDigit.format(referenceHours) + "h";
             }
         }
     }
@@ -75,7 +77,7 @@ public class Action {
     }
 
     public String getTimeAverageLv() {
-        return "  Keskiarvosi " + twoDigit.format(hours) + "h";
+        return twoDigit.format(hours) + "h";
     }
 
     public String getTimeResult() {
@@ -87,7 +89,7 @@ public class Action {
                 if (hours > 20) {
                     return "Vääristynyt";
                 } else if (referenceHours > hours) {
-                    return "Alle suosituksen";
+                    return "Alle tavoitteen";
                 } else {
                     return "Sopiva";
                 }
@@ -95,7 +97,7 @@ public class Action {
                 if (hours > 20) {
                     return "Vääristynyt";
                 } else if (referenceHours < hours) {
-                    return "Yli suosituksen";
+                    return "Yli tavoitteen";
                 } else {
                     return "Sopiva";
                 }
