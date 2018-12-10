@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.matias.viewpagerwithtabs.R;
-import com.example.matias.viewpagerwithtabs.classes.User;
+import com.example.matias.viewpagerwithtabs.classes.Action;
 import com.example.matias.viewpagerwithtabs.singletons.UserList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -42,10 +42,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     EditText editName;
     private ArrayList userList;
+    String usersActionList;
     SharedPreferences prefUsers;
-    SharedPreferences.Editor prefEditor;
+    SharedPreferences.Editor prefUsersEditor;
+    SharedPreferences prefActions;
+    SharedPreferences.Editor prefActionsEditor;
     Gson listGson;
     String json;
+    String empty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,8 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.returnBar);
         setSupportActionBar(toolbar);
         //********************TOOLBAR STUFF ONLY***********************//
+
+        empty = null;
 
         this.thisActivity = this;
 
@@ -147,6 +153,14 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        findViewById(R.id.removeUserButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Removes current user
+                removeUser();
+            }
+        });
     }
 
     @Override
@@ -154,8 +168,90 @@ public class SettingsActivity extends AppCompatActivity {
         super.onResume();
 
         getUser();
-        loadPreferences();
+        loadUsers();
     }
+
+    public void removeUser() {
+
+        UserList.getInstance().removeUser();
+
+        prefActions = getSharedPreferences("Actions", Activity.MODE_PRIVATE);
+        prefActionsEditor = prefActions.edit();
+
+        //Keep these two togethor
+        int tryUserIndex = UserList.getInstance().getCurrentUserInt();
+        int userListSize = UserList.getInstance().getUsers().size();
+
+
+        int userIndexBeforeRemove = UserList.getInstance().getCurrentUserInt();
+        usersActionList = "user" + userIndexBeforeRemove + "ActionList";
+
+
+        json = prefActions.getString(usersActionList, null);
+
+        Log.d("Sovellus", "Removed " + usersActionList + " : " + json);
+        prefActionsEditor.putString(usersActionList, empty);
+        prefActionsEditor.commit();
+
+        json = prefActions.getString(usersActionList, null);
+        Log.d("Sovellus", "After remove " + usersActionList + " : " + json);
+
+        if (userIndexBeforeRemove == userListSize) {
+
+            Log.d("Sovellus", "Deleted user was last in index");
+
+        } else {
+
+            for (int i = userIndexBeforeRemove; i < userListSize; i++) {
+
+                //Keep these two togethor
+                tryUserIndex += 1;
+                usersActionList = "user" + tryUserIndex + "ActionList";
+
+                Log.d("Sovellus", "Searching index " + tryUserIndex);
+
+
+                json = prefActions.getString(usersActionList, null);
+                Type type = new TypeToken<ArrayList<Action>>() {
+                }.getType();
+
+                listGson = new Gson();
+                ArrayList actionList = listGson.fromJson(json, type);
+
+                if (actionList == null) {
+                    Log.d("Sovellus", "actionList null");
+                    break;
+                } else {
+                    //Keep these two togethor
+                    tryUserIndex -= 1;
+                    usersActionList = "user" + tryUserIndex + "ActionList";
+
+                    String jsonOut = listGson.toJson(actionList);
+                    Log.d("Sovellus", "Added " + usersActionList + jsonOut);
+                    prefActionsEditor.putString(usersActionList, jsonOut);
+                    prefActionsEditor.commit();
+
+                    //Keep these two togethor
+                    tryUserIndex += 1;
+                    usersActionList = "user" + tryUserIndex + "ActionList";
+
+                    Log.d("Sovellus", "Removed " + usersActionList);
+                    prefActionsEditor.putString(usersActionList, empty);
+                    prefActionsEditor.commit();
+                }
+            }
+        }
+
+        saveUsers();
+
+        prefUsersEditor.putInt("currentUser", -1);
+        prefUsersEditor.commit();
+        saveUsers();
+
+        Intent nextActivity = new Intent(thisActivity, MainActivity.class);
+        startActivity(nextActivity);
+    }
+
 
     public void getUser() {
         int putAge = currentYear - UserList.getInstance().getCurrentUser().getYearOfBirth();
@@ -169,22 +265,21 @@ public class SettingsActivity extends AppCompatActivity {
         spinnerSex.setSelection(selectedSex);
         editName.setText(selectedName, TextView.BufferType.EDITABLE);
 
-        Toast.makeText(thisActivity, "Loaded user settings " + UserList.getInstance().getCurrentUser().getName() + " Name " + selectedName + " Year of birth " + selectedYear + " Gender " + selectedSex + UserList.getInstance().getCurrentUser().getSex() + UserList.getInstance().getCurrentUser().getSexInt(),
-                Toast.LENGTH_LONG).show();
+        Log.d("Sovellus", "Loaded user settings " + UserList.getInstance().getCurrentUser().getName() + " Name " + selectedName + " Year of birth " + selectedYear + " Gender " + selectedSex + UserList.getInstance().getCurrentUser().getSex() + UserList.getInstance().getCurrentUser().getSexInt());
     }
 
-    public void savePreferences(){
+    public void saveUsers() {
         userList = UserList.getInstance().getUsers();
         listGson = new Gson();
         json = listGson.toJson(userList);
         Log.d("Sovellus", "Users saved: " + json);
-        prefEditor.putString("userList", json);
-        prefEditor.commit();
+        prefUsersEditor.putString("userList", json);
+        prefUsersEditor.commit();
     }
 
-    public void loadPreferences(){
+    public void loadUsers() {
         prefUsers = getSharedPreferences("Users", Activity.MODE_PRIVATE);
-        prefEditor = prefUsers.edit();
+        prefUsersEditor = prefUsers.edit();
     }
 
     public void changeSettings() {
@@ -193,10 +288,7 @@ public class SettingsActivity extends AppCompatActivity {
         UserList.getInstance().getCurrentUser().setName(selectedName);
         UserList.getInstance().getCurrentUser().setYearOfBirth(selectedYear);
 
-        Toast.makeText(thisActivity, "Saved user settings " + UserList.getInstance().getCurrentUser().getName() + " Name " + selectedName + " Year of birth " + selectedYear + " Gender " + selectedSex,
-                Toast.LENGTH_LONG).show();
-
-        savePreferences();
+        saveUsers();
 
         //    Toast.makeText(thisActivity, "Tallennus onnistui!",
         //            Toast.LENGTH_SHORT).show();

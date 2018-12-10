@@ -34,6 +34,10 @@ public class UserList {
         users.add(new User(name, yearOfBirth, sex));
     }
 
+    public void removeUser(){
+        users.remove(intCurrentUser);
+    }
+
     /**
      * Get UserList as arraylist
      * @return Arraylist
@@ -72,6 +76,10 @@ public class UserList {
             }
         }
         return true;
+    }
+
+    public int getCurrentUserInt() {
+        return intCurrentUser;
     }
 
     /**

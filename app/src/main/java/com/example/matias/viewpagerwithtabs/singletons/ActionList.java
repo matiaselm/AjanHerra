@@ -8,13 +8,17 @@ public class ActionList {
 
     private ArrayList<Action> activities;
     private static final ActionList ourInstance = new ActionList();
-    private ArrayList defaultList;
+    private ArrayList<Action> defaultList;
 
     public static ActionList getInstance() {
         return ourInstance;
     }
 
     private ActionList() {
+        setDefaultList();
+    }
+
+    public void setDefaultList(){
         defaultList = new ArrayList<>();
 
         defaultList.add(new Action("Nukkuminen", true, 7, "Uni on tärkeä fyysisen ja henkisen hyvinvoinnin lähde. Riittävä uni auttaa mm. painonhallinnassa ja oppimisessa."));
@@ -27,10 +31,6 @@ public class ActionList {
         defaultList.add(new Action("Viihde", false, 3, "Viihde on jokaiselle meistä erilainen käsite. Nauru pidentää ikää, mutta kohtuus kaikessa."));
         defaultList.add(new Action("Määrittelemätön", true, -1, "Meillä kaikilla on omat juttume, hyvä niin, vaali omaa itseäsi."));
 
-        setDefaultList();
-    }
-
-    public void setDefaultList(){
         activities = defaultList;
     }
 
