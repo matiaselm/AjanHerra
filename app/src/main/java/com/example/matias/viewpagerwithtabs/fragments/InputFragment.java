@@ -29,9 +29,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,14 +62,18 @@ public class InputFragment extends Fragment {
     int customTime;
     EditText timeHours;
     EditText timeMinutes;
-    TextView vTime;
+    TextView hTime;
+    TextView mTime;
 
     String activityName;
     String runningActivity;
     ArrayList actionList;
+    ArrayList historyList;
 
     String usersActionList;
 
+
+    String currentDate;
     String userIsTimer;
     String userStartInfo;
     String userRunningActivity;
@@ -113,6 +117,8 @@ public class InputFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_input, container, false);
 
         time = v.findViewById(R.id.timeView);
+
+        historyList = new ArrayList<String>();
 
         start = v.findViewById(R.id.startButton);
         today = new Time(Time.getCurrentTimezone());
@@ -169,6 +175,7 @@ public class InputFragment extends Fragment {
                     endTime = System.currentTimeMillis() / 1000 / 60;
                     Log.d("Sovellus", "Endtime " + String.valueOf(endTime));
 
+
                     isTimer = false;
 
                     prefActionsEditor.putBoolean(userIsTimer, false);
@@ -178,6 +185,8 @@ public class InputFragment extends Fragment {
 
                     time.setText(runningActivity + " aktiviteettiin lisätty:\n" + Long.toString(dtime) + " min");
                     int sendTime = Math.toIntExact(dtime);
+
+                    writeHistory(sendTime);
 
                     Log.d("Sovellus", "Current savedActivity: " + Integer.toString(savedActivity));
                     ActionList.getInstance().addAction(savedActivity, sendTime);
@@ -233,8 +242,10 @@ public class InputFragment extends Fragment {
                 start.setText("Aloita");
                 time.setText("Valitse uusi aktiviteetti ja aloita se painamalla \"aloita\"");
 
-                vTime = v.findViewById(R.id.timeView2);
-                vTime.setText("");
+                hTime = v.findViewById(R.id.timeView2);
+                hTime.setText("");
+                mTime = v.findViewById(R.id.timeView3);
+                mTime.setText("");
 
                 Toast.makeText(getContext(), "Aktiviteetti tyhjennetty",
                         Toast.LENGTH_SHORT).show();
@@ -257,6 +268,7 @@ public class InputFragment extends Fragment {
         super.onResume();
 
         Log.d("Sovellus", "Input onResume");
+        Log.d("Sovellus", "today: " + today.format("YYYY/MM/dd"));
         Log.d("Sovellus", "Current user: " + UserList.getInstance().getCurrentUser());
 
         //Update user's actionList array
@@ -323,7 +335,6 @@ public class InputFragment extends Fragment {
 
     private void updateUserSaveKeys() {
         int getCurrentUserInt = UserList.getInstance().getCurrentUserInt();
-
         userRunningActivity = "user" + getCurrentUserInt + "RunningActivity";
         userStartTime = "user" + getCurrentUserInt + "StartTime";
         userRunningActivityInt = "user" + getCurrentUserInt + "RunningActivityInt";
@@ -336,6 +347,7 @@ public class InputFragment extends Fragment {
     private void addTime(int customTime) {
         if (customTime > 0 && customTime <= 1440) {
             ActionList.getInstance().addAction(selectedAction, customTime);
+
             String activityAdded = "Lisätty\n" + customTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(selectedAction).getType();
             Log.d("Sovellus", activityAdded);
 
@@ -348,7 +360,6 @@ public class InputFragment extends Fragment {
                     Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void saveData() {
         updateUserSaveKeys();
@@ -384,6 +395,22 @@ public class InputFragment extends Fragment {
             ActionList.getInstance().setActivities(actionList);
             Log.d("Sovellus", "Data loaded: " + usersActionList + " : " + json);
         }
+    }
+
+
+    public void writeHistory(int contextTime) {
+
+        currentDate = DateFormat.getDateTimeInstance().format(new Date());
+
+        Log.d("Sovellus", "Current date: " + currentDate);
+
+        activityName = ActionList.getInstance().getActivities().get(selectedAction).getType();
+        String summary = currentDate + ", " + activityName + ", lisätty " + contextTime + " minuuttia";
+
+        Log.d("Sovellus", summary);
+
+        historyList.add(summary);
+
     }
 
     public void closeKeyboard() {

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            android:height="30dp"
+            android:gravity="left"
+            android:text="10.12.2018 klo 15.24 Nukkuminen lisätty 3h"
+            android:textColor="@color/colorAccent3"
+            android:textSize="18sp"
+            android:typeface="monospace" />
+    </FrameLayout>
+
+</TableLayout>
