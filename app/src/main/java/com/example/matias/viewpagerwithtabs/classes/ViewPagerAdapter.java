@@ -55,10 +55,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         position = position++;
 
         if (position == 0){return "Lisää aktiviteetti";}
-        else if (position == 2){return "Tietosi";}
-        else {return "Front";}
-
+        else if (position == 2){return "Ajankäyttö";}
+        else {return "Viimeisimmät";}
     }
+
 
     public void refresh() {
 
