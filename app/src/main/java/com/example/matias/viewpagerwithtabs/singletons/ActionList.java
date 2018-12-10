@@ -1,6 +1,7 @@
 package com.example.matias.viewpagerwithtabs.singletons;
 
 import com.example.matias.viewpagerwithtabs.classes.Action;
+import com.example.matias.viewpagerwithtabs.classes.User;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,35 @@ public class ActionList {
 
     public void addAction(int type, int lenghtMinutes) {
         activities.get(type).addTime(lenghtMinutes);
+    }
+
+    public void addNewActionType(String type, boolean needMoreThan, double refHours, String description){
+        getActivities().add(new Action(type, needMoreThan, refHours, description));
+    }
+
+    /**
+     * Get User object with requested index
+     * @param index
+     * @return User
+     */
+    public Action getActivity(int index) {
+        return getActivities().get(index);
+    }
+
+
+    /**
+     * Check if the username is taken
+     * @param testName
+     * @return
+     */
+    public boolean testNewActivityName(String testName) {
+
+        for (int i = 0; (getActivities().size()) > i; i++) {
+            if (testName.equals(getActivity(i).getType())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public ArrayList<Action> getActivities() {
