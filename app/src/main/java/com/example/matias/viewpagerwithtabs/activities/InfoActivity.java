@@ -29,6 +29,9 @@ public class InfoActivity extends AppCompatActivity {
         //********************TOOLBAR STUFF ONLY***********************//
         Toolbar toolbar = findViewById(R.id.returnBar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         //********************TOOLBAR STUFF ONLY***********************//
 
         ArrayList list = ActionList.getInstance().getActivities();
@@ -53,6 +56,12 @@ public class InfoActivity extends AppCompatActivity {
     }
 
     //********************TOOLBAR STUFF ONLY***********************//
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
