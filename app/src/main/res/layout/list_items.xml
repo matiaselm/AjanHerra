@@ -10,9 +10,9 @@
         <TextView
             android:id="@+id/type"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:height="40sp"
+            android:height="35sp"
             android:gravity="left"
             android:text="id"
             android:textColor="@color/colorAccent3"
@@ -29,31 +29,31 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:height="30sp"
+            android:height="20sp"
             android:text="categoryId"
             android:textColor="@color/colorAccent3"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/average"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:height="30sp"
+            android:height="20sp"
             android:text="categoryId"
             android:textColor="@color/colorAccent3"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/result"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:height="30sp"
+            android:height="20sp"
             android:gravity="right"
             android:text="description"
             android:textColor="@color/colorAccent3"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </TableRow>
 
 </TableLayout>
