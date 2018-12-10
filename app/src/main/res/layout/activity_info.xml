@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.InfoActivity"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    tools:context=".activities.InfoActivity">
 
     <include
-        layout = "@layout/toolbar_info_return"
-        android:id = "@+id/returnBar"></include>
+        android:id="@+id/returnBar"
+        layout="@layout/toolbar_info_return"></include>
 
     <TextView
         android:id="@+id/name"
@@ -38,7 +38,7 @@
         android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textColor="@color/colorAccent"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -47,15 +47,12 @@
         android:id="@+id/reference2"
         android:layout_width="135dp"
         android:layout_height="38dp"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="Päivittäin:"
         android:textColor="@color/colorAccent"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/reference"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintHorizontal_bias="0.84"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline3" />
 
     <TextView
         android:id="@+id/reference3"
@@ -63,7 +60,7 @@
         android:layout_height="38dp"
         android:text="Päivittäin:"
         android:textColor="@color/colorAccent"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/average"
         app:layout_constraintEnd_toEndOf="@+id/reference2"
         app:layout_constraintHorizontal_bias="0.0"
@@ -75,7 +72,7 @@
         android:layout_height="38dp"
         android:text="Ajankäyttö:"
         android:textColor="@color/colorAccent"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/result"
         app:layout_constraintEnd_toEndOf="@+id/reference3"
         app:layout_constraintHorizontal_bias="0.0"
@@ -88,7 +85,7 @@
         android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor="@color/colorAccent"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/reference"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/reference"
@@ -97,11 +94,11 @@
     <TextView
         android:id="@+id/result"
         android:layout_width="170dp"
-        android:layout_height="38dp"
+        android:layout_height="33dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor="@color/colorAccent"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/average"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/average"
@@ -109,21 +106,23 @@
 
     <TextView
         android:id="@+id/additional"
-        android:layout_width="294dp"
-        android:layout_height="211dp"
+        android:layout_width="281dp"
+        android:layout_height="182dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_horizontal"
-        android:paddingTop="20dp"
+        android:paddingTop="10dp"
         android:text="TextView"
         android:textColor="@color/colorAccent"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.347"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/result"
+        app:layout_constraintTop_toBottomOf="@+id/reference4"
+        app:layout_constraintVertical_bias="0.2"
         tools:text="Tähän tulee sitten tekstiä jonkin verran, kuten lisätietoja tämänhetkisestä aktiviteetista" />
 
     <android.support.constraint.Guideline
