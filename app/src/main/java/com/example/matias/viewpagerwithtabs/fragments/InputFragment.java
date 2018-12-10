@@ -74,6 +74,7 @@ public class InputFragment extends Fragment {
     String userRunningActivity;
     String userStartTime;
     String userRunningActivityInt;
+    String usersLastActionSelection;
 
     ArrayAdapter<String> dataAdapter;
 
@@ -282,12 +283,17 @@ public class InputFragment extends Fragment {
         }
 
         dataAdapter = new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, actionList);
-        Spinner spinner = (Spinner) v.findViewById(R.id.spinnerActions);
+        Spinner spinnerActions = (Spinner) v.findViewById(R.id.spinnerActions);
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerActions.setAdapter(dataAdapter);
+
+        int LastActionSelection = prefActions.getInt(usersLastActionSelection, 0);
+        spinnerActions.setSelection(LastActionSelection);
+        selectedAction = LastActionSelection;
+
+        spinnerActions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,
@@ -297,7 +303,11 @@ public class InputFragment extends Fragment {
                 //    Toast.makeText(InputActivity.this, item.toString(),
                 //            Toast.LENGTH_SHORT).show();
                 //}
+
                 selectedAction = position;
+
+                prefActionsEditor.putInt(usersLastActionSelection, position);
+                prefActionsEditor.apply();
                 Log.d("Sovellus", "Valittu aktiviteetti: " + Integer.toString(selectedAction));
                 activityName = ActionList.getInstance().getActivities().get(selectedAction).getType();
                 Log.d("Sovellus", activityName);
@@ -319,6 +329,7 @@ public class InputFragment extends Fragment {
         userStartInfo = "user" + getCurrentUserInt + "StartInfo";
         userIsTimer = "user" + getCurrentUserInt + "IsTimer";
         usersActionList = "user" + getCurrentUserInt + "ActionList";
+        usersLastActionSelection = "user" + getCurrentUserInt + "ActionListSelection";
     }
 
     private void saveData() {
