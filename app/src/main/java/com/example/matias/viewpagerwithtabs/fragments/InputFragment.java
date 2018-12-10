@@ -49,8 +49,6 @@ public class InputFragment extends Fragment {
 
     private Button start;
 
-    Date date;
-
     private Long startTime;
     private Long endTime;
     Boolean isTimer;
@@ -202,8 +200,6 @@ public class InputFragment extends Fragment {
                 }
             }
         });
-
-        //GetCurrentTimeInMillis;
 
         v.findViewById(R.id.addInput).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,6 +357,13 @@ public class InputFragment extends Fragment {
         }
     }
 
+    /**
+     * Metodi muuntaa kutsumahetkellä actionListin gsoniin,
+     * tallentaa sen yhtenä Stringinä sharedPrefereseihin
+     * avaimena käytetään jokaiselle käyttäjälle henkilökohtaista
+     * muuttujaa usersActionList, jolla se myöhemmin haetaan loadData -metodissa
+     */
+
     private void saveData() {
         updateUserSaveKeys();
         actionList = ActionList.getInstance().getActivities();
@@ -371,6 +374,9 @@ public class InputFragment extends Fragment {
         Log.d("Sovellus", "Data saved: " + usersActionList + " : " + json);
     }
 
+    /**
+     *
+     */
     private void loadData() {
         prefActions = this.getActivity().getSharedPreferences("Actions", Activity.MODE_PRIVATE);
         prefActionsEditor = prefActions.edit();

@@ -14,24 +14,34 @@
         android:id="@+id/imageView9"
         android:layout_width="64dp"
         android:layout_height="52dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:src="@drawable/bird2"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/timeView"
+        app:layout_constraintBottom_toTopOf="@+id/imageView10"
         app:layout_constraintEnd_toEndOf="@+id/tvHello"
-        app:layout_constraintHorizontal_bias="0.934"
+        app:layout_constraintHorizontal_bias="0.951"
         app:layout_constraintStart_toEndOf="@+id/spinnerActions"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.275" />
+        app:layout_constraintTop_toTopOf="@+id/tvHello"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/bird3"
+        app:layout_constraintBottom_toTopOf="@+id/timeView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView9"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/imageView9"
+        app:layout_constraintTop_toBottomOf="@+id/tvHello"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/addInput"
         android:layout_width="163dp"
         android:layout_height="93dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="36dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorAccent4"
         android:text="Lisää"
@@ -39,82 +49,89 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/timeView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toEndOf="@+id/timeView3"
-        app:layout_constraintTop_toTopOf="@+id/timeView3" />
+        app:layout_constraintTop_toTopOf="@+id/timeView3"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/tvHello"
-        android:layout_width="0dp"
-        android:layout_height="46dp"
+        android:layout_width="395dp"
+        android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical|center"
         android:text='Hei "Käyttäjä"!'
         android:textColor="@color/colorAccent3"
         android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
         android:id="@+id/spinnerActions"
         android:layout_width="160dp"
         android:layout_height="43dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="@color/colorAccent3"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/startButton"
         app:layout_constraintEnd_toEndOf="@+id/startButton"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/startButton"
-        app:layout_constraintTop_toBottomOf="@+id/tvHello"
-        app:layout_constraintVertical_bias="0.02" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHello" />
 
     <EditText
         android:id="@+id/timeView2"
         android:layout_width="76dp"
         android:layout_height="92dp"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="@color/colorAccent3"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
         android:hint="HH"
         android:inputType="number"
         android:textColor="@color/colorAccent3"
         android:textColorHint="@color/colorPrimaryDark"
-        android:backgroundTint="@color/colorAccent3"
         android:textSize="40sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintStart_toStartOf="@+id/addActivity" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <EditText
         android:id="@+id/timeView3"
         android:layout_width="85dp"
         android:layout_height="92dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorAccent3"
         android:ems="10"
         android:gravity="center_vertical|center_horizontal"
         android:hint="mm"
         android:inputType="number"
         android:textColor="@color/colorAccent3"
         android:textColorHint="@color/colorPrimaryDark"
-        android:backgroundTint="@color/colorAccent3"
         android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/rmInput"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintBottom_toBottomOf="@+id/timeView2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/timeView2"
         app:layout_constraintTop_toBottomOf="@+id/addActivity"
-        app:layout_constraintVertical_bias="0.402" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/rmInput"
         android:layout_width="163dp"
         android:layout_height="93dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="@color/colorAccent4"
         android:text="Nollaa"
         android:textColor="@color/colorAccent"
@@ -122,101 +139,94 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/timeView3"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="@+id/timeView2"
-        app:layout_constraintTop_toBottomOf="@+id/timeView2"
-        app:layout_constraintVertical_bias="0.489" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
         android:id="@+id/startButton"
         android:layout_width="163dp"
         android:layout_height="93dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="6dp"
         android:backgroundTint="@color/colorAccent4"
         android:text="Aloita"
         android:textColor="@color/colorAccent"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/addActivity"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerActions"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/tvHello"
+        app:layout_constraintVertical_bias="0.893"
         tools:text="Aloita" />
 
     <TextView
         android:id="@+id/addActivity"
-        android:layout_width="162dp"
-        android:layout_height="81dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="172dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:text="Lisää aktiviteetin kesto manuaalisesti minuuteina:"
+        android:text="Lisää aktiviteetin kesto manuaalisesti:"
         android:textColor="@color/colorAccent3"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/startButton"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/startButton"
-        app:layout_constraintTop_toBottomOf="@+id/startButton" />
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="@+id/timeView3"
+        app:layout_constraintStart_toStartOf="@+id/timeView2" />
 
     <TextView
         android:id="@+id/addActivity2"
         android:layout_width="176dp"
         android:layout_height="91dp"
         android:gravity="center"
-        android:text="Lopeta ajanottaminen sekä tyhjennä syötetyt minuutit"
+        android:text="Lopeta ajan ottaminen sekä tyhjennä syötetyt minuutit"
         android:textColor="@color/colorAccent3"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/rmInput"
         app:layout_constraintEnd_toEndOf="@+id/addInput"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/addInput"
-        app:layout_constraintTop_toTopOf="@+id/rmInput"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="@+id/rmInput" />
 
     <TextView
         android:id="@+id/timeView"
         android:layout_width="162dp"
         android:layout_height="91dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:gravity="center"
         android:text='Valitse uusi aktiviteetti ja aloita se painamalla "aloita"'
         android:textColor="@color/colorAccent3"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/startButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/startButton"
-        app:layout_constraintTop_toTopOf="@+id/startButton"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/bird3"
-        app:layout_constraintBottom_toTopOf="@+id/timeView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
-        app:layout_constraintStart_toEndOf="@+id/spinnerActions"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+        app:layout_constraintEnd_toEndOf="@+id/addInput"
+        app:layout_constraintStart_toStartOf="@+id/addInput"
+        app:layout_constraintTop_toTopOf="@+id/startButton" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="12dp"
         android:layout_height="64dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:textColor="@color/colorAccent3"
         android:text=":"
+        android:textColor="@color/colorAccent3"
         android:textSize="50sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/timeView3"
         app:layout_constraintEnd_toStartOf="@+id/timeView3"
         app:layout_constraintStart_toEndOf="@+id/timeView2" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="204dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="490dp" />
 
 </android.support.constraint.ConstraintLayout>
