@@ -323,6 +323,12 @@ public class SettingsActivity extends AppCompatActivity {
                 // startActivity(settingsActivity);
                 break;
 
+            case R.id.action_add_action:
+
+                Intent addActivity = new Intent(this, AddActivity.class);
+                startActivity(addActivity);
+                break;
+
             case R.id.action_info:
                 Toast.makeText(this, "AjanHerra\n Versio: 1.0.0\n\nTekijät:\n\nHenri Lagerroos\nMatias Jalava",
                         Toast.LENGTH_LONG).show();
