@@ -3,6 +3,8 @@ package com.example.matias.viewpagerwithtabs.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +13,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.matias.viewpagerwithtabs.R;
@@ -31,14 +36,12 @@ public class AddActivity extends AppCompatActivity {
     private AddActivity thisActivity;
     String usersActionList;
 
-    private String type;
-    private boolean needMoreThan;
-    private double referenceHours;
-    private String description;
-    private String selectedType;
-    private double selectedTime;
-    private String selectedDescription;
+
     private boolean selectedNeedMoreThan;
+    private double selectedReferenceHours;
+    private String selectedDescription;
+    private String selectedType;
+    private String timeInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,28 +55,37 @@ public class AddActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         //********************TOOLBAR STUFF ONLY***********************//
+
         this.thisActivity = this;
         loadPref();
+
+        selectedNeedMoreThan = true;
+
+        RadioGroup booleanGroup = findViewById(R.id.booleanMoreGroup);
+
+        booleanGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton rb = group.findViewById(checkedId);
+                switch (rb.getId()) {
+                    case R.id.booleanMoreButton: {
+                        Log.d("lab03", "ButtonMore valittu");
+                        selectedNeedMoreThan = true;
+                        break;
+                    }
+                    case R.id.booleanLessButton: {
+                        Log.d("lab03", "ButtonLess valittu");
+                        selectedNeedMoreThan = false;
+                        break;
+                    }
+                }
+            }
+        });
 
         findViewById(R.id.addActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText editType = (EditText) findViewById(R.id.etActionType);
-                selectedType = editType.getText().toString();
-
-                EditText editTime = (EditText) findViewById(R.id.etActionTime);
-                String timeInput = editTime.getText().toString();
-
-                EditText editDescription = (EditText) findViewById(R.id.etActionType);
-                selectedDescription = editDescription.getText().toString();
-
-                if (timeInput.isEmpty()) {
-               //     Toast.makeText( this.thisActivity, "Aktiviteetin nimi käytössä",
-              //              Toast.LENGTH_SHORT).show();
-                } else {
-                    selectedTime = Integer.parseInt(timeInput);
-                    inputAddButtonPressed();
-                }
+                inputAddButtonPressed();
             }
         });
 
@@ -90,7 +102,7 @@ public class AddActivity extends AppCompatActivity {
         String json = listGson.toJson(actionList);
         prefActionsEditor.putString(usersActionList, json);
         prefActionsEditor.apply();
-        Log.d("Sovellus", "Added new Activity." + usersActionList + selectedType + selectedNeedMoreThan + selectedTime + selectedDescription );
+        Log.d("Sovellus", "Added new Activity." + usersActionList + selectedType + selectedNeedMoreThan + selectedReferenceHours + selectedDescription);
 
         Log.d("Sovellus", "Added Activity, Data saved: " + " : " + json);
 
@@ -100,17 +112,41 @@ public class AddActivity extends AppCompatActivity {
      * First check if Type name is used. Then check that all inputs are in place before adding new action.
      */
     public void inputAddButtonPressed() {
-            if (type.isEmpty() || referenceHours > 24 || description.isEmpty()) {
-                Toast.makeText(this, "Virheellinen syöte",
-                        Toast.LENGTH_SHORT).show();
-                Log.d("Sovellus", "Tried adding false new activity inputs");
-            } else {
-                if (ActionList.getInstance().testNewActivityName(type)) {
+
+        EditText editType = (EditText) findViewById(R.id.etActionType);
+        selectedType = editType.getText().toString();
+
+        EditText editTime = (EditText) findViewById(R.id.etActionTime);
+        timeInput = editTime.getText().toString();
+
+        EditText editDescription = (TextInputEditText) findViewById(R.id.etActionDescription);
+        selectedDescription = editDescription.getText().toString();
+
+        if (selectedType.isEmpty()) {
+            Toast.makeText(this, "Aktiviteetin nimi puuttuu",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Sovellus", "Aktiviteetin nimi puuttuu");
+        } else if (timeInput.isEmpty()) {
+            Toast.makeText(this, "Tuntimäärä puuttuu",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Sovellus", "Tuntimäärä puuttuu");
+        } else if(Double.parseDouble(timeInput) > 24 ) {
+            Toast.makeText(this, "Tuntimäärä liian suuri",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Sovellus", "Tuntimäärä liian suuri");
+        }else if (selectedDescription.isEmpty()) {
+            Toast.makeText(this, "Aktiviteetin kuvaus puuttuu",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Sovellus", "Aktiviteetin kuvaus puuttuu");
+        } else {
+            if (ActionList.getInstance().testNewActivityName(selectedType)) {
+                selectedReferenceHours = Double.parseDouble(timeInput);
+                Log.d("Sovellus", "Saving activity" + selectedType + selectedReferenceHours + selectedNeedMoreThan + selectedDescription);
                 addNewAction();
-            }else {
-                    Toast.makeText(this, "Aktiviteetin nimi käytössä",
-                            Toast.LENGTH_SHORT).show();
-                }
+            } else {
+                Toast.makeText(this, "Aktiviteetin nimi käytössä",
+                        Toast.LENGTH_SHORT).show();
+            }
 
         }
     }
@@ -118,11 +154,11 @@ public class AddActivity extends AppCompatActivity {
     public void addNewAction() {
         usersActionList = "user" + UserList.getInstance().getCurrentUserInt() + "ActionList";
 
-        if (referenceHours <= 0){
-            referenceHours = -1;
+        if (selectedReferenceHours <= 0) {
+            selectedReferenceHours = -1;
         }
 
-        ActionList.getInstance().addNewActionType(type, needMoreThan, referenceHours, description);
+        ActionList.getInstance().addNewActionType(selectedType, selectedNeedMoreThan, selectedReferenceHours, selectedDescription);
 
         Toast.makeText(this, "Aktiviteetti lisätty",
                 Toast.LENGTH_SHORT).show();
