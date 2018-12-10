@@ -53,9 +53,10 @@ public class InputFragment extends Fragment {
 
     private Long startTime;
     private Long endTime;
-    SharedPreferences pref;
     Boolean isTimer;
-    SharedPreferences.Editor prefEditor;
+
+    SharedPreferences.Editor prefActionsEditor;
+    SharedPreferences prefActions;
 
     int finalValue;
     int customTime;
@@ -66,7 +67,7 @@ public class InputFragment extends Fragment {
     String runningActivity;
     ArrayList actionList;
 
-    String UsersActionList;
+    String usersActionList;
 
     String userIsTimer;
     String userStartInfo;
@@ -129,26 +130,26 @@ public class InputFragment extends Fragment {
                     today.setToNow();
                     runningActivity = activityName;
 
-                    prefEditor.putString(userRunningActivity, runningActivity);
+                    prefActionsEditor.putString(userRunningActivity, runningActivity);
 
                     if (today.minute < 10) {
                         String addTimeText = runningActivity + " aloitettu  \n" + today.hour + ":0" + today.minute;
                         time.setText(addTimeText);
-                        prefEditor.putString(userStartInfo, addTimeText);
+                        prefActionsEditor.putString(userStartInfo, addTimeText);
                     } else {
                         String addTimeText2 = runningActivity + " aloitettu  \n" + today.hour + ":" + today.minute;
                         time.setText(addTimeText2);
-                        prefEditor.putString(userStartInfo, addTimeText2);
+                        prefActionsEditor.putString(userStartInfo, addTimeText2);
                     }
 
-                    prefEditor.putLong(userStartTime, startTime);
-                    prefEditor.putInt(userRunningActivityInt, selectedAction);
+                    prefActionsEditor.putLong(userStartTime, startTime);
+                    prefActionsEditor.putInt(userRunningActivityInt, selectedAction);
 
                     isTimer = true;
                     start.setText("Lopeta");
 
-                    prefEditor.putBoolean(userIsTimer, true);
-                    prefEditor.apply();
+                    prefActionsEditor.putBoolean(userIsTimer, true);
+                    prefActionsEditor.apply();
 
                     Log.d("Sovellus", "Aloitettu aktiviteetti: " + Integer.toString(selectedAction));
 
@@ -159,16 +160,16 @@ public class InputFragment extends Fragment {
 
                     Log.d("Sovellus", "else if");
 
-                    Long startTimeMemory = pref.getLong(userStartTime, 0);
-                    int savedActivity = pref.getInt(userRunningActivityInt, 0);
-                    runningActivity = pref.getString(userRunningActivity, "");
+                    Long startTimeMemory = prefActions.getLong(userStartTime, 0);
+                    int savedActivity = prefActions.getInt(userRunningActivityInt, 0);
+                    runningActivity = prefActions.getString(userRunningActivity, "");
 
                     endTime = System.currentTimeMillis() / 1000 / 60;
                     Log.d("Sovellus", "Endtime " + String.valueOf(endTime));
 
                     isTimer = false;
 
-                    prefEditor.putBoolean(userIsTimer, false);
+                    prefActionsEditor.putBoolean(userIsTimer, false);
                     start.setText("Aloita");
 
                     Long dtime = endTime - startTimeMemory;
@@ -186,7 +187,7 @@ public class InputFragment extends Fragment {
                     Log.d("Sovellus", activityAdded);
 
                     saveData();
-                    prefEditor.apply();
+                    prefActionsEditor.apply();
                 }
             }
         });
@@ -240,8 +241,8 @@ public class InputFragment extends Fragment {
 
                 isTimer = false;
 
-                prefEditor.putBoolean(userIsTimer, false);
-                prefEditor.apply();
+                prefActionsEditor.putBoolean(userIsTimer, false);
+                prefActionsEditor.apply();
             }
         });
 
@@ -263,7 +264,7 @@ public class InputFragment extends Fragment {
         hello.setText("Hei " + UserList.getInstance().getCurrentUser().getName() + "!");
         //time.setText(hours + ":" + minutes);
         
-        isTimer = pref.getBoolean(userIsTimer, false);
+        isTimer = prefActions.getBoolean(userIsTimer, false);
 
         Log.d("Sovellus", "isTimer = " + Boolean.toString(isTimer));
 
@@ -271,7 +272,7 @@ public class InputFragment extends Fragment {
 
             start.setText("Lopeta");
             
-            time.setText(pref.getString(userStartInfo, "e"));
+            time.setText(prefActions.getString(userStartInfo, "e"));
 
         } else if (isTimer == false) {
 
@@ -310,12 +311,14 @@ public class InputFragment extends Fragment {
     }
 
     private void updateUserSaveKeys() {
-        userRunningActivity = "user" + UserList.getInstance().getCurrentUser() + "RunningActivity";
-        userStartTime = "user" + UserList.getInstance().getCurrentUser() + "StartTime";
-        userRunningActivityInt = "user" + UserList.getInstance().getCurrentUser() + "RunningActivityInt";
-        userStartInfo = "user" + UserList.getInstance().getCurrentUser() + "StartInfo";
-        userIsTimer = "user" + UserList.getInstance().getCurrentUser() + "IsTimer";
-        UsersActionList = "user" + UserList.getInstance().getCurrentUser() + "ActionList";
+        int getCurrentUserInt = UserList.getInstance().getCurrentUserInt();
+
+        userRunningActivity = "user" + getCurrentUserInt + "RunningActivity";
+        userStartTime = "user" + getCurrentUserInt + "StartTime";
+        userRunningActivityInt = "user" + getCurrentUserInt + "RunningActivityInt";
+        userStartInfo = "user" + getCurrentUserInt + "StartInfo";
+        userIsTimer = "user" + getCurrentUserInt + "IsTimer";
+        usersActionList = "user" + getCurrentUserInt + "ActionList";
     }
 
     private void saveData() {
@@ -323,18 +326,18 @@ public class InputFragment extends Fragment {
         actionList = ActionList.getInstance().getActivities();
         listGson = new Gson();
         String json = listGson.toJson(actionList);
-        prefEditor.putString(UsersActionList, json);
-        prefEditor.apply();
-        Log.d("Sovellus", "Data saved: " + json);
+        prefActionsEditor.putString(usersActionList, json);
+        prefActionsEditor.apply();
+        Log.d("Sovellus", "Data saved: " + usersActionList + " : " + json);
     }
 
     private void loadData() {
-        pref = this.getActivity().getSharedPreferences("time", Activity.MODE_PRIVATE);
-        prefEditor = pref.edit();
+        prefActions = this.getActivity().getSharedPreferences("Actions", Activity.MODE_PRIVATE);
+        prefActionsEditor = prefActions.edit();
 
         updateUserSaveKeys();
         listGson = new Gson();
-        json = pref.getString(UsersActionList, null);
+        json = prefActions.getString(usersActionList, null);
         Type type = new TypeToken<ArrayList<Action>>() {
         }.getType();
         actionList = listGson.fromJson(json, type);
@@ -343,16 +346,14 @@ public class InputFragment extends Fragment {
          * If we cannot find any arraylist, use the default list. Else use the list found from memory.
          */
         if (actionList == null) {
-            Log.d("Sovellus", "actionList null");
+            Log.d("Sovellus", "actionList null , using default actionlist");
 
             //Change ActionList array into defaultList
             ActionList.getInstance().setDefaultList();
-            actionList = ActionList.getInstance().getActivities();
-            Log.d("Sovellus", "Data loaded: " + json);
             saveData();
         } else {
             ActionList.getInstance().setActivities(actionList);
-            Log.d("Sovellus", "Data loaded: " + json);
+            Log.d("Sovellus", "Data loaded: " + usersActionList + " : " + json);
         }
     }
 

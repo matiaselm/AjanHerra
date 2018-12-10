@@ -53,7 +53,7 @@
     <Button
         android:id="@+id/saveSettingsButton"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
+        android:layout_width="177dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
@@ -62,8 +62,27 @@
         android:textColorLink="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerSexSettings" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerSexSettings"
+        app:layout_constraintVertical_bias="0.224" />
+
+    <Button
+        android:id="@+id/removeUserButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="173dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorAccent6"
+        android:text="Poista käyttäjätili"
+        android:textColorLink="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveSettingsButton"
+        app:layout_constraintVertical_bias="0.39" />
 
     <TextView
         android:id="@+id/textView"
