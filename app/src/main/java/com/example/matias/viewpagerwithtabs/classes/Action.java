@@ -6,6 +6,7 @@ import com.example.matias.viewpagerwithtabs.singletons.UserList;
 
 import java.text.DecimalFormat;
 
+
 public class Action {
     private String type;
     private double totalTimeMinutes;
@@ -17,6 +18,13 @@ public class Action {
     private long currentTime;
     private long firstTime;
 
+    /**
+     * New action type constructed.
+     * @param type Name of the action
+     * @param needMoreThan Should spend more time on the action than refHours?
+     * @param refHours The amount of hours suggested.
+     * @param description The description that is displayed when selecting the action
+     */
     public Action(String type, boolean needMoreThan, double refHours, String description) {
         this.type = type;
         this.totalTimeMinutes = 0;
@@ -43,6 +51,10 @@ public class Action {
         return totalTimeMinutes;
     }
 
+    /**
+     * Add new time to the action. Also check that if the first time logging in date was saved.
+     * @param lenghtMinutes
+     */
     public void addTime(int lenghtMinutes) {
         totalTimeMinutes = totalTimeMinutes + lenghtMinutes;
 
@@ -52,13 +64,10 @@ public class Action {
         Log.d("Sovellus", this + " incremented " + lenghtMinutes + " minutes");
     }
 
-    /*
-        public String getInfo() {
-            String outRefHours = twoDigit.format(referenceHours);
-            String outHours = twoDigit.format(averageHours);
-            return outRefHours + " h | " + outHours + " h";
-        }
-    */
+    /**
+     * Get suggested time as strings
+     * @return
+     */
     public String getTimeReference() {
         if (referenceHours == -1) {
             return "Ei tavoitetta";
@@ -72,8 +81,9 @@ public class Action {
     }
 
     /**
+     * First we get the first login date, calculate how many days we have been using the app ->
+     * Total time divided by rounded down days(1,99 = 1) ->
      * Calculates and returns average hours ->
-     * total time divided by rounded down days(1,99 = 1)
      *
      * @return Average hours
      */
@@ -84,12 +94,18 @@ public class Action {
         //It's been a ...
         long days = (long) totalTime;
 
-
+        /**
+         * Cannot divide with 0
+         */
         if (days < 1) {
             days = 1;
         }
 
         averageHours = totalTimeMinutes / 60.0 / days;
+
+        /**
+         * If we have a wrong amount of time added.
+         */
         if (averageHours > 24) {
             averageHours = 24;
         }
@@ -108,6 +124,10 @@ public class Action {
         return twoDigit.format(calculateAverageTime()) + "h";
     }
 
+    /**
+     * Check if we have managed to stay with suggested time.
+     * @return success
+     */
     public String getTimeResult() {
         if (referenceHours == -1) {
             return "Sopiva";

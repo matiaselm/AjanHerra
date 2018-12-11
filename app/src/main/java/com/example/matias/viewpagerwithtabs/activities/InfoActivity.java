@@ -19,6 +19,9 @@ import com.example.matias.viewpagerwithtabs.singletons.UserList;
 
 import java.util.ArrayList;
 
+/**
+ * This Activity gathers all the information of a selected action and puts it on one screen
+ */
 public class InfoActivity extends AppCompatActivity {
 
     @Override

@@ -83,6 +83,10 @@ public class UserList {
         return true;
     }
 
+    /**
+     * Get currently selected users index
+     * @return index
+     */
     public int getCurrentUserInt() {
         return intCurrentUser;
     }

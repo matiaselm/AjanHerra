@@ -39,6 +39,8 @@ public class FrontAdapter extends ArrayAdapter<String> {
             TextView tt1 = (TextView) v.findViewById(R.id.actionRow);
             TextView tt2 = (TextView) v.findViewById(R.id.timeRow);
 
+            //Separate what is before and after "/" in the string feed
+
             if (tt1 != null) {
                 tt1.setText(p.replaceAll(".*/", ""));
             }

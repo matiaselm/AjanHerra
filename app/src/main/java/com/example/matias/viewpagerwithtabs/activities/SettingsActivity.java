@@ -103,6 +103,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         getUser();
 
+        /**
+         * Select age. Automatically set to current.
+         */
         spinnerAge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -120,6 +123,9 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
+        /**
+         * Select sex. Automatically set to current.
+         */
         spinnerSex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -137,6 +143,9 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Parse name from editText and attempt saving changes
+         */
         findViewById(R.id.saveSettingsButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,6 +166,9 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Remove user. Please come again!
+         */
         findViewById(R.id.removeUserButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,6 +186,9 @@ public class SettingsActivity extends AppCompatActivity {
         loadUsers();
     }
 
+    /**
+     * Remove user, update userList and update indexing of each actionList to newly indexed users
+     */
     public void removeUser() {
 
         UserList.getInstance().removeUser();
@@ -199,12 +214,18 @@ public class SettingsActivity extends AppCompatActivity {
         json = prefActions.getString(usersActionList, null);
         Log.d("Sovellus", "After remove " + usersActionList + " : " + json);
 
+        /**
+         * If we are the last user in index... ez.
+         */
         if (userIndexBeforeRemove == userListSize) {
 
             Log.d("Sovellus", "Deleted user was last in index");
 
         } else {
 
+            /**
+             * Go through each users actionList from savedPrefs and reindex them by -1. Only those after removed users are checked.
+             */
             for (int i = userIndexBeforeRemove; i < userListSize; i++) {
 
                 //Keep these two togethor
@@ -254,7 +275,9 @@ public class SettingsActivity extends AppCompatActivity {
         startActivity(nextActivity);
     }
 
-
+    /**
+     * Get current user and preset the selections
+     */
     public void getUser() {
         int putAge = currentYear - UserList.getInstance().getCurrentUser().getYearOfBirth();
 
@@ -284,6 +307,9 @@ public class SettingsActivity extends AppCompatActivity {
         prefUsersEditor = prefUsers.edit();
     }
 
+    /**
+     * Accept saving the new settings and proceed to save them.
+     */
     public void changeSettings() {
         Log.d("Sovellus", "Changed user settings " + UserList.getInstance().getCurrentUser().getName() + " Name " + selectedName + " Year of birth " + selectedYear + " Gender " + selectedSex);
         UserList.getInstance().getCurrentUser().setSex(selectedSex);

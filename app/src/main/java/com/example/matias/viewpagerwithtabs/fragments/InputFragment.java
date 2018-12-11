@@ -268,6 +268,11 @@ public class InputFragment extends Fragment {
         return v;
     }
 
+
+    /**
+     * Check from memory if the timer button is pressed. Set accordingly.
+     * Get last selectedAction and set the spinner ready for user ease.
+     */
     @Override
     public void onResume() {
 
@@ -312,17 +317,14 @@ public class InputFragment extends Fragment {
         spinnerActions.setSelection(LastActionSelection);
         selectedAction = LastActionSelection;
 
+        /**
+         * Select the action that is wanted to add. Save it into memory. selectedAction is used further on.
+         */
         spinnerActions.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view,
                                        int position, long id) {
-                // Object item = adapterView.getItemAtPosition(position);
-                // if (item != null) {
-                //    Toast.makeText(InputActivity.this, item.toString(),
-                //            Toast.LENGTH_SHORT).show();
-                //}
-
                 selectedAction = position;
 
                 prefActionsEditor.putInt(usersLastActionSelection, position);
@@ -339,6 +341,9 @@ public class InputFragment extends Fragment {
         });
     }
 
+    /**
+     * Get all sharedpreference keys updated in one go and never ever mess them again. Aye.
+     */
     private void updateUserSaveKeys() {
         int getCurrentUserInt = UserList.getInstance().getCurrentUserInt();
         userRunningActivity = "user" + getCurrentUserInt + "RunningActivity";
@@ -350,6 +355,10 @@ public class InputFragment extends Fragment {
         usersLastActionSelection = "user" + getCurrentUserInt + "ActionListSelection";
     }
 
+    /**
+     * Add time and check that we cannot set more than 24 at one time.
+     * @param customTime
+     */
     private void addTime(int customTime) {
         if (customTime > 0 && customTime <= 1440) {
             ActionList.getInstance().addAction(selectedAction, customTime);
@@ -385,7 +394,7 @@ public class InputFragment extends Fragment {
     }
 
     /**
-     *
+     *Try loading the users actionList. If we don't find it, then we use the default list.
      */
     private void loadData() {
         prefActions = this.getActivity().getSharedPreferences("Actions", Activity.MODE_PRIVATE);
@@ -413,7 +422,10 @@ public class InputFragment extends Fragment {
         }
     }
 
-
+    /**
+     * Write entry to history event log.
+     * @param contextTime Minutes added
+     */
     public void writeHistory(int contextTime) {
         if (contextTime > 0) {
 
@@ -438,11 +450,6 @@ public class InputFragment extends Fragment {
         prefUsersEditor.commit();
 
         saveData();
-    }
-
-    public void saveUsers() {
-
-
     }
 
     public void closeKeyboard() {

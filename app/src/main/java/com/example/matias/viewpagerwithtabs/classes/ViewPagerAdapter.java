@@ -20,14 +20,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-       /* position = position++;
-        Log.d("frag", "getItem" + position);
-        Bundle bundle = new Bundle();
-        bundle.putString("message", "Fragment: " +position);
-        bundle.putInt("position", position);
-        demoFragment.setArguments(bundle);
-        return demoFragment;*/
-
         if (position == 2) {
             OutputFragment outFrag = new OutputFragment();
             Log.d("frag", "Position: " + position);
@@ -41,10 +33,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             Log.d("frag", "Position: " + position);
             return fronFrag;
         }
-    }
-
-    public void imVisible() {
-
     }
 
     @Override
@@ -65,7 +53,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             return "Viimeisimmät";
         }
     }
-
 
     public void refresh() {
 

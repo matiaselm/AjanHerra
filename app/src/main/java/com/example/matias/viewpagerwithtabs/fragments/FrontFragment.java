@@ -61,6 +61,9 @@ public class FrontFragment extends Fragment {
 
     }
 
+    /**
+     * Get history list from current user. Feed it to list adapter.
+     */
     public void updateList() {
 
         historyList = UserList.getInstance().getCurrentUser().getHistoryList();

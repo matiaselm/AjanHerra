@@ -63,6 +63,9 @@ public class AddActivity extends AppCompatActivity {
 
         RadioGroup booleanGroup = findViewById(R.id.booleanMoreGroup);
 
+        /**
+         * Check if we want needMoraThan boolean
+         */
         booleanGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -82,6 +85,9 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Add new action
+         */
         findViewById(R.id.addActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,6 +157,9 @@ public class AddActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Do the actual adding new action.
+     */
     public void addNewAction() {
         usersActionList = "user" + UserList.getInstance().getCurrentUserInt() + "ActionList";
 

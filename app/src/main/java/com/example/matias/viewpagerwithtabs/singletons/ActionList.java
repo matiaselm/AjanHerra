@@ -19,6 +19,9 @@ public class ActionList {
         setDefaultList();
     }
 
+    /**
+     * Create a new empty default list of actions.
+     */
     public void setDefaultList() {
         defaultList = new ArrayList<>();
 
@@ -35,10 +38,22 @@ public class ActionList {
         activities = defaultList;
     }
 
+    /**
+     * When we spend time doing the action we add it.
+     * @param type Action name
+     * @param lenghtMinutes minutes
+     */
     public void addAction(int type, int lenghtMinutes) {
         activities.get(type).addTime(lenghtMinutes);
     }
 
+    /**
+     * Create a brand new users action type
+     * @param type Name of action
+     * @param needMoreThan If we need more time than refHours
+     * @param refHours How many hours is suggested per day
+     * @param description Small text about it
+     */
     public void addNewActionType(String type, boolean needMoreThan, double refHours, String description) {
         getActivities().add(new Action(type, needMoreThan, refHours, description));
     }
@@ -47,7 +62,7 @@ public class ActionList {
      * Get User object with requested index
      *
      * @param index
-     * @return User
+     * @return User User object
      */
     public Action getActivity(int index) {
         return getActivities().get(index);
@@ -55,7 +70,7 @@ public class ActionList {
 
 
     /**
-     * Check if the username is taken
+     * Check if the username is taken. Go through every index of userList and compare.
      *
      * @param testName
      * @return
@@ -70,10 +85,18 @@ public class ActionList {
         return true;
     }
 
+    /**
+     * Get whole Action type array, which is our current array of activities.
+     * @return
+     */
     public ArrayList<Action> getActivities() {
         return activities;
     }
 
+    /**
+     * Set new Array list of actions.
+     * @param activityList new list
+     */
     public void setActivities(ArrayList activityList) {
         activities = activityList;
     }

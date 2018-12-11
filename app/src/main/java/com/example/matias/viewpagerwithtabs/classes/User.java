@@ -20,8 +20,8 @@ public class User {
     /**
      * New user is created
      *
-     * @param name
-     * @param yearOfBirth
+     * @param name Name of user
+     * @param yearOfBirth Year of birth
      * @param sexInt      0=mies, 1=nainen, 2=muu
      */
     public User(String name, int yearOfBirth, int sexInt) {
@@ -34,6 +34,10 @@ public class User {
         setSex(this.sexInt);
     }
 
+    /**
+     * Add a new log entry for the history log. Sort the list in reverse order. Summary is the feed that comes from adding time.
+     * @param summary from adding new action event
+     */
     public void addHistoryEvent(String summary) {
 
         historyList.add(summary);
@@ -58,6 +62,10 @@ public class User {
         this.name = name;
     }
 
+    /**
+     * Calculate age.
+     * @return age
+     */
     public int getAge() {
         Time today = new Time(Time.getCurrentTimezone());
         today.setToNow();

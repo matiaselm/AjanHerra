@@ -92,7 +92,9 @@ public class MainActivity extends AppCompatActivity {
         spinnerAge.setAdapter(dataAdapter);
         spinnerSex.setAdapter(dataAdapterSex);
 
-
+        /**
+         * Spinner to select age
+         */
         spinnerAge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -109,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Spinner to select gender
+         */
         spinnerSex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -117,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
                                        int position, long id) {
                 //0=Male 1=Female 2=Other
                 selectedSex = position;
-
 
                 Log.d("Sovellus", "Selected " + selectedSex);
             }
@@ -128,6 +132,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Button to press to try login
+         */
         findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Button to try adding new user
+         */
         findViewById(R.id.newUserButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -225,6 +235,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Try loading users from memory and putting them on UserList
+     */
     public void loadUsers() {
         prefUsers = thisActivity.getSharedPreferences("Users", Activity.MODE_PRIVATE);
         prefUsersEditor = prefUsers.edit();
@@ -264,6 +277,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Add new user with parameters selectedName, selectedYear, selectedSex.
+     * Update current user selection
+     */
     private void newUser() {
         selectedUserInt = UserList.getInstance().getUsers().size();
 
@@ -278,6 +295,9 @@ public class MainActivity extends AppCompatActivity {
         changeActivityPrep();
     }
 
+    /**
+     * Do preparations to login
+     */
     private void changeActivityPrep() {
         saveUsers();
 
@@ -287,6 +307,9 @@ public class MainActivity extends AppCompatActivity {
         changeActivity();
     }
 
+    /**
+     * Login
+     */
     private void changeActivity() {
         Log.d("Sovellus", "Logged in as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex() + UserList.getInstance().getCurrentUser().getSexInt());
         int newSelectedUserInt = (prefUsers.getInt(currentUser, -1));
