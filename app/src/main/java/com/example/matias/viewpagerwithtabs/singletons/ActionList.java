@@ -5,6 +5,11 @@ import com.example.matias.viewpagerwithtabs.classes.User;
 
 import java.util.ArrayList;
 
+/**
+ * This singleton manages one set of action list. The action list is saved and loaded as gson in saved preference. When new user logs in we change the action list in here.
+ * Lists are saved as format user*index*ActionList
+ * If a new user logs in a new default list is added to account.
+ */
 public class ActionList {
 
     private ArrayList<Action> activities;
@@ -40,7 +45,8 @@ public class ActionList {
 
     /**
      * When we spend time doing the action we add it.
-     * @param type Action name
+     *
+     * @param type          Action name
      * @param lenghtMinutes minutes
      */
     public void addAction(int type, int lenghtMinutes) {
@@ -49,10 +55,11 @@ public class ActionList {
 
     /**
      * Create a brand new users action type
-     * @param type Name of action
+     *
+     * @param type         Name of action
      * @param needMoreThan If we need more time than refHours
-     * @param refHours How many hours is suggested per day
-     * @param description Small text about it
+     * @param refHours     How many hours is suggested per day
+     * @param description  Small text about it
      */
     public void addNewActionType(String type, boolean needMoreThan, double refHours, String description) {
         getActivities().add(new Action(type, needMoreThan, refHours, description));
@@ -87,6 +94,7 @@ public class ActionList {
 
     /**
      * Get whole Action type array, which is our current array of activities.
+     *
      * @return
      */
     public ArrayList<Action> getActivities() {
@@ -95,6 +103,7 @@ public class ActionList {
 
     /**
      * Set new Array list of actions.
+     *
      * @param activityList new list
      */
     public void setActivities(ArrayList activityList) {

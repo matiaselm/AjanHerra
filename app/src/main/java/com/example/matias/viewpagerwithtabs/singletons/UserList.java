@@ -4,12 +4,14 @@ import com.example.matias.viewpagerwithtabs.classes.User;
 
 import java.util.ArrayList;
 
+/**
+ * This singleton manages all users as a list. The user list is saved and loaded as gson in saved preference. When new user is created we immediately save the preference.
+ * When an user logs in we keep track of the user index in a our UserList with currentUser. This provides base for almost all code transactions.
+ */
 public class UserList {
 
     private ArrayList<User> users;
-    private User currentUser;
     private int intCurrentUser;
-    private int userListNumber;
 
     private static final UserList ourInstance = new UserList();
 
@@ -85,6 +87,7 @@ public class UserList {
 
     /**
      * Get currently selected users index
+     *
      * @return index
      */
     public int getCurrentUserInt() {

@@ -26,7 +26,9 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Front fragment provides us a view with history files listed in listview, showed last event first.
+ * Due to fragment limitations on ease of work and tight deadline this page requires updating by a button.
+ * All other fragments update automatically.
  */
 public class FrontFragment extends Fragment {
 
@@ -49,7 +51,7 @@ public class FrontFragment extends Fragment {
 
         historyList = UserList.getInstance().getCurrentUser().getHistoryList();
 
-            updateList();
+        updateList();
 
         //Do not know why this crash???
         closeKeyboard();
@@ -78,18 +80,18 @@ public class FrontFragment extends Fragment {
      * Get history list from current user. Feed it to list adapter.
      */
     public void updateList() {
-            // get data from the table by the ListAdapter
+        // get data from the table by the ListAdapter
         Log.d("Sovellus", "Update front list");
-            customAdapter = new FrontAdapter(getActivity(), R.layout.historylist_items, historyList);
+        customAdapter = new FrontAdapter(getActivity(), R.layout.historylist_items, historyList);
 
        /* for (int i = 0 ;i < historyList.size(); i++){
             String file = UserList.getInstance().getCurrentUser().getHistoryFile(i);
             Log.d ("Sovellus", "Front fragment found: " + file);
         }*/
 
-            ListView lv = (ListView) f.findViewById(R.id.lvHistory);
+        ListView lv = (ListView) f.findViewById(R.id.lvHistory);
 
-            lv.setAdapter(customAdapter);
+        lv.setAdapter(customAdapter);
     }
 
     @Override

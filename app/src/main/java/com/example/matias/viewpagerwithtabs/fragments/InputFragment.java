@@ -35,7 +35,13 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This fragment is the ultimate fragment to gather all user action inputs. Everything happening here is save in saved preferences.
+ * Action spinner is used to select action by type.
+ * Start and stop button is calculating time and adding action based on that calculation. Even when closing app this is saved. The action is saved also.
+ * Manual time input is independent, because start and stop button reads and saves the action type at the time of pressing.
+ * Current action selection is saved and restored after project closing to help user.
+ * Reset button resets start and stop button and manual input feeds.
+ * Manual input clears the text fields.
  */
 
 public class InputFragment extends Fragment {
@@ -110,6 +116,14 @@ public class InputFragment extends Fragment {
      * -> Tekstikentässä "Aktiviteetin kesto: "KESTO", lisää uusi aktiviteetti valitsemalla ja painamalla aloita
      */
 
+    /**
+     * onCreateView we create listeners, inflate view and define couple parameters.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -125,6 +139,14 @@ public class InputFragment extends Fragment {
         start = v.findViewById(R.id.startButton);
         today = new Time(Time.getCurrentTimezone());
 
+        /**
+         * This listener handles the start and stop.
+         * It reads the current state from activity (which is loaded from shared preferences on resume)
+         * State change is saved directly into shared prefs
+         * isTimer == false -> start counter
+         * isTimer == true -> stop counter
+         * 1 minute is shortest time that is saved
+         */
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,6 +233,14 @@ public class InputFragment extends Fragment {
             }
         });
 
+        /**
+         * This listener is add manual input button. Before proceeding add time we wheck:
+         * One or both edit text fields have input
+         * Count first field as hours * 60 = minutes
+         * Second field is minutes
+         * Sum total time and send to addTime
+         * Edittext is set to number mode only
+         */
         v.findViewById(R.id.addInput).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,6 +269,9 @@ public class InputFragment extends Fragment {
             }
         });
 
+        /**
+         * Clears all inputs and timer.
+         */
         v.findViewById(R.id.rmInput).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -270,8 +303,9 @@ public class InputFragment extends Fragment {
 
 
     /**
-     * Check from memory if the timer button is pressed. Set accordingly.
+     * Check from memory if the timer button is pressed. Set accordingly isTimer.
      * Get last selectedAction and set the spinner ready for user ease.
+     * Read actionList from shared preferences and update the action spinner.
      */
     @Override
     public void onResume() {
@@ -357,6 +391,7 @@ public class InputFragment extends Fragment {
 
     /**
      * Add time and check that we cannot set more than 24 at one time.
+     *
      * @param customTime
      */
     private void addTime(int customTime) {
@@ -370,6 +405,12 @@ public class InputFragment extends Fragment {
                     Toast.LENGTH_SHORT).show();
             writeHistory(customTime);
             closeKeyboard();
+
+            hTime = v.findViewById(R.id.timeView2);
+            hTime.setText("");
+            mTime = v.findViewById(R.id.timeView3);
+            mTime.setText("");
+
         } else {
             Toast.makeText(getContext(), "Virheellinen aika",
                     Toast.LENGTH_SHORT).show();
@@ -394,7 +435,7 @@ public class InputFragment extends Fragment {
     }
 
     /**
-     *Try loading the users actionList. If we don't find it, then we use the default list.
+     * Try loading the users actionList. If we don't find it, then we use the default list.
      */
     private void loadData() {
         prefActions = this.getActivity().getSharedPreferences("Actions", Activity.MODE_PRIVATE);
@@ -424,6 +465,17 @@ public class InputFragment extends Fragment {
 
     /**
      * Write entry to history event log.
+     * Format: entryNumber Date / action / added time
+     * Example : 43)  11.12.2018 21.14/Työskentely, lisätty 1 min
+     * This data is saved under current user and sorted in reverse order
+     * FrontAdapter divides and prints this as before and after character "/"
+     * <p>
+     * 44)  11.12.2018 21.15
+     * Nukkuminen, lisätty 50 min
+     * <p>
+     * 43)  11.12.2018 21.14
+     * Työskentely, lisätty 1 min
+     *
      * @param contextTime Minutes added
      */
     public void writeHistory(int contextTime) {
@@ -433,7 +485,7 @@ public class InputFragment extends Fragment {
 
             activityName = ActionList.getInstance().getActivities().get(selectedAction).getType();
             long entryNumber = UserList.getInstance().getCurrentUser().getHistoryList().size() + 1;
-            String summary = entryNumber  + ")  " + currentDate + "/" + activityName + ", lisätty " + contextTime + " min";
+            String summary = entryNumber + ")  " + currentDate + "/" + activityName + ", lisätty " + contextTime + " min";
 
             Log.d("Sovellus", "History time: " + summary);
 
@@ -453,6 +505,10 @@ public class InputFragment extends Fragment {
         saveData();
     }
 
+    /**
+     * /**
+     * Manually close the keyboard
+     */
     public void closeKeyboard() {
 
         try {

@@ -11,6 +11,10 @@ import com.example.matias.viewpagerwithtabs.R;
 
 import java.util.List;
 
+/**
+ * This is the custom listview adapter that has 2 different view positions.
+ */
+
 public class FrontAdapter extends ArrayAdapter<String> {
 
     private int resourceLayout;
@@ -22,6 +26,11 @@ public class FrontAdapter extends ArrayAdapter<String> {
         this.mContext = context;
     }
 
+    /**
+     * Finds the String arraylist item and prints the strings.
+     * 1. position: extract String after /
+     * 2. position: extract String before /
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

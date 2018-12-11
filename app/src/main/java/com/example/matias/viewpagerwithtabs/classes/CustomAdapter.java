@@ -11,6 +11,10 @@ import com.example.matias.viewpagerwithtabs.R;
 
 import java.util.List;
 
+/**
+ * This is the custom listview adapter that has 4 different view positions.
+ */
+
 public class CustomAdapter extends ArrayAdapter<Action> {
 
     private int resourceLayout;
@@ -22,6 +26,13 @@ public class CustomAdapter extends ArrayAdapter<Action> {
         this.mContext = context;
     }
 
+    /**
+     * Finds the Action class arraylist item and gets the parameters from it.
+     * 1. position : Type
+     * 2. position : Reference time
+     * 3. position : Average hours as listview format
+     * 4. position : Resulting time suggestions
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

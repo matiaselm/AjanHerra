@@ -29,6 +29,13 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This activity is loaded when user wants to change settings. Following functions are possibly
+ * Change name
+ * Change sex
+ * Change year of birth
+ * Remove user
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     private SettingsActivity thisActivity;
@@ -51,6 +58,11 @@ public class SettingsActivity extends AppCompatActivity {
     String json;
     String empty;
 
+    /**
+     * Create view and load parameters.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -318,8 +330,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         saveUsers();
 
-            Toast.makeText(thisActivity, "Tallennus onnistui!",
-                    Toast.LENGTH_SHORT).show();
+        Toast.makeText(thisActivity, "Tallennus onnistui!",
+                Toast.LENGTH_SHORT).show();
     }
 
     //********************TOOLBAR STUFF ONLY***********************//

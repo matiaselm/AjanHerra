@@ -27,7 +27,12 @@ import java.util.ArrayList;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Output fragment sorts all the data from each action and loads it into a listview with CustomAdapter.
+ * * Finds the Action class arraylist item and gets the parameters from it.
+ * 1. position : Type
+ * 2. position : Reference time
+ * 3. position : Average hours as listview format
+ * 4. position : Resulting time suggestions
  */
 public class OutputFragment extends Fragment {
 
@@ -44,6 +49,14 @@ public class OutputFragment extends Fragment {
 
     View t;
 
+    /**
+     * onCreateView we create view we udate the action list and send it to customAdapter.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,9 +72,10 @@ public class OutputFragment extends Fragment {
 
         lv.setAdapter(customAdapter);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
-
-        {
+        /**
+         * This listener gets the position of clicked listview element and moves us to that corresponding actions info view activity (InfoActivity).
+         */
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("Sovellus", i + " painettu");
@@ -80,9 +94,6 @@ public class OutputFragment extends Fragment {
         Log.d("Sovellus", "onResume output");
         closeKeyboard();
         customAdapter.notifyDataSetChanged();
-    }
-
-    public void imVisible() {
     }
 
     public void onPause() {

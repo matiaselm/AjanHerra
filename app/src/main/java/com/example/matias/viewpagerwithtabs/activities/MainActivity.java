@@ -24,6 +24,10 @@ import com.example.matias.viewpagerwithtabs.singletons.UserList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * MainActivity is used as a login or create new user view. After that we will use MainActivityTabs
+ * CurrentUser will be looked for from memory and attempted to automatically login.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private MainActivity thisActivity;
@@ -48,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
     Gson listGson;
     String json;
 
+    /**
+     * Create all the elements for the view.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,11 +80,25 @@ public class MainActivity extends AppCompatActivity {
         List<String> ageList = new ArrayList<String>();
         List<String> sexList = new ArrayList<String>();
 
+        /**
+         * Calculate 120 years back from currentYear to create array with years of birth. Eg.
+         * 2018
+         * 2017
+         * ...
+         * 1899
+         * 1898
+         */
         for (int i = currentYear; i > currentYear - 120; i--) {
             ageList.add("Syntymävuosi: " + i);
         }
 
         //Do not change order!
+        /**
+         * Sexlist feeds following indexes to UserList. User class is responsible for conversion index to string.
+         * 0 = Mies
+         * 1 = Nainen
+         * 2 = Muu
+         */
         sexList.add("Sukupuoli: Mies");
         sexList.add("Sukupuoli: Nainen");
         sexList.add("Sukupuoli: Muu");
@@ -182,7 +205,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * On resume we remake some views
+     * Automatic login is tried if current user is found and if our preference "isAutomaticLogin" is selected.
+     * If user keeps pressing back button, the automatic login will reset. First back button from MainActivityTabs will simply redirect back to itself.
+     * UserList is read and added to adapter to create view of all current users.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -227,6 +255,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Save users every time users are changed(added).
+     */
     private void saveUsers() {
         userList = UserList.getInstance().getUsers();
         listGson = new Gson();
@@ -293,6 +324,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * If automatic login is successful
+     */
     private void automaticLoginSuccess() {
         Log.d("Sovellus", "Testing automatic login Succeed");
         selectedUserInt = lastSelectedUserInt;
@@ -300,7 +334,10 @@ public class MainActivity extends AppCompatActivity {
         changeActivity();
     }
 
-    private void automaticLoginFailed(){
+    /**
+     * If automatic login failed
+     */
+    private void automaticLoginFailed() {
         Log.d("Sovellus", "Testing automatic login failed. User keeps pressing back button");
 
         UserList.getInstance().setCurrentUser(-1);
@@ -339,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Login
+     * Login, move to MainActivityTabs
      */
     private void changeActivity() {
         Log.d("Sovellus", "Logged in as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex() + UserList.getInstance().getCurrentUser().getSexInt());

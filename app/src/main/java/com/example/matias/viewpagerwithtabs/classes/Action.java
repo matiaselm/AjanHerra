@@ -6,7 +6,9 @@ import com.example.matias.viewpagerwithtabs.singletons.UserList;
 
 import java.text.DecimalFormat;
 
-
+/**
+ * This class creates objects that represent user activity per category.
+ */
 public class Action {
     private String type;
     private double totalTimeMinutes;
@@ -20,10 +22,11 @@ public class Action {
 
     /**
      * New action type constructed.
-     * @param type Name of the action
+     *
+     * @param type         Name of the action
      * @param needMoreThan Should spend more time on the action than refHours?
-     * @param refHours The amount of hours suggested.
-     * @param description The description that is displayed when selecting the action
+     * @param refHours     The amount of hours suggested.
+     * @param description  The description that is displayed when selecting the action
      */
     public Action(String type, boolean needMoreThan, double refHours, String description) {
         this.type = type;
@@ -35,24 +38,18 @@ public class Action {
         this.currentTime = 0;
     }
 
-    public void setRefHours(double refHours) {
-        this.referenceHours = refHours;
-    }
-
-    public void setNeedMoreThan(boolean needMoreThan) {
-        this.needMoreThan = needMoreThan;
-    }
-
+    /**
+     * Set the new type for an action.
+     *
+     * @param type
+     */
     public void setType(String type) {
         this.type = type;
     }
 
-    public double getTotalTimeMinutes() {
-        return totalTimeMinutes;
-    }
-
     /**
      * Add new time to the action. Also check that if the first time logging in date was saved.
+     *
      * @param lenghtMinutes
      */
     public void addTime(int lenghtMinutes) {
@@ -66,6 +63,7 @@ public class Action {
 
     /**
      * Get suggested time as strings
+     *
      * @return
      */
     public String getTimeReference() {
@@ -82,7 +80,7 @@ public class Action {
 
     /**
      * First we get the first login date, calculate how many days we have been using the app ->
-     * Total time divided by rounded down days(1,99 = 1) ->
+     * Total time divided by rounded down days after first login(1,99 = 1) ->
      * Calculates and returns average hours ->
      *
      * @return Average hours
@@ -116,16 +114,27 @@ public class Action {
         return averageHours;
     }
 
+    /**
+     * Get Average time user spent on action in long format.
+     *
+     * @return Long format of average time as String
+     */
     public String getTimeAverage() {
         return "Keskiarvosi " + twoDigit.format(calculateAverageTime()) + "h";
     }
 
+    /**
+     * Get Average time user spent on action in short format. This is used for listview
+     *
+     * @return Long format of average time as String
+     */
     public String getTimeAverageLv() {
         return twoDigit.format(calculateAverageTime()) + "h";
     }
 
     /**
      * Check if we have managed to stay with suggested time.
+     *
      * @return success
      */
     public String getTimeResult() {
@@ -153,10 +162,20 @@ public class Action {
         }
     }
 
+    /**
+     * Get the description string of an action.
+     *
+     * @return String description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Get the type name string of an action.
+     *
+     * @return String type
+     */
     public String getType() {
         return type;
     }

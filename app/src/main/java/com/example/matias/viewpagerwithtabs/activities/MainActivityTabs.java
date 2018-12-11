@@ -18,6 +18,10 @@ import com.example.matias.viewpagerwithtabs.R;
 import com.example.matias.viewpagerwithtabs.classes.ViewPagerAdapter;
 import com.example.matias.viewpagerwithtabs.singletons.UserList;
 
+/**
+ * This Activity is loaded during most of the users time. It holds all fragments. If automatic login is enabled, user is redirected automatically from MainActivity to this.
+ * In here we define and setup Viewpager, toolbar and tab layout.
+ */
 public class MainActivityTabs extends AppCompatActivity {
 
     private Toolbar toolbar;

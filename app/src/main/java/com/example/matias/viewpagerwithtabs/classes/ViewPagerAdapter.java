@@ -12,6 +12,12 @@ import com.example.matias.viewpagerwithtabs.fragments.FrontFragment;
 import com.example.matias.viewpagerwithtabs.fragments.InputFragment;
 import com.example.matias.viewpagerwithtabs.fragments.OutputFragment;
 
+/**
+ * Handle our fragment positions
+ * 0 = input page
+ * 1 = front page (history log)
+ * 2 = Output page (list of action averages)
+ */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     public ViewPagerAdapter(FragmentManager fm) {
@@ -40,6 +46,12 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return 3;
     }
 
+    /**
+     * Set String names for swiper menu
+     *
+     * @param position
+     * @return string menu name
+     */
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {

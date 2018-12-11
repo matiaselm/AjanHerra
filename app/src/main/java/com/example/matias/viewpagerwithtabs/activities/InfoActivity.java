@@ -24,6 +24,16 @@ import java.util.ArrayList;
  */
 public class InfoActivity extends AppCompatActivity {
 
+    /**
+     * On create we simply get all the parameters from current users actionList and feed the info to textviews.
+     * 1. Type
+     * 2. Reference
+     * 3. Average
+     * 4. Result
+     * 5. Description
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

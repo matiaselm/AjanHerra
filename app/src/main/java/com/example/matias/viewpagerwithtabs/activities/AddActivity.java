@@ -26,6 +26,9 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+/**
+ * This activity is window where user can create own actions.
+ */
 public class AddActivity extends AppCompatActivity {
 
     SharedPreferences.Editor prefActionsEditor;
@@ -43,6 +46,11 @@ public class AddActivity extends AppCompatActivity {
     private String selectedType;
     private String timeInput;
 
+    /**
+     * On create we make preparations to create new action view.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +72,7 @@ public class AddActivity extends AppCompatActivity {
         RadioGroup booleanGroup = findViewById(R.id.booleanMoreGroup);
 
         /**
-         * Check if we want needMoraThan boolean
+         * Check if we want needMoreThan boolean
          */
         booleanGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
