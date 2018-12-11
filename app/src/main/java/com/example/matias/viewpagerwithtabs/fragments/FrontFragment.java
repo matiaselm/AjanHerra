@@ -47,13 +47,26 @@ public class FrontFragment extends Fragment {
         // Inflate the layout for this fragment
         f = inflater.inflate(R.layout.fragment_front, container, false);
 
+        historyList = UserList.getInstance().getCurrentUser().getHistoryList();
+
+            updateList();
+
         //Do not know why this crash???
         closeKeyboard();
 
         f.findViewById(R.id.buttonHistory).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateList();
+                Log.d("Sovellus", "Pressed update front list");
+
+                historyList = UserList.getInstance().getCurrentUser().getHistoryList();
+
+                if (historyList.size() == 0) {
+                    Toast.makeText(getContext(), "Ei historiatietoja",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    updateList();
+                }
             }
         });
 
@@ -65,32 +78,18 @@ public class FrontFragment extends Fragment {
      * Get history list from current user. Feed it to list adapter.
      */
     public void updateList() {
-
-        historyList = UserList.getInstance().getCurrentUser().getHistoryList();
-
-        // get data from the table by the ListAdapter
-        customAdapter = new FrontAdapter(getActivity(), R.layout.historylist_items, historyList);
+            // get data from the table by the ListAdapter
+        Log.d("Sovellus", "Update front list");
+            customAdapter = new FrontAdapter(getActivity(), R.layout.historylist_items, historyList);
 
        /* for (int i = 0 ;i < historyList.size(); i++){
             String file = UserList.getInstance().getCurrentUser().getHistoryFile(i);
             Log.d ("Sovellus", "Front fragment found: " + file);
         }*/
 
-        ListView lv = (ListView) f.findViewById(R.id.lvHistory);
+            ListView lv = (ListView) f.findViewById(R.id.lvHistory);
 
-        lv.setAdapter(customAdapter);
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
-
-        {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("Sovellus", i + " painettu");
-                //Intent nextActivity = new Intent(getActivity(), InfoActivity.class);
-                // nextActivity.putExtra("itempos", i);
-                //startActivity(nextActivity);
-            }
-        });
+            lv.setAdapter(customAdapter);
     }
 
     @Override
@@ -99,6 +98,7 @@ public class FrontFragment extends Fragment {
 
         Log.d("Sovellus", "onResume Front");
 
+        updateList();
     }
 
     public void closeKeyboard() {

@@ -46,6 +46,14 @@ public class MainActivityTabs extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        Log.d("Sovellus", "MainActivityTabs onResume");
+    }
+
 
     //********************TOOLBAR STUFF ONLY***********************//
     @Override

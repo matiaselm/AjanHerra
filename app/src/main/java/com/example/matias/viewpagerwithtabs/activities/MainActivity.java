@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spinnerSex;
     private boolean isAutomaticLogin;
     private ArrayList userList;
+    private ArrayList<Long> loginTimes;
+    private int lastSelectedUserInt;
 
     SharedPreferences prefUsers;
     SharedPreferences.Editor prefUsersEditor;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         isAutomaticLogin = true;
         currentUser = "currentUser";
 
+        loginTimes = new ArrayList<Long>();
 
         Log.d("Sovellus", "On create");
         this.thisActivity = this;
@@ -263,18 +266,46 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Login automatically if we have a current user set >=0 in SharedPreferences and automatic login is enabled.
+     * Check if the user is tapping return button. If so allow them to escape.
      */
     private void tryAutomaticLogin() {
-        int lastSelectedUserInt = (prefUsers.getInt(currentUser, -1));
+        lastSelectedUserInt = (prefUsers.getInt(currentUser, -1));
         Log.d("Sovellus", "Last Current user tested: " + lastSelectedUserInt);
         if (lastSelectedUserInt >= 0) {
-            Log.d("Sovellus", "Testing automatic login Succeed");
-            selectedUserInt = lastSelectedUserInt;
-            UserList.getInstance().setCurrentUser(lastSelectedUserInt);
-            changeActivity();
+
+            long timeTrying = System.currentTimeMillis();
+
+            loginTimes.add(timeTrying);
+
+            if (loginTimes.size() < 2) {
+                automaticLoginSuccess();
+            } else {
+                long lastLogin = loginTimes.get(loginTimes.size() - 2);
+
+                if (timeTrying - lastLogin < 1200) {
+                    automaticLoginFailed();
+                } else {
+                    automaticLoginSuccess();
+                }
+            }
         } else {
-            Log.d("Sovellus", "Testing automatic login failed");
+            Log.d("Sovellus", "Testing automatic login failed. No valid lastSelectedUser");
         }
+    }
+
+    private void automaticLoginSuccess() {
+        Log.d("Sovellus", "Testing automatic login Succeed");
+        selectedUserInt = lastSelectedUserInt;
+        UserList.getInstance().setCurrentUser(lastSelectedUserInt);
+        changeActivity();
+    }
+
+    private void automaticLoginFailed(){
+        Log.d("Sovellus", "Testing automatic login failed. User keeps pressing back button");
+
+        UserList.getInstance().setCurrentUser(-1);
+        prefUsersEditor.putInt("currentUser", -1);
+        prefUsersEditor.commit();
     }
 
     /**

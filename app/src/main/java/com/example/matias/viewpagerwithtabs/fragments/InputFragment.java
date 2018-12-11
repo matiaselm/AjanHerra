@@ -432,7 +432,8 @@ public class InputFragment extends Fragment {
             currentDate = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(new Date());
 
             activityName = ActionList.getInstance().getActivities().get(selectedAction).getType();
-            String summary = currentDate + "/" + activityName + ", lisätty " + contextTime + " minuuttia";
+            long entryNumber = UserList.getInstance().getCurrentUser().getHistoryList().size() + 1;
+            String summary = entryNumber  + ")  " + currentDate + "/" + activityName + ", lisätty " + contextTime + " min";
 
             Log.d("Sovellus", "History time: " + summary);
 
@@ -460,5 +461,4 @@ public class InputFragment extends Fragment {
         } catch (Exception e) {
         }
     }
-
 }

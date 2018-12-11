@@ -318,8 +318,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         saveUsers();
 
-        //    Toast.makeText(thisActivity, "Tallennus onnistui!",
-        //            Toast.LENGTH_SHORT).show();
+            Toast.makeText(thisActivity, "Tallennus onnistui!",
+                    Toast.LENGTH_SHORT).show();
     }
 
     //********************TOOLBAR STUFF ONLY***********************//
