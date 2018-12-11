@@ -130,11 +130,11 @@ public class AddActivity extends AppCompatActivity {
             Toast.makeText(this, "Tuntimäärä puuttuu",
                     Toast.LENGTH_SHORT).show();
             Log.d("Sovellus", "Tuntimäärä puuttuu");
-        } else if(Double.parseDouble(timeInput) > 24 ) {
+        } else if (Double.parseDouble(timeInput) > 24) {
             Toast.makeText(this, "Tuntimäärä liian suuri",
                     Toast.LENGTH_SHORT).show();
             Log.d("Sovellus", "Tuntimäärä liian suuri");
-        }else if (selectedDescription.isEmpty()) {
+        } else if (selectedDescription.isEmpty()) {
             Toast.makeText(this, "Aktiviteetin kuvaus puuttuu",
                     Toast.LENGTH_SHORT).show();
             Log.d("Sovellus", "Aktiviteetin kuvaus puuttuu");

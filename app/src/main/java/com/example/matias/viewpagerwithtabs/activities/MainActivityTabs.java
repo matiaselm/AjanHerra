@@ -47,8 +47,6 @@ public class MainActivityTabs extends AppCompatActivity {
     }
 
 
-
-
     //********************TOOLBAR STUFF ONLY***********************//
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

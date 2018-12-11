@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        if (isAutomaticLogin){
+        if (isAutomaticLogin) {
             tryAutomaticLogin();
         }
     }
@@ -231,7 +231,8 @@ public class MainActivity extends AppCompatActivity {
 
         listGson = new Gson();
         json = prefUsers.getString("userList", null);
-        Type type = new TypeToken<ArrayList<User>>() {}.getType();
+        Type type = new TypeToken<ArrayList<User>>() {
+        }.getType();
         userList = listGson.fromJson(json, type);
 
         if (userList == null) {
@@ -286,8 +287,8 @@ public class MainActivity extends AppCompatActivity {
         changeActivity();
     }
 
-    private void changeActivity(){
-        Log.d("Sovellus", "Logged in as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex()+ UserList.getInstance().getCurrentUser().getSexInt());
+    private void changeActivity() {
+        Log.d("Sovellus", "Logged in as Index " + selectedUserInt + " Name " + UserList.getInstance().getCurrentUser().getName() + " Age " + Integer.toString(UserList.getInstance().getCurrentUser().getAge()) + " Gender " + UserList.getInstance().getCurrentUser().getSex() + UserList.getInstance().getCurrentUser().getSexInt());
         int newSelectedUserInt = (prefUsers.getInt(currentUser, -1));
         Log.d("Sovellus", "New Current user: " + newSelectedUserInt);
         Intent nextActivity = new Intent(thisActivity, MainActivityTabs.class);

@@ -18,10 +18,11 @@ public class User {
     private List<String> historyList;
 
     /**
-     *New user is created
+     * New user is created
+     *
      * @param name
      * @param yearOfBirth
-     * @param sexInt 0=mies, 1=nainen, 2=muu
+     * @param sexInt      0=mies, 1=nainen, 2=muu
      */
     public User(String name, int yearOfBirth, int sexInt) {
         this.name = name;
@@ -33,7 +34,7 @@ public class User {
         setSex(this.sexInt);
     }
 
-    public void addHistoryEvent(String summary){
+    public void addHistoryEvent(String summary) {
 
         historyList.add(summary);
         Collections.sort(historyList);
@@ -42,7 +43,7 @@ public class User {
 
 
     public User() {
-        this( "Name", 0, 2);
+        this("Name", 0, 2);
     }
 
     public void setYearOfBirth(int yearOfBirth) {
@@ -101,9 +102,9 @@ public class User {
 
     public void setSex(int sexInt) {
         this.sexInt = sexInt;
-        if (sexInt == 0){
+        if (sexInt == 0) {
             this.sex = "Mies";
-        } else if (sexInt == 1){
+        } else if (sexInt == 1) {
             this.sex = "Nainen";
         } else {
             this.sex = "Muu";

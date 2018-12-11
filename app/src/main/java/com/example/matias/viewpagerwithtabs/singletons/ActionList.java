@@ -19,7 +19,7 @@ public class ActionList {
         setDefaultList();
     }
 
-    public void setDefaultList(){
+    public void setDefaultList() {
         defaultList = new ArrayList<>();
 
         defaultList.add(new Action("Nukkuminen", true, 7, "Uni on tärkeä fyysisen ja henkisen hyvinvoinnin lähde. Riittävä uni auttaa mm. painonhallinnassa ja oppimisessa."));
@@ -27,7 +27,7 @@ public class ActionList {
         defaultList.add(new Action("Syöminen", true, 1, "Ruoka on tärkeä energian ja hivenaineiden lähde. Säännöllinen ruokailu parantaa kehon toimintaa."));
         defaultList.add(new Action("Työskentely", true, -1, "Töiden teko on toisille välttämätön, toisille nautinnollinen keino ansaita elanto."));
         defaultList.add(new Action("Opiskelu", true, -1, "Opiskelu kannattaa aina. Hyvä sivistys edesauttaa työsuhteiden, mutta myös ihmissuhteiden hankintaa."));
-        defaultList.add(new Action("Ruutuaika", false, 3, "Television, mobiililaitteen tai tietokoneen viihdekäyttö on mukavaa. Liiallisissa määrissä voi aiheuttaa fyysisiä ja psyykkisiä ongelmia." ));
+        defaultList.add(new Action("Ruutuaika", false, 3, "Television, mobiililaitteen tai tietokoneen viihdekäyttö on mukavaa. Liiallisissa määrissä voi aiheuttaa fyysisiä ja psyykkisiä ongelmia."));
         defaultList.add(new Action("Harrastukset", false, 3, "Harrastukset ovat tärkeitä ihmisen hyvinvoinnin kannalta. Kuitenkin on muistettava vanha sananlasku: ensin työ, sitten hupi."));
         defaultList.add(new Action("Viihde", false, 3, "Viihde on jokaiselle meistä erilainen käsite. Nauru pidentää ikää, mutta kohtuus kaikessa."));
         //defaultList.add(new Action("Määrittelemätön", true, -1, "Meillä kaikilla on omat juttume, hyvä niin, vaali omaa itseäsi."));
@@ -39,12 +39,13 @@ public class ActionList {
         activities.get(type).addTime(lenghtMinutes);
     }
 
-    public void addNewActionType(String type, boolean needMoreThan, double refHours, String description){
+    public void addNewActionType(String type, boolean needMoreThan, double refHours, String description) {
         getActivities().add(new Action(type, needMoreThan, refHours, description));
     }
 
     /**
      * Get User object with requested index
+     *
      * @param index
      * @return User
      */
@@ -55,6 +56,7 @@ public class ActionList {
 
     /**
      * Check if the username is taken
+     *
      * @param testName
      * @return
      */
@@ -72,7 +74,7 @@ public class ActionList {
         return activities;
     }
 
-    public void setActivities (ArrayList activityList){
+    public void setActivities(ArrayList activityList) {
         activities = activityList;
     }
 

@@ -32,8 +32,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             OutputFragment outFrag = new OutputFragment();
             Log.d("frag", "Position: " + position);
             return outFrag;
-        }
-        else if (position == 0) {
+        } else if (position == 0) {
             InputFragment infrag = new InputFragment();
             Log.d("frag", "Position: " + position);
             return infrag;
@@ -44,7 +43,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-    public void imVisible(){
+    public void imVisible() {
 
     }
 
@@ -58,9 +57,13 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         position = position++;
 
-        if (position == 0){return "Lisää aktiviteetti";}
-        else if (position == 2){return "Ajankäyttö";}
-        else {return "Viimeisimmät";}
+        if (position == 0) {
+            return "Lisää aktiviteetti";
+        } else if (position == 2) {
+            return "Ajankäyttö";
+        } else {
+            return "Viimeisimmät";
+        }
     }
 
 

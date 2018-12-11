@@ -26,6 +26,7 @@ public class UserList {
 
     /**
      * Create new user by given parameters into Userlist Arraylist
+     *
      * @param name
      * @param yearOfBirth
      * @param sex
@@ -34,12 +35,13 @@ public class UserList {
         users.add(new User(name, yearOfBirth, sex));
     }
 
-    public void removeUser(){
+    public void removeUser() {
         users.remove(intCurrentUser);
     }
 
     /**
      * Get UserList as arraylist
+     *
      * @return Arraylist
      */
     public ArrayList<User> getUsers() {
@@ -48,6 +50,7 @@ public class UserList {
 
     /**
      * Feed Arraylist from sharedprefs
+     *
      * @param userList Arraylist
      */
     public void setUsers(ArrayList userList) {
@@ -56,6 +59,7 @@ public class UserList {
 
     /**
      * Get User object with requested index
+     *
      * @param index
      * @return User
      */
@@ -65,6 +69,7 @@ public class UserList {
 
     /**
      * Check if the username is taken
+     *
      * @param testName
      * @return
      */
@@ -84,6 +89,7 @@ public class UserList {
 
     /**
      * Check if the username is taken but ignore if the user tries to put it's own name
+     *
      * @param testName
      * @return
      */
@@ -99,6 +105,7 @@ public class UserList {
 
     /**
      * Get current User object with current user index
+     *
      * @return
      */
     public User getCurrentUser() {
@@ -107,6 +114,7 @@ public class UserList {
 
     /**
      * Set current user index
+     *
      * @param IntCurrentUser
      */
     public void setCurrentUser(int IntCurrentUser) {

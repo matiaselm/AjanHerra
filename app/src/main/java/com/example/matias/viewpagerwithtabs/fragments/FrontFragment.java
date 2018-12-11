@@ -61,7 +61,7 @@ public class FrontFragment extends Fragment {
 
     }
 
-    public void updateList(){
+    public void updateList() {
 
         historyList = UserList.getInstance().getCurrentUser().getHistoryList();
 
@@ -102,6 +102,7 @@ public class FrontFragment extends Fragment {
         try {
             InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
     }
 }

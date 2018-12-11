@@ -81,9 +81,11 @@ public class OutputFragment extends Fragment {
         closeKeyboard();
         customAdapter.notifyDataSetChanged();
     }
-    public void imVisible(){}
 
-   public void onPause(){
+    public void imVisible() {
+    }
+
+    public void onPause() {
         super.onPause();
         Log.d("Sovellus", "OutputFragment onPause");
     }
@@ -97,6 +99,6 @@ public class OutputFragment extends Fragment {
     }
 
     public void refreshAdapter() {
-       customAdapter.notifyDataSetChanged();
+        customAdapter.notifyDataSetChanged();
     }
 }

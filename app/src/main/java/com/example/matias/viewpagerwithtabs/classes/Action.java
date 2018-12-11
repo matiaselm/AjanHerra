@@ -46,18 +46,19 @@ public class Action {
     public void addTime(int lenghtMinutes) {
         totalTimeMinutes = totalTimeMinutes + lenghtMinutes;
 
-        if (firstTime == 0){
+        if (firstTime == 0) {
             this.firstTime = System.currentTimeMillis();
         }
         Log.d("Sovellus", this + " incremented " + lenghtMinutes + " minutes");
     }
-/*
-    public String getInfo() {
-        String outRefHours = twoDigit.format(referenceHours);
-        String outHours = twoDigit.format(averageHours);
-        return outRefHours + " h | " + outHours + " h";
-    }
-*/
+
+    /*
+        public String getInfo() {
+            String outRefHours = twoDigit.format(referenceHours);
+            String outHours = twoDigit.format(averageHours);
+            return outRefHours + " h | " + outHours + " h";
+        }
+    */
     public String getTimeReference() {
         if (referenceHours == -1) {
             return "Ei tavoitetta";
@@ -73,25 +74,28 @@ public class Action {
     /**
      * Calculates and returns average hours ->
      * total time divided by rounded down days(1,99 = 1)
+     *
      * @return Average hours
      */
-    public double calculateAverageTime(){
+    public double calculateAverageTime() {
         firstTime = UserList.getInstance().getCurrentUser().getFirstLoginTime();
         currentTime = System.currentTimeMillis();
-        double totalTime = (currentTime  - firstTime) / 1000.0 / 60.0 / 60.0 / 24.0;
+        double totalTime = (currentTime - firstTime) / 1000.0 / 60.0 / 60.0 / 24.0;
         //It's been a ...
-        long days = (long)totalTime;
+        long days = (long) totalTime;
 
 
-        if(days < 1){ days = 1; }
+        if (days < 1) {
+            days = 1;
+        }
 
         averageHours = totalTimeMinutes / 60.0 / days;
         if (averageHours > 24) {
             averageHours = 24;
         }
 
-        Log.d("Sovellus", "Day calculator = (" + currentTime + "-" + firstTime + ") / 1000 / 60 / 60 / 24 ="+ totalTime + "="+ days+ "days");
-        Log.d("Sovellus", "Average hours = " + totalTimeMinutes + "min / 60 / " + days +  "days =" + averageHours);
+        Log.d("Sovellus", "Day calculator = (" + currentTime + "-" + firstTime + ") / 1000 / 60 / 60 / 24 =" + totalTime + "=" + days + "days");
+        Log.d("Sovellus", "Average hours = " + totalTimeMinutes + "min / 60 / " + days + "days =" + averageHours);
 
         return averageHours;
     }
