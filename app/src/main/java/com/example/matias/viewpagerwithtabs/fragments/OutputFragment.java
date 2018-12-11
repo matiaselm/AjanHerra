@@ -81,7 +81,7 @@ public class OutputFragment extends Fragment {
         closeKeyboard();
         customAdapter.notifyDataSetChanged();
     }
-
+    public void imVisible(){}
 
    public void onPause(){
         super.onPause();

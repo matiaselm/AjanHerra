@@ -44,6 +44,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
+    public void imVisible(){
+
+    }
+
     @Override
     public int getCount() {
         return 3;

@@ -32,6 +32,7 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,10 +67,13 @@ public class InputFragment extends Fragment {
     String activityName;
     String runningActivity;
     ArrayList actionList;
-    ArrayList historyList;
+    List historyList;
 
     String usersActionList;
 
+    private ArrayList userList;
+    SharedPreferences prefUsers;
+    SharedPreferences.Editor prefUsersEditor;
 
     String currentDate;
     String userIsTimer;
@@ -177,6 +181,7 @@ public class InputFragment extends Fragment {
                     isTimer = false;
 
                     prefActionsEditor.putBoolean(userIsTimer, false);
+                    prefActionsEditor.apply();
                     start.setText("Aloita");
 
                     Long dtime = endTime - startTimeMemory;
@@ -184,19 +189,24 @@ public class InputFragment extends Fragment {
                     time.setText(runningActivity + " aktiviteettiin lisätty:\n" + Long.toString(dtime) + " min");
                     int sendTime = Math.toIntExact(dtime);
 
-                    writeHistory(sendTime);
+                    if (sendTime < 1) {
+                        Toast.makeText(getContext(), "Ajanotto keskeytetty",
+                                Toast.LENGTH_SHORT).show();
 
-                    Log.d("Sovellus", "Current savedActivity: " + Integer.toString(savedActivity));
-                    ActionList.getInstance().addAction(savedActivity, sendTime);
+                    } else {
 
-                    String activityAdded = "Lisätty\n" + sendTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(savedActivity).getType();
-                    Toast.makeText(getContext(), activityAdded,
-                            Toast.LENGTH_SHORT).show();
+                        Log.d("Sovellus", "Current savedActivity: " + Integer.toString(savedActivity));
+                        ActionList.getInstance().addAction(savedActivity, sendTime);
 
-                    Log.d("Sovellus", activityAdded);
+                        String activityAdded = "Lisätty\n" + sendTime + " minuuttia\n" + "aktiviteettiin\n" + ActionList.getInstance().getActivities().get(savedActivity).getType();
+                        Toast.makeText(getContext(), activityAdded,
+                                Toast.LENGTH_SHORT).show();
 
-                    saveData();
-                    prefActionsEditor.apply();
+                        Log.d("Sovellus", activityAdded);
+
+
+                        writeHistory(sendTime);
+                    }
                 }
             }
         });
@@ -349,8 +359,8 @@ public class InputFragment extends Fragment {
 
             Toast.makeText(getContext(), activityAdded,
                     Toast.LENGTH_SHORT).show();
+            writeHistory(customTime);
             closeKeyboard();
-            saveData();
         } else {
             Toast.makeText(getContext(), "Virheellinen aika",
                     Toast.LENGTH_SHORT).show();
@@ -405,17 +415,34 @@ public class InputFragment extends Fragment {
 
 
     public void writeHistory(int contextTime) {
+        if (contextTime > 0) {
 
-        currentDate = DateFormat.getDateTimeInstance().format(new Date());
+            currentDate = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(new Date());
 
-        Log.d("Sovellus", "Current date: " + currentDate);
+            activityName = ActionList.getInstance().getActivities().get(selectedAction).getType();
+            String summary = currentDate + "/" + activityName + ", lisätty " + contextTime + " minuuttia";
 
-        activityName = ActionList.getInstance().getActivities().get(selectedAction).getType();
-        String summary = currentDate + ", " + activityName + ", lisätty " + contextTime + " minuuttia";
+            Log.d("Sovellus", "History time: " + summary);
 
-        Log.d("Sovellus", summary);
+            UserList.getInstance().getCurrentUser().addHistoryEvent(summary);
+        }
 
-        historyList.add(summary);
+        prefUsers = getActivity().getSharedPreferences("Users", Activity.MODE_PRIVATE);
+        prefUsersEditor = prefUsers.edit();
+
+        userList = UserList.getInstance().getUsers();
+        listGson = new Gson();
+        json = listGson.toJson(userList);
+        Log.d("Sovellus", "Users saved: " + json);
+        prefUsersEditor.putString("userList", json);
+        prefUsersEditor.commit();
+
+        saveData();
+    }
+
+   public void saveUsers(){
+
+
 
     }
 

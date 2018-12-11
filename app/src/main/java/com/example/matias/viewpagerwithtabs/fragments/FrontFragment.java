@@ -6,20 +6,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.matias.viewpagerwithtabs.R;
 import com.example.matias.viewpagerwithtabs.activities.InfoActivity;
-import com.example.matias.viewpagerwithtabs.classes.CustomAdapter;
-import com.example.matias.viewpagerwithtabs.singletons.ActionList;
+import com.example.matias.viewpagerwithtabs.classes.FrontAdapter;
+import com.example.matias.viewpagerwithtabs.singletons.UserList;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -27,10 +30,10 @@ import java.util.ArrayList;
  */
 public class FrontFragment extends Fragment {
 
-    private CustomAdapter customAdapter;
+    private FrontAdapter customAdapter;
     SharedPreferences pref;
     SharedPreferences.Editor prefEditor;
-    ArrayList historyList;
+    List historyList;
 
     public FrontFragment() {
         // Required empty public constructor
@@ -44,12 +47,33 @@ public class FrontFragment extends Fragment {
         // Inflate the layout for this fragment
         f = inflater.inflate(R.layout.fragment_front, container, false);
 
-        historyList = ActionList.getInstance().getActivities();
+        //Do not know why this crash???
+        closeKeyboard();
 
-        ListView lv = (ListView) f.findViewById(R.id.historyList);
+        f.findViewById(R.id.buttonHistory).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateList();
+            }
+        });
+
+        return f;
+
+    }
+
+    public void updateList(){
+
+        historyList = UserList.getInstance().getCurrentUser().getHistoryList();
 
         // get data from the table by the ListAdapter
-        customAdapter = new CustomAdapter(getActivity(), R.layout.historylist_items, historyList);
+        customAdapter = new FrontAdapter(getActivity(), R.layout.historylist_items, historyList);
+
+       /* for (int i = 0 ;i < historyList.size(); i++){
+            String file = UserList.getInstance().getCurrentUser().getHistoryFile(i);
+            Log.d ("Sovellus", "Front fragment found: " + file);
+        }*/
+
+        ListView lv = (ListView) f.findViewById(R.id.lvHistory);
 
         lv.setAdapter(customAdapter);
 
@@ -59,23 +83,19 @@ public class FrontFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("Sovellus", i + " painettu");
-                Intent nextActivity = new Intent(getActivity(), InfoActivity.class);
-                nextActivity.putExtra("itempos", i);
-                startActivity(nextActivity);
+                //Intent nextActivity = new Intent(getActivity(), InfoActivity.class);
+                // nextActivity.putExtra("itempos", i);
+                //startActivity(nextActivity);
             }
         });
-
-        return f;
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        Log.d("Sovellus", "onResume output");
-        //Do not know why this crash???
-       closeKeyboard();
+        Log.d("Sovellus", "onResume Front");
+
     }
 
     public void closeKeyboard() {

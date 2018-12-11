@@ -3,6 +3,10 @@ package com.example.matias.viewpagerwithtabs.classes;
 import android.text.format.Time;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 public class User {
     private String name;
@@ -11,6 +15,7 @@ public class User {
     private String sex;
     private int sexInt;
     private long FirstLoginTime;
+    private List<String> historyList;
 
     /**
      *New user is created
@@ -23,8 +28,18 @@ public class User {
         this.yearOfBirth = yearOfBirth;
         this.sexInt = sexInt;
 
+        historyList = new ArrayList<>();
+
         setSex(this.sexInt);
     }
+
+    public void addHistoryEvent(String summary){
+
+        historyList.add(summary);
+        Collections.sort(historyList);
+        Collections.reverse(historyList);
+    }
+
 
     public User() {
         this( "Name", 0, 2);
@@ -50,6 +65,18 @@ public class User {
         Log.d("Sovel", Integer.toString(currentYear) + Integer.toString(yearOfBirth));
 
         return this.age;
+    }
+
+    public List<String> getHistoryList() {
+        return historyList;
+    }
+
+    public String getHistoryFile(int index) {
+        return historyList.get(index);
+    }
+
+    public void setHistoryList(List<String> historyList) {
+        this.historyList = historyList;
     }
 
     public long getFirstLoginTime() {

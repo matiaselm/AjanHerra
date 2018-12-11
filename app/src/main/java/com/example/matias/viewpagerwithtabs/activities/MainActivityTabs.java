@@ -46,6 +46,9 @@ public class MainActivityTabs extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+
+
+
     //********************TOOLBAR STUFF ONLY***********************//
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -53,8 +56,6 @@ public class MainActivityTabs extends AppCompatActivity {
         inflater.inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
