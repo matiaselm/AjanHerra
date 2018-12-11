@@ -11,14 +11,14 @@
     <!-- TODO: Update blank fragment layout -->
 
     <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="255dp"
-        android:layout_height="256dp"
+        android:id="@+id/imageView5"
+        android:layout_width="216dp"
+        android:layout_height="225dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:src="@drawable/clock"
+        android:src="@drawable/list"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

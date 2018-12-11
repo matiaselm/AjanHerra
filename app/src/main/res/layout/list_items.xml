@@ -40,9 +40,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:height="25dp"
+            android:gravity="top|center_horizontal"
             android:text="categoryId"
             android:textColor="@color/colorAccent3"
-            android:textSize="16sp" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/result"
